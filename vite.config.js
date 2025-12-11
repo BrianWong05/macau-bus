@@ -6,9 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/bresws': {
-        target: 'http://www.dsat.gov.mo',
+      '/macauweb': {
+        target: 'https://bis.dsat.gov.mo:37812',
         changeOrigin: true,
+        secure: false, // Ignore SSL issues
         rewrite: (path) => path,
       },
     },
