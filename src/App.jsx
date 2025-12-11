@@ -126,28 +126,27 @@ function App() {
         
         const params = {
             device: 'web',
-            HUID: 'ddc052eb-c185-477a-b40a-a4dbbd3ebae2', // Use static HUID provided
-            routeCode: '000' + rNo, // Prefix with 000 based on observation 000N2
+            // HUID removed, using Token instead
+            routeCode: '000' + rNo, 
             direction: dir,
             indexType: '00',
-            lang: 'zh_tw', // underscore
-            categoryIds: 'BCAFBD938B8D48B0B3F598B44DD32E6C'
+            lang: 'zh_tw', 
+            // categoryIds removed
+            request_id: request_id
         };
-        // Token generation not needed for this GET request based on user url?
-        // But debug script worked without token in params, just standard headers?
-        // Actually debug script sent standard headers.
-        // Let's rely on standard axios get.
+        
+        const token = generateDsatToken(params);
         
         const qs = new URLSearchParams(params).toString();
         const targetUrl = isDev 
-            ? `/ddbus/common/supermap/routeStation/traffic?${qs}`
-            : `https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/ddbus/common/supermap/routeStation/traffic?${qs}`;
+            ? `/ddbus/common/supermap/routeStation/traffic?${qs}&token=${token}`
+            : `https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/ddbus/common/supermap/routeStation/traffic?${qs}&token=${token}`;
 
         console.log("Fetching Traffic from:", targetUrl);
 
         const response = await axios.get(targetUrl, {
              headers: {
-                'User-Agent': 'Mozilla/5.0'
+                // User-Agent handled by browser
              }
         });
         
