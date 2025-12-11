@@ -273,7 +273,7 @@ function App() {
 
                 {/* Stop List */}
                 {/* Timeline Container - Increased left margin to make room for buses on the left */}
-                <ul className="relative border-l-2 border-gray-300 ml-24 space-y-10 pb-4">
+                <ul className="relative border-l-2 border-gray-300 ml-36 space-y-10 pb-4">
                   {busData.stops.map((stop, fileIndex) => (
                     <li key={stop.busstopcode || fileIndex} className="relative pl-6">
                         {/* Station Dot */}
@@ -287,20 +287,32 @@ function App() {
                             We put them e.g. -left-20 to sit in the whitespace.
                         */}
                         {stop.buses.filter(b => b.status === '1').length > 0 && (
-                             <div className="absolute top-0 -left-24 w-20 flex flex-col items-end gap-1 z-20 transform -translate-y-1">
+                             <div className="absolute top-0 -left-36 w-32 flex flex-col items-end gap-1 z-20 transform -translate-y-1">
                                 {stop.buses.filter(b => b.status === '1').map((bus, bi) => (
-                                    <div key={bi} className="flex flex-col items-end gap-1 z-20">
+                                    <div key={bi} className="flex flex-col items-end gap-1 z-20 w-full">
                                         {/* Plate Pill */}
-                                        <div className="bg-red-500 text-white text-xs px-2 py-1 rounded shadow-sm font-bold flex items-center gap-1 justify-end">
+                                        <div className="bg-red-500 text-white text-xs px-2 py-1 rounded shadow-sm font-bold flex items-center gap-1 justify-end w-full">
                                             <span className="truncate">{bus.busPlate}</span>
                                             <span>🛑</span>
                                         </div>
                                         {/* Bus Type for Arrived */}
-                                        {bus.busType && (
-                                            <div className="text-[9px] bg-red-100 text-red-800 border border-red-200 px-1.5 rounded-full shadow-sm">
-                                                {getBusTypeLabel(bus.busType)}
-                                            </div>
-                                        )}
+                                        <div className="flex gap-1 justify-end w-full flex-wrap">
+                                            {bus.busType && (
+                                                <div className="text-[9px] bg-red-100 text-red-800 border border-red-200 px-1.5 rounded-full shadow-sm whitespace-nowrap">
+                                                    {getBusTypeLabel(bus.busType)}
+                                                </div>
+                                            )}
+                                            {bus.isFacilities === '1' && (
+                                                <div className="text-[9px] bg-blue-100 text-blue-800 border border-blue-200 px-1 rounded-full shadow-sm" title="Wheelchair Accessible">
+                                                    ♿
+                                                </div>
+                                            )}
+                                            {parseInt(bus.passengerFlow) > -1 && (
+                                                <div className="text-[9px] bg-purple-100 text-purple-800 border border-purple-200 px-1.5 rounded-full shadow-sm whitespace-nowrap">
+                                                    👤 {bus.passengerFlow}
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 ))}
                              </div>
@@ -319,21 +331,37 @@ function App() {
                             Roughly centered between this and prev stop (visually above).
                         */}
                         {stop.buses.filter(b => b.status === '0').map((bus, bi) => (
-                            <div key={bi} className="absolute -top-5 -left-24 w-20 flex justify-end z-0 transform -translate-y-1/2">
-                                <div className="flex flex-col items-end gap-1">
+                            <div key={bi} className="absolute -top-5 -left-36 w-32 flex justify-end z-0 transform -translate-y-1/2">
+                                <div className="flex flex-col items-end gap-1 w-full">
                                      {/* Bus Pill with Speed */}
-                                     <div className="bg-white border border-teal-500 text-teal-700 text-xs px-2 py-1 rounded-full shadow-sm flex items-center gap-1 overflow-hidden whitespace-nowrap">
+                                     {/* Removed overflow-hidden to allow full width display if needed, but flex wrap helps */}
+                                     <div className="bg-white border border-teal-500 text-teal-700 text-xs px-2 py-1 rounded-full shadow-sm flex items-center justify-end gap-1 whitespace-nowrap w-full">
                                          <span className="font-bold">{bus.busPlate}</span>
                                          <span>🚌</span>
-                                         {/* <span className="text-[9px]">{bus.speed}km</span> */}
+                                         <span className="text-[10px] font-medium border-l border-teal-200 pl-1 ml-0.5">
+                                            {bus.speed > 0 ? `${bus.speed}km/h` : ''}
+                                         </span>
                                      </div>
                                      
                                      {/* Bus Type Label for Moving */}
-                                     {bus.busType && (
-                                         <div className="text-[9px] bg-teal-100 text-teal-800 border border-teal-200 px-1.5 rounded-full shadow-sm">
-                                             {getBusTypeLabel(bus.busType)}
-                                         </div>
-                                     )}
+                                     {/* Row for indicators */}
+                                     <div className="flex gap-1 justify-end">
+                                         {bus.busType && (
+                                             <div className="text-[9px] bg-teal-100 text-teal-800 border border-teal-200 px-1.5 rounded-full shadow-sm">
+                                                 {getBusTypeLabel(bus.busType)}
+                                             </div>
+                                         )}
+                                        {bus.isFacilities === '1' && (
+                                            <div className="text-[9px] bg-blue-100 text-blue-800 border border-blue-200 px-1 rounded-full shadow-sm" title="Wheelchair Accessible">
+                                                ♿
+                                            </div>
+                                        )}
+                                        {parseInt(bus.passengerFlow) > -1 && (
+                                            <div className="text-[9px] bg-purple-100 text-purple-800 border border-purple-200 px-1.5 rounded-full shadow-sm">
+                                                👤 {bus.passengerFlow}
+                                            </div>
+                                        )}
+                                     </div>
                                 </div>
                             </div>
                         ))}
