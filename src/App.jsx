@@ -321,7 +321,10 @@ function App() {
                         {/* Stop Info */}
                         <div className={`flex flex-col items-start transition-all`}>
                              <div className="text-sm font-bold text-gray-800">{orderIndex(fileIndex)} {stop.staName}</div>
-                             <div className="text-xs text-gray-400">{stop.staCode}</div>
+                             <div className="text-xs text-gray-400 flex gap-1">
+                                <span>{stop.staCode}</span>
+                                {stop.laneName && <span className="text-teal-600 bg-teal-50 px-1 rounded border border-teal-100">{stop.laneName}</span>}
+                             </div>
                         </div>
 
 

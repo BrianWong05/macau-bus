@@ -62,12 +62,13 @@ async function testJsonApi(routeNo, dir) {
 
     console.log("Status:", response.status);
     const data = response.data.data;
-    if (data) {
-        // Print EVERYTHING to find routeType
-        console.log("Full Data Keys:", Object.keys(data));
-        console.log("Full Data Dump:", JSON.stringify(data, null, 2));
+    if (data && data.routeInfo && data.routeInfo.length > 0) {
+        console.log("First Stop Object:", JSON.stringify(data.routeInfo[0], null, 2));
+        // Check specific fields
+        const firstStop = data.routeInfo[0];
+        console.log("Lane Name for first stop:", firstStop.laneName);
     } else {
-        console.log("Data is null/empty");
+        console.log("Data or routeInfo is null/empty");
     }
 
   } catch (error) {
