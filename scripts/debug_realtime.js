@@ -214,28 +214,42 @@ async function testTraffic() {
         console.error("Traffic Probe Error:", e.message);
     }
     
-    // Test user provided parameters exactly
-    // routeCode="000N2" -> "000" + route?
-    // direction="0"
-    // HUID and categoryIds
+    // Test user provided parameters BUT with TOKEN instead of HUID
     
-    const extendedParams = {
+    // Test user provided parameters BUT with TOKEN instead of HUID
+    
+    // Generate Request ID (Reuse vars from previous block if defined or use new names)
+    // Actually we are in same scope.
+    const date2 = new Date();
+    const yyyy2 = date2.getFullYear();
+    const mm2 = String(date2.getMonth() + 1).padStart(2, '0');
+    const dd2 = String(date2.getDate()).padStart(2, '0');
+    const hh2 = String(date2.getHours()).padStart(2, '0');
+    const min2 = String(date2.getMinutes()).padStart(2, '0');
+    const ss2 = String(date2.getSeconds()).padStart(2, '0');
+    const request_id2 = `${yyyy2}${mm2}${dd2}${hh2}${min2}${ss2}`;
+
+    const extendedParams2 = {
         device: 'web',
-        HUID: 'ddc052eb-c185-477a-b40a-a4dbbd3ebae2',
-        routeCode: '000' + route, // Try padding
+        // HUID removed as per request
+        routeCode: '000' + route, 
         direction: dir,
         indexType: '00',
-        lang: 'zh_tw', // underscore in user url
-        categoryIds: 'BCAFBD938B8D48B0B3F598B44DD32E6C'
+        lang: 'zh_tw',
+        // categoryIds removed
+        request_id: request_id2
     };
     
-    console.log("Testing with Extended Params (GET):", extendedParams);
+    // Generate token
+    const token2 = generateDsatToken(extendedParams2);
+    
+    console.log("Testing with Token (GET):", extendedParams2);
     
     try {
-        const qs = new URLSearchParams(extendedParams).toString();
-        const url = `https://bis.dsat.gov.mo:37812/ddbus/common/supermap/routeStation/traffic?${qs}`;
+        const qs = new URLSearchParams(extendedParams2).toString();
+        // Append token to query string
+        const url = `https://bis.dsat.gov.mo:37812/ddbus/common/supermap/routeStation/traffic?${qs}&token=${token2}`;
         
-        // Try GET first as the user provided a URL string
         const response = await axios.get(url, {
              headers: {
                 'User-Agent': 'Mozilla/5.0',
@@ -244,11 +258,11 @@ async function testTraffic() {
             httpsAgent: new https.Agent({ rejectUnauthorized: false })
         });
         
-        console.log("Extended Params Status:", response.status);
-        console.log("Extended Params Data:", JSON.stringify(response.data, null, 2));
+        console.log("Token Params Status:", response.status);
+        console.log("Token Params Data:", JSON.stringify(response.data, null, 2));
 
     } catch (e) {
-        console.error("Extended Params Failed:", e.message);
+        console.error("Token Params Failed:", e.message);
         if (e.response) console.error("Error Data:", e.response.data);
     }
 }

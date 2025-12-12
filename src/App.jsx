@@ -8,6 +8,7 @@ function App() {
   const [busData, setBusData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [hasOppositeDirection, setHasOppositeDirection] = useState(true); // Default true until checked
 
   const isDev = import.meta.env.DEV;
 
@@ -40,64 +41,92 @@ function App() {
     return arr.join("");
   };
 
+  // Helper function to fetch route data for probing
+  const fetchRouteDataInternal = async (rNo, dir) => {
+        const date = new Date();
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        const ss = String(date.getSeconds()).padStart(2, '0');
+        const request_id = `${yyyy}${mm}${dd}${hh}${min}${ss}`;
+
+        const params = {
+            routeName: rNo,
+            dir: dir,
+            lang: 'zh-tw',
+            device: 'web',
+            request_id: request_id 
+        };
+
+        const token = generateDsatToken(params);
+        const qs = new URLSearchParams(params).toString();
+        
+        const targetUrl = isDev 
+            ? `/macauweb/getRouteData.html`
+            : `https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/macauweb/getRouteData.html`;
+
+        try {
+             const response = await axios.post(targetUrl, qs, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'token': token
+                }
+            });
+            return response.data;
+        } catch (e) {
+            console.error("Fetch Route Failed:", e);
+            throw e;
+        }
+  };
+
   const handleSearch = async () => {
     if (!routeNo) return;
     setLoading(true);
     setError('');
     setBusData(null);
-
-    const targetUrl = isDev 
-      ? '/macauweb/getRouteData.html' 
-      : 'https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/macauweb/getRouteData.html';
-
-    // JSON API Params
-    const params = {
-      routeName: routeNo,
-      dir: direction,
-      lang: 'zh-tw',
-      device: 'web'
-    };
-
-    const token = generateDsatToken(params);
-    const body = new URLSearchParams(params).toString();
+    setHasOppositeDirection(false); // Default false, enable only if probe succeeds
 
     try {
-      const response = await axios.post(targetUrl, body, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'token': token
+        console.log(`Searching for Route: ${routeNo}, Dir: ${direction}`);
+        
+        // 1. Fetch Route Stops (JSON API) using helper
+        const data = await fetchRouteDataInternal(routeNo, direction);
+
+        if (data && data.data && data.data.routeInfo && data.data.routeInfo.length > 0) {
+             const stops = data.data.routeInfo;
+             const routeName = data.data.routeCode; // e.g., 00033
+             
+             // Initial bus load
+             fetchRealtimeBus(routeNo, direction, stops);
+
+             // 2. Probe Opposite Direction for UI Toggle
+             const oppositeDir = direction === '0' ? '1' : '0';
+             console.log(`Probing opposite direction: ${oppositeDir}`);
+             try {
+                 const oppositeData = await fetchRouteDataInternal(routeNo, oppositeDir);
+                 if (oppositeData && oppositeData.data && oppositeData.data.routeInfo && oppositeData.data.routeInfo.length > 0) {
+                     console.log("Opposite direction exists.");
+                     setHasOppositeDirection(true);
+                 } else {
+                     console.log("Opposite direction empty/invalid.");
+                     setHasOppositeDirection(false);
+                 }
+            } catch (probeError) {
+                 console.log("Opposite direction probe failed:", probeError);
+                 setHasOppositeDirection(false);
+             }
+
+        } else {
+            setError("Route not found or empty data.");
         }
-      });
-
-      console.log("API Response:", response.data);
-      const data = response.data.data;
-
-      if (!data) {
-        throw new Error("No data found for this route.");
-      }
-      
-      const routeInfo = data.routeInfo || [];
-      // Initial bus data from getRouteData (usually empty for buses, but good for stops)
-      
-      const stops = routeInfo.map(stop => ({
-          ...stop,
-          buses: [] // Initialize empty buses array for each stop
-      }));
-
-      setBusData({
-        stops: stops,
-        buses: [], // Global list if needed
-        raw: data
-      });
-      
-      // Trigger Realtime Update immediately
-      fetchRealtimeBus(routeNo, direction, stops);
 
     } catch (err) {
-      console.error(err);
-      setError('Error fetching data. Route might be invalid or authentication failed.');
+        console.error("Search Error:", err);
+        setError(err.message || "Failed to fetch route data");
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
   };
 
@@ -255,16 +284,34 @@ function App() {
       }
   };
 
-  const toggleDirection = () => {
-      setDirection(prev => prev === '0' ? '1' : '0');
-      // Should clear data or re-search?
-      // Ideally re-search if we have a route number
+  const toggleDirection = async () => {
+      const newDir = direction === '0' ? '1' : '0';
+      setDirection(newDir);
+      
+      // Seamlessly fetch new direction data without clearing current view immediately
       if (routeNo) {
-          // We can't call handleSearch directly due to stale state in closure?
-          // But we setting state triggers re-render.
-          // Better: just clear data. User clicks search again? 
-          // Or effect? Let's just clear for now.
-          setBusData(null); 
+          try {
+             // Optional: visual indicator on button could go here
+             const data = await fetchRouteDataInternal(routeNo, newDir);
+             if (data && data.data && data.data.routeInfo && data.data.routeInfo.length > 0) {
+                 const routeInfo = data.data.routeInfo;
+                 const stops = routeInfo.map(stop => ({
+                    ...stop,
+                    buses: [] // Initialize empty buses array for each stop to prevent render error
+                 }));
+
+                 setBusData({
+                    stops: stops,
+                    buses: [], // Will be filled by auto-refresh or immediate trigger
+                    raw: data.data
+                 });
+                 // Trigger immediate bus update for new stops
+                 fetchRealtimeBus(routeNo, newDir, stops);
+             }
+          } catch (e) {
+              console.error("Failed to switch direction", e);
+              // Fallback? Keep existing view or show error?
+          }
       }
   };
 
@@ -303,15 +350,17 @@ function App() {
           </button>
         </div>
 
-        {/* Direction Toggle */}
-        <div className="flex justify-center mb-4">
-            <button 
-                onClick={toggleDirection}
-                className="text-sm text-teal-600 underline"
-            >
-                Switch Direction (Current: {direction === '0' ? 'Forward' : 'Backward'})
-            </button>
-        </div>
+        {/* Direction Toggle - Hidden if no opposite direction or no data */}
+        {busData && hasOppositeDirection && (
+            <div className="flex justify-center mb-4">
+                <button 
+                    onClick={toggleDirection}
+                    className="text-sm text-teal-600 underline"
+                >
+                    Switch Direction (Current: {direction === '0' ? 'Forward' : 'Backward'})
+                </button>
+            </div>
+        )}
 
         {/* Refresh Button */}
         {busData && (
