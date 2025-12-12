@@ -485,7 +485,7 @@ function App() {
                             Roughly centered between this and prev stop (visually above).
                         */}
                         {stop.buses.filter(b => b.status === '0').map((bus, bi) => (
-                            <div key={bi} className="absolute -top-5 -left-36 w-32 flex justify-end z-0 transform -translate-y-1/2">
+                            <div key={bi} className="absolute top-10 -left-36 w-32 flex justify-end z-0 transform -translate-y-1/2">
                                 <div className="flex flex-col items-end gap-1 w-full">
                                      {/* Bus Pill with Speed */}
                                      {/* Removed overflow-hidden to allow full width display if needed, but flex wrap helps */}
