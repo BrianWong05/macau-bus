@@ -27,28 +27,50 @@ const createBusIcon = (heading) => L.divIcon({
 // Component to auto-fit bounds
 const FitBounds = ({ stations, buses }) => {
     const map = useMap();
+    const hasFitRef = React.useRef(false);
+
     useEffect(() => {
         // Filter stations with valid coordinates (if any)
         const validStations = stations ? stations.filter(s => s.latitude && s.longitude) : [];
         const validBuses = buses ? buses.filter(b => b.latitude && b.longitude) : [];
 
-        if (validStations.length > 0 || validBuses.length > 0) {
+        // Only fit bounds if we haven't done so yet, and we have valid stations (or buses as fallback)
+        if (!hasFitRef.current && (validStations.length > 0 || validBuses.length > 0)) {
             const bounds = L.latLngBounds();
             validStations.forEach(s => bounds.extend([s.latitude, s.longitude]));
             validBuses.forEach(b => bounds.extend([b.latitude, b.longitude]));
             if (bounds.isValid()) {
                 map.fitBounds(bounds, { padding: [20, 20] });
+                hasFitRef.current = true; // Mark as fitted
             }
         }
     }, [stations, buses, map]);
+    
+    // Reset ref if the route changes (heuristic: stations array length significantly different or empty)
+    // Actually, distinct routes might have same station count. Better to rely on parent to remount or key change?
+    // For now, simple "fit once" logic is what's requested for "refreshing".
+    // If user changes route, stations array identity changes. We might want to reset.
+    // Let's rely on stations.length changing or just key the component.
+    
     return null;
 };
 
-const MapComponent = ({ stations, buses }) => {
-  // Convert stations to path for Polyline - ONLY if coordinates exist
-  const validStations = stations ? stations.filter(s => s.latitude && s.longitude) : [];
-  const pathCoordinates = validStations.map(s => [s.latitude, s.longitude]);
-  const hasPath = pathCoordinates.length > 1;
+const MapComponent = ({ stations, buses, traffic }) => {
+  // Hydrate stations with coordinates from Traffic Data (if available)
+  // Traffic data is an array of segments. Segment i usually starts at Station i.
+  const hydratedStations = stations.map((station, i) => {
+      const segment = traffic && traffic[i];
+      // Use existing coords if present, otherwise try to get from traffic segment start
+      const lat = station.latitude || (segment && segment.path && segment.path.length > 0 ? segment.path[0][0] : null);
+      const lon = station.longitude || (segment && segment.path && segment.path.length > 0 ? segment.path[0][1] : null);
+      
+      return {
+          ...station,
+          latitude: lat,
+          longitude: lon,
+          trafficLevel: segment ? segment.traffic : null
+      };
+  }).filter(s => s.latitude && s.longitude);
 
   return (
     <div className="h-[500px] w-full rounded-xl overflow-hidden shadow-inner border border-gray-200">
@@ -62,19 +84,33 @@ const MapComponent = ({ stations, buses }) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        {/* Route Path (Only if data available) */}
-        {hasPath && <Polyline positions={pathCoordinates} color="teal" weight={4} opacity={0.7} />}
+        {/* Traffic / Route Polylines */}
+        {traffic && traffic.map((seg, idx) => {
+            if (!seg.path || seg.path.length < 2) return null;
+            const color = seg.traffic == 1 ? "green" 
+                        : seg.traffic == 2 ? "orange" 
+                        : seg.traffic >= 3 ? "red" 
+                        : "teal";
+            return <Polyline key={`path-${idx}`} positions={seg.path} color={color} weight={5} opacity={0.6} />;
+        })}
 
-        {/* Stations (Only if data available) */}
-        {validStations.map((stop, idx) => (
+        {/* Stations */}
+        {hydratedStations.map((stop, idx) => {
+           const color = stop.trafficLevel == 1 ? "green" 
+                       : stop.trafficLevel == 2 ? "orange" 
+                       : stop.trafficLevel >= 3 ? "red" 
+                       : "teal";
+
+           return (
            <CircleMarker 
              key={`stop-${stop.stationCode || idx}`}
              center={[stop.latitude, stop.longitude]}
-             radius={6}
+             radius={5}
              fillColor="white"
-             color="teal"
+             color={color}
              weight={2}
              fillOpacity={1}
+             zIndexOffset={100}
            >
              <Popup>
                <div className="text-center">
@@ -83,7 +119,8 @@ const MapComponent = ({ stations, buses }) => {
                </div>
              </Popup>
            </CircleMarker>
-        ))}
+           );
+        })}
 
         {/* Real-time Buses */}
         {buses.map((bus, idx) => (
@@ -91,7 +128,8 @@ const MapComponent = ({ stations, buses }) => {
             <Marker 
                 key={`bus-${idx}`}
                 position={[bus.latitude, bus.longitude]}
-                icon={createBusIcon(0)} // No heading data yet?
+                icon={createBusIcon(0)} 
+                zIndexOffset={1000} // Buses on top
             >
                 <Popup>
                     <div className="text-center">
@@ -103,7 +141,7 @@ const MapComponent = ({ stations, buses }) => {
             )
         ))}
 
-        <FitBounds stations={stations} buses={buses} />
+        <FitBounds key={stations ? stations.length : 'empty'} stations={hydratedStations} buses={buses} />
       </MapContainer>
     </div>
   );

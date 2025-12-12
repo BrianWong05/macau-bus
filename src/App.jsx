@@ -12,6 +12,7 @@ function App() {
   const [hasOppositeDirection, setHasOppositeDirection] = useState(true); // Default true until checked
   const [viewMode, setViewMode] = useState('list'); // 'list' | 'map'
   const [mapBuses, setMapBuses] = useState([]); // Buses for Map View (lat/lon)
+  const [trafficData, setTrafficData] = useState([]); // Traffic Info (Array of Segments)
 
   const isDev = import.meta.env.DEV;
 
@@ -142,62 +143,70 @@ function App() {
       }
   };
 
-  // Fetch Traffic Data (New Endpoint)
-  // https://bis.dsat.gov.mo:37812/ddbus/common/supermap/routeStation/traffic
-  const fetchTrafficData = async (rNo, dir) => {
+  // Fetch Traffic Data (Official Endpoint)
+  // https://bis.dsat.gov.mo:37812/ddbus/common/supermap/route/traffic
+  const fetchTrafficData = async (rNoRaw, dir) => {
     try {
-        const date = new Date();
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const dd = String(date.getDate()).padStart(2, '0');
-        const hh = String(date.getHours()).padStart(2, '0');
-        const min = String(date.getMinutes()).padStart(2, '0');
-        const ss = String(date.getSeconds()).padStart(2, '0');
-        const request_id = `${yyyy}${mm}${dd}${hh}${min}${ss}`;
+        const routeCodePadded = '000' + rNoRaw; // e.g. 00033
         
         const params = {
-            device: 'web',
-            // HUID removed, using Token instead
-            routeCode: '000' + rNo, 
+            lang: 'zh_tw', 
+            routeCode: routeCodePadded,
             direction: dir,
             indexType: '00',
-            lang: 'zh_tw', 
-            // categoryIds removed
-            request_id: request_id
+            device: 'web',
+            categoryIds: 'BCAFBD938B8D48B0B3F598B44DD32E6C'
+            // request_id: Excluded as per official payload
         };
         
         const token = generateDsatToken(params);
         
         const qs = new URLSearchParams(params).toString();
+        // Use the OFFICIAL endpoint found by inspector
         const targetUrl = isDev 
-            ? `/ddbus/common/supermap/routeStation/traffic?${qs}&token=${token}`
-            : `https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/ddbus/common/supermap/routeStation/traffic?${qs}&token=${token}`;
+            ? `/ddbus/common/supermap/route/traffic?${qs}&token=${token}`
+            : `https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/ddbus/common/supermap/route/traffic?${qs}&token=${token}`;
 
-        console.log("Fetching Traffic from:", targetUrl);
+        console.log("Fetching Traffic/Route from:", targetUrl);
 
-        const response = await axios.get(targetUrl, {
-             headers: {
-                // User-Agent handled by browser
+        // POST request as per official behavior
+        const response = await axios.post(isDev ? '/ddbus/common/supermap/route/traffic' : 'https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/ddbus/common/supermap/route/traffic',
+             qs,
+             {
+                 headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'token': token
+                 }
              }
-        });
+        );
         
-        if (response.data) {
-             console.log("Full Traffic Response:", response.data);
-             if (response.data.data && response.data.data.stationInfo) {
-             const stationInfo = response.data.data.stationInfo;
-             // Convert to Map: staCode -> trafficLevel
-             const trafficMap = {};
-             stationInfo.forEach(item => {
-                 trafficMap[item.stationCode] = item.trafficLevel;
+        if (response.data && Array.isArray(response.data.data)) {
+             const dataList = response.data.data;
+             console.log("Traffic Data Array:", dataList.length);
+             
+             // Map data to segments
+             // Each item likely corresponds to a stop index.
+             // We return a list of objects: { coords: [[lat,lon], ...], traffic: level }
+             const segments = dataList.map(item => {
+                 let coords = [];
+                 if (item.routeCoordinates) {
+                     coords = item.routeCoordinates.split(';').filter(s => s).map(pair => {
+                         const [lon, lat] = pair.split(',');
+                         return [parseFloat(lat), parseFloat(lon)];
+                     });
+                 }
+                 return {
+                     traffic: item.newRouteTraffic || item.routeTraffic,
+                     path: coords
+                 };
              });
-             console.log("Parsed Traffic Map:", trafficMap);
-             return trafficMap;
+
+             return segments;
         }
-    }
-    return {};
+        return [];
     } catch (e) {
         console.error("Traffic Fetch Error:", e);
-        return {};
+        return [];
     }
   };
 
@@ -287,31 +296,34 @@ function App() {
   };
 
   const fetchBusLocation = async (rNo, dir) => {
+      // Generate request_id
+      const date = new Date();
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      const hh = String(date.getHours()).padStart(2, '0');
+      const min = String(date.getMinutes()).padStart(2, '0');
+      const ss = String(date.getSeconds()).padStart(2, '0');
+      const request_id = `${yyyy}${mm}${dd}${hh}${min}${ss}`;
+
+      // Map View API: User confirmed exact payload structure that works for padded codes.
+      // Must include routeName, lang. Must EXCLUDE request_id.
+      // routeCode must be PADDED (e.g. 00033).
+      const routeCodePadded = rNo.length === 2 ? '000' + rNo : (rNo.length === 3 ? '00' + rNo : rNo);
+      
+      console.log("Fetching Map Location for:", routeCodePadded, dir);
+
+      const params = {
+          routeName: rNo,      // e.g. "33"
+          dir: dir,
+          lang: 'zh-tw',
+          routeCode: routeCodePadded, // e.g. "00033"
+          device: 'web'
+          // request_id: REMOVED as it causes 500 with padded codes
+      };
+      const token = generateDsatToken(params);
+
       try {
-        const date = new Date();
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const dd = String(date.getDate()).padStart(2, '0');
-        const hh = String(date.getHours()).padStart(2, '0');
-        const min = String(date.getMinutes()).padStart(2, '0');
-        const ss = String(date.getSeconds()).padStart(2, '0');
-        const request_id = `${yyyy}${mm}${dd}${hh}${min}${ss}`;
-
-        // Note: routeCode usually needs 0 prefix if length < 5? 33 -> 00033
-        // But let's rely on standard logic.
-        const routeCode = rNo.length === 2 ? '000' + rNo : (rNo.length === 3 ? '00' + rNo : rNo);
-
-        const params = {
-            routeCode: routeCode,
-            dir: dir,
-            device: 'web',
-            request_id: request_id
-        };
-
-        const token = generateDsatToken(params);
-        
-        console.log("Fetching Map Location for:", routeCode, dir);
-
         const res = await axios.post(isDev ? '/macauweb/routestation/location' : 'https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/macauweb/routestation/location',
             new URLSearchParams(params).toString(),
             {
@@ -326,12 +338,45 @@ function App() {
             console.log("Map Bus Locations found:", res.data.data);
             setMapBuses(res.data.data);
         } else {
-             console.log("No bus locations found (or empty).");
-             setMapBuses([]);
+             console.log("Location API empty. Trying List API fallback...");
+             
+             // Define routeCodeRaw for fallback (routestation/bus expects raw "33")
+             const routeCodeRaw = rNo.replace(/^0+/, ''); 
+
+             const busParams = {
+                action: 'dy',
+                routeName: routeCodeRaw,
+                dir: dir,
+                lang: 'zh-tw',
+                device: 'web'
+             };
+             const busToken = generateDsatToken(busParams);
+             const busRes = await axios.post(isDev ? '/macauweb/routestation/bus' : 'https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/macauweb/routestation/bus',
+                new URLSearchParams(busParams).toString(),
+                { headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8', 'token': busToken } }
+             );
+             if (busRes.data && busRes.data.data && busRes.data.data.routeInfo) {
+                 let allBuses = [];
+                 busRes.data.data.routeInfo.forEach(stop => {
+                     if (stop.busInfo) allBuses = [...allBuses, ...stop.busInfo];
+                 });
+                 console.log("Fallback Buses found:", allBuses);
+                 setMapBuses(allBuses); 
+             } else {
+                 setMapBuses([]);
+             }
         }
 
+        // Fetch Traffic INDEPENDENTLY of location success/fail
+        try {
+            const traffic = await fetchTrafficData(rNo.replace(/^0+/, ''), dir);
+            setTrafficData(traffic);
+        } catch (tErr) {
+            console.log("Traffic fetch failed:", tErr);
+        }
       } catch (e) {
           console.error("Map Bus Fetch Error:", e);
+          setMapBuses([]);
       }
   };
 
@@ -618,6 +663,7 @@ function App() {
             <MapComponent 
                 stations={busData.stops} 
                 buses={mapBuses} 
+                traffic={trafficData} // Pass traffic segments
             />
         )}
              </div>

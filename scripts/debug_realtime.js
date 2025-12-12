@@ -1,281 +1,92 @@
 import axios from 'axios';
-import md5 from 'js-md5';
-import https from 'https';
+import jsMd5 from 'js-md5';
 
 const generateDsatToken = (params) => {
-  let queryString = "";
-  Object.keys(params).forEach((key, index) => {
-      queryString += (index === 0 ? "" : "&") + key + "=" + params[key];
-  });
-  
-  const dirtyHash = md5(queryString);
-  const date = new Date();
-  const pad = (n) => n.toString().padStart(2, '0');
-  const YYYY = date.getFullYear();
-  const MM = pad(date.getMonth() + 1);
-  const DD = pad(date.getDate());
-  const HH = pad(date.getHours());
-  const mm = pad(date.getMinutes());
-  const timeStr = `${YYYY}${MM}${DD}${HH}${mm}`;
-  
-  let arr = dirtyHash.split("");
-  const part3 = timeStr.slice(8);
-  const part2 = timeStr.slice(4, 8);
-  const part1 = timeStr.slice(0, 4);
-  
-  arr.splice(24, 0, part3);
-  arr.splice(12, 0, part2);
-  arr.splice(4, 0, part1);
-  
-  return arr.join("");
+    let queryString = "";
+    Object.keys(params).forEach((key, index) => {
+        queryString += (index === 0 ? "" : "&") + key + "=" + params[key];
+    });
+    const dirtyHash = jsMd5(queryString);
+    const date = new Date();
+    const pad = (n) => n.toString().padStart(2, '0');
+    const YYYY = date.getFullYear();
+    const MM = pad(date.getMonth() + 1);
+    const DD = pad(date.getDate());
+    const HH = pad(date.getHours());
+    const mm = pad(date.getMinutes());
+    const timeStr = `${YYYY}${MM}${DD}${HH}${mm}`;
+    let arr = dirtyHash.split("");
+    const part3 = timeStr.slice(8);
+    const part2 = timeStr.slice(4, 8);
+    const part1 = timeStr.slice(0, 4);
+    arr.splice(24, 0, part3);
+    arr.splice(12, 0, part2);
+    arr.splice(4, 0, part1);
+    return arr.join("");
 };
 
-async function testLocation(routeCode, dir) {
-  console.log(`\nTesting Location API (routestation/location): Code=${routeCode}, Dir=${dir}`);
-  
-  const params = {
-      routeCode: routeCode,
-      dir: dir,
-      device: 'web',
-      lang: 'zh-tw',
-      date: new Date().getTime() // Try adding timestamp
-  };
-  
-  const token = generateDsatToken(params);
-  const body = new URLSearchParams(params).toString();
-
-  try {
-    const response = await axios.post('https://bis.dsat.gov.mo:37812/macauweb/routestation/location', body, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'User-Agent': 'Mozilla/5.0',
-        'Referer': 'https://bis.dsat.gov.mo:37812/macauweb/',
-        'token': token
-      },
-      httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    });
-
-    console.log("Status:", response.status);
-    console.log("Full Response Data:", JSON.stringify(response.data).substring(0, 2000));
-
-  } catch (error) {
-    console.error("Location Request Failed:", error.message);
-  }
-}
-
-async function testRealtimeBus(routeCode, dir, type) {
-  // Captured: action=dy&routeName=N2&dir=0&lang=zh-tw&routeType=0&device=web
-  console.log(`\nTesting Realtime Bus API (routestation/bus): Code=${routeCode}, Dir=${dir}, Type=${type}`);
-  
-  const params = {
-      action: 'dy',
-      routeName: routeCode, // e.g. "N2"
-      dir: dir,
-      lang: 'zh-tw',
-      routeType: type,
-      device: 'web'
-  };
-  
-  const token = generateDsatToken(params);
-  const body = new URLSearchParams(params).toString(); // Standard implementation may reorder?
-  // Let's rely on standard map behavior for now or verify generation.
-
-  try {
-    const response = await axios.post('https://bis.dsat.gov.mo:37812/macauweb/routestation/bus', body, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'User-Agent': 'Mozilla/5.0',
-        'Referer': 'https://bis.dsat.gov.mo:37812/macauweb/',
-        'token': token
-      },
-      httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    });
-
-    console.log("Status:", response.status);
-    console.log("Full Response Data:", JSON.stringify(response.data).substring(0, 2000));
-
-  } catch (error) {
-    console.error("Realtime Request Failed:", error.message);
-  }
-}
-
-async function testBusMess(routeNo, dir) {
-  console.log(`\nTesting BusMess (ddbus/busmess/route): Route=${routeNo}, Dir=${dir}`);
-  
-  const params = {
-      action: "search",
-      device: "web",
-      // HUID? Maybe optional or generated? Let's leave it out or empty.
-      lang: "zh-tw",
-      routeName: routeNo,
-      dir: dir,
-      BypassToken: "HuatuTesting0307"
-  };
-  
-  const token = generateDsatToken(params);
-  const body = new URLSearchParams(params).toString();
-
-  try {
-    const response = await axios.post('https://bis.dsat.gov.mo:37812/macauweb/ddbus/busmess/route', body, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'User-Agent': 'Mozilla/5.0',
-        'Referer': 'https://bis.dsat.gov.mo:37812/macauweb/',
-        'token': token
-      },
-      httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    });
-
-    console.log("Status:", response.status);
-    console.log("Full Response Data:", JSON.stringify(response.data).substring(0, 2000));
-
-  } catch (error) {
-    console.error("BusMess Request Failed:", error.message);
-    if (error.response) console.error("Data:", error.response.data);
-  }
-}
-
-async function testMenuList() {
-  console.log(`\nTesting Menu List (getMenuList.html)`);
-  
-  const params = {
-      device: "web",
-      lang: "zh-tw"
-  };
-  
-  const token = generateDsatToken(params);
-  const body = new URLSearchParams(params).toString();
-
-  try {
-    const response = await axios.post('https://bis.dsat.gov.mo:37812/macauweb/getMenuList.html', body, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'User-Agent': 'Mozilla/5.0',
-        'Referer': 'https://bis.dsat.gov.mo:37812/macauweb/',
-        'token': token
-      },
-      httpsAgent: new https.Agent({ rejectUnauthorized: false })
-    });
-
-    console.log("Status:", response.status);
-    console.log("Details:", JSON.stringify(response.data).substring(0, 3000));
-
-  } catch (error) {
-    console.error("Menu List Failed:", error.message);
-  }
-}
-
-async function testTraffic() {
-    console.log("\nTesting Region Traffic (routestation/route/traffic)...");
-    const route = "N2";
-    const dir = "0";
-
-    const date = new Date();
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const dd = String(date.getDate()).padStart(2, '0');
-    const hh = String(date.getHours()).padStart(2, '0');
-    const min = String(date.getMinutes()).padStart(2, '0');
-    const ss = String(date.getSeconds()).padStart(2, '0');
-    const request_id = `${yyyy}${mm}${dd}${hh}${min}${ss}`;
-
-    const params = {
-        routeName: route,
-        dir: dir,
-        device: 'web',
-        lang: 'zh-tw',
-        request_id: request_id
-    };
-    
-    // Generate token using the helper (which also handles timestamp injection into the hash)
+const probe = async (label, url, params) => {
+    console.log(`\n--- Probing: ${label} ---`);
     const token = generateDsatToken(params);
-    
-    // Create body string
-    const body = new URLSearchParams(params).toString();
-    
-    // URL provided by user
-    const url = 'https://bis.dsat.gov.mo:37812/ddbus/common/supermap/routeStation/traffic';
-    console.log(`\nTesting User Provided Endpoint: ${url}`);
-    console.log("Traffic Request Body:", body + `&token=${token}`);
-
     try {
-        const response = await axios.post(url, body, {
+        const res = await axios.post(url, new URLSearchParams(params).toString(), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                'User-Agent': 'Mozilla/5.0',
-                'Referer': 'https://bis.dsat.gov.mo:37812/macauweb/',
-                'token': token
+                'token': token,
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             },
-            httpsAgent: new https.Agent({ rejectUnauthorized: false })
+            timeout: 5000
         });
-        console.log("Traffic Status:", response.status);
-        console.log("Traffic Data:", JSON.stringify(response.data, null, 2));
-    } catch (e) {
-        console.error("Traffic Probe Error:", e.message);
-    }
-    
-    // Test user provided parameters BUT with TOKEN instead of HUID
-    
-    // Test user provided parameters BUT with TOKEN instead of HUID
-    
-    // Generate Request ID (Reuse vars from previous block if defined or use new names)
-    // Actually we are in same scope.
-    const date2 = new Date();
-    const yyyy2 = date2.getFullYear();
-    const mm2 = String(date2.getMonth() + 1).padStart(2, '0');
-    const dd2 = String(date2.getDate()).padStart(2, '0');
-    const hh2 = String(date2.getHours()).padStart(2, '0');
-    const min2 = String(date2.getMinutes()).padStart(2, '0');
-    const ss2 = String(date2.getSeconds()).padStart(2, '0');
-    const request_id2 = `${yyyy2}${mm2}${dd2}${hh2}${min2}${ss2}`;
-
-    const extendedParams2 = {
-        device: 'web',
-        // HUID removed as per request
-        routeCode: '000' + route, 
-        direction: dir,
-        indexType: '00',
-        lang: 'zh_tw',
-        // categoryIds removed
-        request_id: request_id2
-    };
-    
-    // Generate token
-    const token2 = generateDsatToken(extendedParams2);
-    
-    console.log("Testing with Token (GET):", extendedParams2);
-    
-    try {
-        const qs = new URLSearchParams(extendedParams2).toString();
-        // Append token to query string
-        const url = `https://bis.dsat.gov.mo:37812/ddbus/common/supermap/routeStation/traffic?${qs}&token=${token2}`;
+        console.log(`Status: ${res.status}`);
         
-        const response = await axios.get(url, {
-             headers: {
-                'User-Agent': 'Mozilla/5.0',
-                'Referer': 'https://bis.dsat.gov.mo:37812/macauweb/'
-            },
-            httpsAgent: new https.Agent({ rejectUnauthorized: false })
-        });
-        
-        console.log("Token Params Status:", response.status);
-        console.log("Token Params Data:", JSON.stringify(response.data, null, 2));
-
+        // Check for coordinates in response
+        const data = res.data.data;
+        if (data && data.routeInfo) {
+             let foundBus = false;
+             data.routeInfo.forEach(stop => {
+                 if (stop.busInfo && stop.busInfo.length > 0) {
+                     console.log("Found Bus Info at stop:", stop.staName);
+                     console.log("Bus Data Sample:", JSON.stringify(stop.busInfo[0], null, 2));
+                     foundBus = true;
+                 }
+             });
+             if (!foundBus) console.log("No buses found in routeInfo.");
+        } else if (Array.isArray(data)) {
+            // routestation/location returns array directly?
+            console.log("Data is array. Length:", data.length);
+            if (data.length > 0) console.log("Sample:", JSON.stringify(data[0], null, 2));
+        } else {
+             console.log("Data structure unknown:", JSON.stringify(res.data, null, 2));
+        }
     } catch (e) {
-        console.error("Token Params Failed:", e.message);
-        if (e.response) console.error("Error Data:", e.response.data);
+        console.log(`Error: ${e.message}`, e.response ? e.response.status : '');
     }
-}
+};
 
-async function run() {
-    // Confirm 33 works with type 2
-   // Run the test
-// 33 is Day, N2 is Night (RouteType=0)
-// await testRealtimeBus('N2', '0', '0');
-// testRealtimeBus('33', '0', '2'); for type mapping
-    // await testMenuList();
+const run = async () => {
+    // 1. Probe routestation/bus (Existing API)
+    await probe("routestation/bus (Route 33)", 
+        "https://bis.dsat.gov.mo:37812/macauweb/routestation/bus",
+        {
+            action: 'dy',
+            routeName: '33',
+            dir: '0',
+            lang: 'zh-tw',
+            routeType: '2', // Try 2 ?
+            device: 'web'
+        }
+    );
 
-    await testTraffic();
-}
+    // 2. Probe routestation/location with routeName instead of routeCode
+    await probe("routestation/location (routeName=33)", 
+        "https://bis.dsat.gov.mo:37812/macauweb/routestation/location", 
+        {
+            routeName: '33',
+            dir: '0',
+            device: 'web',
+            // request_id?
+        }
+    );
+};
 
 run();
