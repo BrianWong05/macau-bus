@@ -29,23 +29,20 @@ const createBusIcon = (bus) => {
 
     return L.divIcon({
         html: `
-        <div class="relative flex flex-col items-center select-none" style="transform: translateY(-20px);">
+        <div class="relative flex flex-col items-center select-none" style="transform: translateY(-15px);">
             <!-- Bus Body -->
-            <div class="${bgColor} ${borderColor} border-2 rounded-lg shadow-lg p-1 min-w-[50px] text-center flex flex-col items-center z-10">
-                <div class="text-[10px] font-bold text-white leading-tight whitespace-nowrap px-1">
+            <div class="${bgColor} ${borderColor} border rounded-lg shadow-sm px-1 min-w-[30px] text-center flex flex-col items-center z-10">
+                <div class="text-[9px] font-bold text-white leading-tight whitespace-nowrap">
                     ${bus.busPlate}
-                </div>
-                <div class="text-[9px] text-white/90 leading-tight">
-                    ${bus.speed} km/h
                 </div>
             </div>
             <!-- Triangle Pointer -->
-            <div class="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] ${borderColor} transform -translate-y-[2px]"></div>
+            <div class="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[6px] ${borderColor} transform -translate-y-[1px]"></div>
         </div>
         `,
         className: 'bus-marker-label-icon', // Use new class avoid default styling
-        iconSize: [60, 40],
-        iconAnchor: [30, 40]
+        iconSize: [40, 25],
+        iconAnchor: [20, 25]
     });
 };
 
@@ -107,8 +104,8 @@ const MapComponent = ({ stations, buses, traffic }) => {
         style={{ height: '100%', width: '100%' }}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         
         {/* Traffic / Route Polylines */}
