@@ -13,7 +13,7 @@ const getBusTypeLabel = (type) => {
 
 const BusList = ({ stops }) => {
     return (
-        <div className="relative pl-4 border-l-2 border-gray-200 ml-4 space-y-8 pb-10">
+        <div className="relative pl-4 border-l-2 border-gray-200 ml-36 space-y-8 pb-10">
             {stops.map((stop, index) => (
                 <div key={stop.busstopcode || index} className="relative">
                     {/* Timeline Line Segment (Connects to next stop) */}
