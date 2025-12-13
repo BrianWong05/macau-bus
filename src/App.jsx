@@ -25,16 +25,22 @@ function App() {
       activeRouteRef.current = activeRoute;
   }, [activeRoute]);
 
+
   const executeSearch = async (routeToFetch, dirToFetch) => {
     if (!routeToFetch) return;
     setLoading(true);
     setError('');
     setActiveRoute(routeToFetch); 
     activeRouteRef.current = routeToFetch;
-    setBusData(null);
-    setMapBuses([]); 
-    setTrafficData([]);
-    setHasOppositeDirection(false); 
+    
+    // Only clear data if we are switching to a completely different route to avoid flash
+    // If switching direction on same route, keep old data until new data arrives
+    if (routeToFetch !== activeRoute) {
+        setBusData(null);
+        setMapBuses([]); 
+        setTrafficData([]);
+        setHasOppositeDirection(false); 
+    }
 
     try {
         console.log(`Searching for Route: ${routeToFetch}, Dir: ${dirToFetch}`);
@@ -54,7 +60,8 @@ function App() {
              setBusData({
                  stops: stops,
                  buses: [],
-                 raw: data.data
+                 raw: data.data,
+                 direction: dirToFetch // Track direction to prevent race conditions during toggle
              });
              
              fetchRealtimeBus(routeToFetch, dirToFetch, stops);
@@ -242,34 +249,10 @@ function App() {
   const toggleDirection = async () => {
       const newDir = direction === '0' ? '1' : '0';
       setDirection(newDir);
-      setMapBuses([]); // Clear map buses immediately
-      setTrafficData([]); // Clear traffic immediately
       
-      // Seamlessly fetch new direction data without clearing current view immediately
+      // Use executeSearch to handle data fetching with "no-flash" logic
       if (activeRoute) {
-          try {
-             const data = await fetchRouteDataApi(activeRoute, newDir);
-             
-             if (activeRouteRef.current !== activeRoute) return; // Guard logic if route changed mid-toggle
-
-             if (data && data.data && data.data.routeInfo && data.data.routeInfo.length > 0) {
-                 const routeInfo = data.data.routeInfo;
-                 const stops = routeInfo.map(stop => ({
-                    ...stop,
-                    buses: [] // Initialize empty buses array for each stop to prevent render error
-                 }));
-
-                 setBusData({
-                    stops: stops,
-                    buses: [], // Will be filled by auto-refresh or immediate trigger
-                    raw: data.data
-                 });
-                 // Trigger immediate bus update for new stops
-                 fetchRealtimeBus(activeRoute, newDir, stops);
-             }
-          } catch (e) {
-              console.error("Failed to switch direction", e);
-          }
+          executeSearch(activeRoute, newDir);
       }
   };
 
@@ -278,6 +261,13 @@ function App() {
       let interval;
       // Depend on activeRoute!
       if (busData && activeRoute) {
+          // Guard: If we are switching directions (busData.direction matches OLD, direction matches NEW), 
+          // DO NOT run interval/fetch. Wait for executeSearch to update busData with new direction.
+          if (busData.direction !== direction) {
+              console.log("Skipping interval during direction switch...");
+              return;
+          }
+
           // Immediate fetch on switch
           if (viewMode === 'map') {
               fetchBusLocation(activeRoute, direction);
