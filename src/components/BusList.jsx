@@ -20,18 +20,17 @@ const BusList = ({ stops }) => {
                     {/* Col 1: Bus Info (Right Aligned) */}
                     <div className="flex flex-col items-end gap-2 py-2">
                         {stop.buses.length > 0 && stop.buses.map((bus, bi) => (
-                            <div key={bi} className="flex flex-col items-end gap-1 w-full animate-in fade-in slide-in-from-right-4 duration-300">
-                                <div className={`border text-xs px-2 py-1 rounded-full shadow-sm flex items-center justify-end gap-1 whitespace-nowrap w-fit ml-auto
+                            <div key={bi} className={`flex flex-col items-end gap-1 w-full animate-in fade-in slide-in-from-right-4 duration-300 
+                                ${bus.status === '0' ? 'mt-16' : 'mt-6'} 
+                            `}>
+                                <div className={`border text-xs px-2 py-1 rounded-full shadow-sm flex items-center justify-end gap-1 whitespace-nowrap w-fit ml-auto transition-transform
                                     ${bus.status === '1' ? 'bg-white border-blue-500 text-blue-700' : 'bg-white border-teal-400 text-teal-600 border-dashed'}
                                 `}>
                                     <span className="font-bold">{bus.busPlate}</span>
                                     <span>{bus.status === '1' ? '🚌' : '🚍'}</span> 
-                                    {bus.status === '0' && <span className="text-[9px] animate-pulse">Running...</span>}
-                                    {bus.status === '1' && (
-                                        <span className="text-[10px] font-medium border-l border-blue-200 pl-1 ml-0.5">
-                                            {bus.speed}km/h
-                                        </span>
-                                    )}
+                                    <span className="text-[10px] font-medium border-l border-blue-200 pl-1 ml-0.5">
+                                        {bus.speed}km/h
+                                    </span>
                                 </div>
                                 <div className="flex gap-1 justify-end w-full flex-wrap">
                                     {bus.busType && (
@@ -55,10 +54,10 @@ const BusList = ({ stops }) => {
                     </div>
 
                     {/* Col 2: Timeline (Line + Dot) */}
-                    <div className="relative flex flex-col items-center">
+                    <div className="relative flex flex-col items-center pt-8">
                         {/* Connecting Line (Only if not last stop) */}
                         {index < stops.length - 1 && (
-                            <div className={`absolute top-3 bottom-[-14px] w-1.5 z-0 transition-colors duration-500
+                            <div className={`absolute top-10 bottom-[-32px] w-1.5 z-0 transition-colors duration-500
                                 ${(!stop.trafficLevel || stop.trafficLevel <= 0) ? 'bg-gray-300' : ''}
                                 ${stop.trafficLevel == 1 ? 'bg-green-500' : ''}
                                 ${stop.trafficLevel == 2 ? 'bg-yellow-400' : ''}
@@ -66,7 +65,7 @@ const BusList = ({ stops }) => {
                             `}></div>
                         )}
                          {/* Stop Dot */}
-                         <div className={`relative z-10 top-3 w-3.5 h-3.5 rounded-full border-2 bg-white ${
+                         <div className={`relative z-10 w-3.5 h-3.5 rounded-full border-2 bg-white ${
                             stop.buses.some(b => b.status === '1') 
                             ? 'border-blue-500 ring-2 ring-blue-200'
                             : stop.trafficLevel >= 3 
@@ -80,7 +79,7 @@ const BusList = ({ stops }) => {
                     </div>
 
                     {/* Col 3: Stop Details */}
-                    <div className="py-2 pl-1"> 
+                    <div className="py-2 pl-1 pt-8"> 
                         <div className="font-bold text-gray-800 text-sm leading-tight">{index + 1}. {stop.staName}</div>
                         <div className="text-xs text-gray-400 mt-1 flex gap-2 items-center flex-wrap">
                             <span>{stop.staCode}</span>
