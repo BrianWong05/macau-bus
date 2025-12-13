@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import MapComponent from './components/MapComponent';
 import BusList from './components/BusList';
+import RouteDashboard from './components/RouteDashboard';
 import { fetchRouteDataApi, fetchTrafficApi, fetchBusListApi, fetchMapLocationApi } from './services/api';
 
 function App() {
@@ -24,28 +25,26 @@ function App() {
       activeRouteRef.current = activeRoute;
   }, [activeRoute]);
 
-  const handleSearch = async () => {
-    if (!routeNo) return;
+  const executeSearch = async (routeToFetch, dirToFetch) => {
+    if (!routeToFetch) return;
     setLoading(true);
     setError('');
-    setActiveRoute(routeNo); // Set active route ONLY on search
-    activeRouteRef.current = routeNo; // Sync ref immediately
+    setActiveRoute(routeToFetch); 
+    activeRouteRef.current = routeToFetch;
     setBusData(null);
     setMapBuses([]); 
     setTrafficData([]);
     setHasOppositeDirection(false); 
 
     try {
-        console.log(`Searching for Route: ${routeNo}, Dir: ${direction}`);
+        console.log(`Searching for Route: ${routeToFetch}, Dir: ${dirToFetch}`);
         
-        // 1. Fetch Route Stops (JSON API)
-        const data = await fetchRouteDataApi(routeNo, direction);
+        // 1. Fetch Route Stops
+        const data = await fetchRouteDataApi(routeToFetch, dirToFetch);
         
-        // Guard: If user switched route while fetching, ignore result
-        if (activeRouteRef.current !== routeNo) return;
+        if (activeRouteRef.current !== routeToFetch) return;
 
         if (data && data.data && data.data.routeInfo && data.data.routeInfo.length > 0) {
-             // Initialize stops with empty buses/traffic arrays
              const stops = data.data.routeInfo.map(stop => ({
                  ...stop,
                  buses: [],
@@ -54,38 +53,47 @@ function App() {
              
              setBusData({
                  stops: stops,
-                 buses: [], // Will be filled by realtime fetch
+                 buses: [],
                  raw: data.data
              });
              
-             // Initial bus load
-             fetchRealtimeBus(routeNo, direction, stops);
+             fetchRealtimeBus(routeToFetch, dirToFetch, stops);
 
              // 2. Probe Opposite Direction
-             const oppositeDir = direction === '0' ? '1' : '0';
+             const oppositeDir = dirToFetch === '0' ? '1' : '0';
              try {
-                  const oppositeData = await fetchRouteDataApi(routeNo, oppositeDir);
+                  const oppositeData = await fetchRouteDataApi(routeToFetch, oppositeDir);
                   if (oppositeData && oppositeData.data && oppositeData.data.routeInfo && oppositeData.data.routeInfo.length > 0) {
-                      if (activeRouteRef.current === routeNo) setHasOppositeDirection(true);
+                      if (activeRouteRef.current === routeToFetch) setHasOppositeDirection(true);
                   } else {
-                      if (activeRouteRef.current === routeNo) setHasOppositeDirection(false);
+                      if (activeRouteRef.current === routeToFetch) setHasOppositeDirection(false);
                   }
              } catch (probeError) {
                   console.log("Opposite direction probe failed:", probeError);
-                  if (activeRouteRef.current === routeNo) setHasOppositeDirection(false);
+                  if (activeRouteRef.current === routeToFetch) setHasOppositeDirection(false);
              }
 
         } else {
             setError("Route not found or empty data.");
         }
 
-
     } catch (err) {
         console.error("Search Error:", err);
         setError(err.message || "Failed to fetch route data");
     } finally {
-        if (activeRouteRef.current === routeNo) setLoading(false);
+        if (activeRouteRef.current === routeToFetch) setLoading(false);
     }
+  };
+
+  const handleSearch = () => {
+    executeSearch(routeNo, direction);
+  };
+
+  const handleSelectRoute = (route) => {
+      setRouteNo(route);
+      setDirection('0');
+      setViewMode('list');
+      executeSearch(route, '0');
   };
   
   const fetchRealtimeBus = async (rNo, dir, currentStops) => {
@@ -306,8 +314,21 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 font-sans">
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
-        <h1 className="text-xl font-bold mb-4 text-center text-teal-600">Macau Bus Waiting</h1>
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 min-h-[600px] flex flex-col">
+        <div className="flex justify-between items-center mb-4">
+            <h1 className="text-xl font-bold text-teal-600">Macau Bus Waiting</h1>
+            <button 
+                onClick={() => setViewMode('dashboard')}
+                className="text-xs bg-blue-50 text-blue-600 px-3 py-1 rounded-full hover:bg-blue-100 transition font-semibold"
+            >
+                All Routes
+            </button>
+        </div>
+
+        {viewMode === 'dashboard' ? (
+            <RouteDashboard onSelectRoute={handleSelectRoute} />
+        ) : (
+            <>
         
         {/* Search Input */}
         <div className="flex gap-2 mb-4">
@@ -425,6 +446,8 @@ function App() {
              </div>
           </div>
         )}
+      </>
+      )}
       </div>
     </div>
   );
