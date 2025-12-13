@@ -20,6 +20,7 @@ function App() {
 
   // Ref to track active route for preventing race conditions (async fetches returning after route switch)
   const activeRouteRef = useRef('');
+  const stopsRef = useRef([]);
 
   useEffect(() => {
       activeRouteRef.current = activeRoute;
@@ -257,51 +258,61 @@ function App() {
   };
 
   // Auto Refresh Interval
-  useEffect(() => {
-      let interval;
-      // Depend on activeRoute!
-      if (busData && activeRoute) {
-          // Guard: If we are switching directions (busData.direction matches OLD, direction matches NEW), 
-          // DO NOT run interval/fetch. Wait for executeSearch to update busData with new direction.
-          if (busData.direction !== direction) {
-              console.log("Skipping interval during direction switch...");
-              return;
+      // Update ref whenever stops change, so interval views fresh data
+      useEffect(() => {
+          if (busData && busData.stops) {
+              stopsRef.current = busData.stops;
           }
+      }, [busData]);
 
-          // Immediate fetch on switch
-          if (viewMode === 'map') {
-              fetchBusLocation(activeRoute, direction);
-          } else {
-              if (busData.stops.length > 0) {
-                 fetchRealtimeBus(activeRoute, direction, busData.stops);
-                 
-                 // Also fetch traffic for List View coloring
-                 fetchTrafficApi(activeRoute.replace(/^0+/, ''), direction)
-                    .then(traffic => {
-                        if (activeRouteRef.current === activeRoute) setTrafficData(traffic);
-                    })
-                    .catch(console.error);
+      useEffect(() => {
+          // Reset data on route/dir swap
+          // setBusData(...); // Managed by logic
+
+          let interval;
+          // Depend on activeRoute!
+          if (activeRoute) {
+              // Guard: If we are switching directions (busData.direction matches OLD, direction matches NEW), 
+              // DO NOT run interval/fetch. Wait for executeSearch to update busData with new direction.
+              if (busData && busData.direction !== direction) {
+                  console.log("Skipping interval during direction switch...");
+                  return;
               }
-          }
 
-          interval = setInterval(() => {
-               if (viewMode === 'map') {
+              // Immediate fetch on switch (only if not just a data refresh re-trigger)
+              if (viewMode === 'map') {
                   fetchBusLocation(activeRoute, direction);
-               } else {
-                  // Pass current stops so we don't lose structure, but update content
-                  fetchRealtimeBus(activeRoute, direction, busData.stops);
+              } else {
+                  if (stopsRef.current.length > 0) {
+                     fetchRealtimeBus(activeRoute, direction, stopsRef.current);
+                     
+                     // Also fetch traffic for List View coloring
+                     fetchTrafficApi(activeRoute.replace(/^0+/, ''), direction)
+                        .then(traffic => {
+                            if (activeRouteRef.current === activeRoute) setTrafficData(traffic);
+                        })
+                        .catch(console.error);
+                  }
+              }
 
-                  // Refresh Traffic too
-                  fetchTrafficApi(activeRoute.replace(/^0+/, ''), direction)
-                   .then(traffic => {
-                       if (activeRouteRef.current === activeRoute) setTrafficData(traffic);
-                   })
-                   .catch(e => console.error("Traffic interval error:", e));
-               }
-          }, 3000); // 3-second refresh
-      }
-      return () => clearInterval(interval);
-  }, [busData, activeRoute, direction, viewMode]); // Added activeRoute dependency
+              interval = setInterval(() => {
+                   if (viewMode === 'map') {
+                      fetchBusLocation(activeRoute, direction);
+                   } else {
+                      // Use ref to get latest stops without re-triggering effect
+                      fetchRealtimeBus(activeRoute, direction, stopsRef.current);
+
+                      // Refresh Traffic too
+                      fetchTrafficApi(activeRoute.replace(/^0+/, ''), direction)
+                       .then(traffic => {
+                           if (activeRouteRef.current === activeRoute) setTrafficData(traffic);
+                       })
+                       .catch(e => console.error("Traffic interval error:", e));
+                   }
+              }, 3000); // 3-second refresh
+          }
+          return () => clearInterval(interval);
+      }, [activeRoute, direction, viewMode]); // Removed busData dependency
 
   // Debug: Monitor Map Buses
   useEffect(() => {
