@@ -272,8 +272,16 @@ function App() {
           if (viewMode === 'map') {
               fetchBusLocation(activeRoute, direction);
           } else {
-             // list view update
-             fetchRealtimeBus(activeRoute, direction, busData.stops);
+              if (busData.stops.length > 0) {
+                 fetchRealtimeBus(activeRoute, direction, busData.stops);
+                 
+                 // Also fetch traffic for List View coloring
+                 fetchTrafficApi(activeRoute.replace(/^0+/, ''), direction)
+                    .then(traffic => {
+                        if (activeRouteRef.current === activeRoute) setTrafficData(traffic);
+                    })
+                    .catch(console.error);
+              }
           }
 
           interval = setInterval(() => {
@@ -282,6 +290,13 @@ function App() {
                } else {
                   // Pass current stops so we don't lose structure, but update content
                   fetchRealtimeBus(activeRoute, direction, busData.stops);
+
+                  // Refresh Traffic too
+                  fetchTrafficApi(activeRoute.replace(/^0+/, ''), direction)
+                   .then(traffic => {
+                       if (activeRouteRef.current === activeRoute) setTrafficData(traffic);
+                   })
+                   .catch(e => console.error("Traffic interval error:", e));
                }
           }, 3000); // 3-second refresh
       }
@@ -417,7 +432,7 @@ function App() {
 
                 {/* Stops List (Timeline) */}
                 {busData && viewMode === 'list' && (
-                    <BusList stops={busData.stops} />
+                    <BusList stops={busData.stops} trafficData={trafficData} />
                 )}
 
                 {/* Map View */}
