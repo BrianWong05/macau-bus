@@ -453,9 +453,11 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                                 position={[bus.latitude, bus.longitude]}
                                 icon={L.divIcon({
                                     className: 'custom-div-icon',
-                                    html: `<div style="background-color: white; border: 2px solid #0d9488; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">🚌</div>`,
-                                    iconSize: [24, 24],
-                                    iconAnchor: [12, 12]
+                                    html: `<div style="background-color: white; border: 2px solid #0d9488; border-radius: 12px; padding: 0 6px; height: 24px; min-width: 36px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: #0f766e; box-shadow: 0 2px 4px rgba(0,0,0,0.2); white-space: nowrap;">
+                                        <span style="font-size: 10px; margin-right: 2px;">🚌</span> ${bus.route}
+                                    </div>`,
+                                    iconSize: [40, 24],
+                                    iconAnchor: [20, 12]
                                 })}
                              >
                                  <Popup>
