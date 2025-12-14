@@ -20,6 +20,7 @@ import { NearbyMapView } from '../features/nearby-stops/components/NearbyMapView
 import { NearbyStopsList } from '../features/nearby-stops/components/NearbyStopsList.jsx';
 import { useArrivalData } from '../features/nearby-stops/hooks/useArrivalData';
 import { useNearbyDiscovery } from '../features/nearby-stops/hooks/useNearbyDiscovery';
+import { LoadingState, ErrorState } from './shared';
 
 const NearbyStops = ({ onClose, onSelectRoute }) => {
   const [expandedStop, setExpandedStop] = useState(null);
@@ -69,19 +70,10 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
         />
 
         <div className="flex-1 overflow-y-auto relative">
-            {loading && (
-                <div className="flex flex-col items-center justify-center h-full gap-3 text-gray-500">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
-                    <div className="text-sm">Finding nearby stops...</div>
-                </div>
-            )}
+            {loading && <LoadingState message="Finding nearby stops..." />}
 
             {!loading && error && (
-                <div className="flex flex-col items-center justify-center h-full p-6 text-center text-red-500">
-                    <div className="text-3xl mb-2">⚠️</div>
-                    <div>{error}</div>
-                    {permissionDenied && <div className="text-xs text-gray-400 mt-2">Please enable location access.</div>}
-                </div>
+                <ErrorState error={error} showPermissionHint={permissionDenied} />
             )}
             
             {!loading && viewMode === 'list' && (
