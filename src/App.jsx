@@ -330,8 +330,8 @@ function App() {
   }, [mapBuses, viewMode]);
 
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
-      <div className="max-w-md mx-auto bg-white min-h-screen shadow-lg flex flex-col relative">
+    <div className="h-screen bg-gray-100 font-sans overflow-hidden">
+      <div className="max-w-md mx-auto bg-white h-full shadow-lg flex flex-col relative">
         
         {/* Header */}
         <div className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white p-4 shadow-md sticky top-0 z-10">
@@ -358,7 +358,7 @@ function App() {
              </button>
           </div>
 
-          {!busData && (
+          {!busData && !showNearby && (
              <div className="text-teal-100 text-sm mb-4">
                 Real-time bus tracking & traffic
              </div>
@@ -398,7 +398,7 @@ function App() {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col overflow-y-auto relative">
             
             {/* 1. Nearby Stops Modal */}
             {showNearby && (
