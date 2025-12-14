@@ -13,6 +13,7 @@ export { NearbyStopsList } from './components/NearbyStopsList.jsx';
 // Hooks
 export { useNearbyStops } from './hooks/useNearbyStops';
 export { useArrivalData } from './hooks/useArrivalData';
+export { useNearbyDiscovery } from './hooks/useNearbyDiscovery';
 
 // Types
 export * from './types';
