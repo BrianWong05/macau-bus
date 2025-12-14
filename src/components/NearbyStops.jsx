@@ -252,11 +252,54 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                          const stopIdx = bestIdx;
                          let minStops = 999;
                          let incomingPlates = [];
+                         let minTimeEst = 999; // Minutes
 
                          for (let i = 0; i <= stopIdx; i++) {
                              if (stops[i].busInfo && stops[i].busInfo.length > 0) {
                                  const dist = stopIdx - i;
-                                 if (dist < minStops) minStops = dist;
+                                 if (dist < minStops) {
+                                     minStops = dist;
+                                     
+                                     // Path-Based Distance Calculation
+                                     // Sum distances from Current Bus Stop (i) to Target Stop (stopIdx)
+                                     let pathDistKm = 0;
+                                     
+                                     // Helper to find coords from local JSON data
+                                     const getCoords = (s) => {
+                                         // API code: "T308-3", Local: "T308/3" or vice versa. Normalize.
+                                         const code = (s.staCode || "").replace(/-/g, '/').replace(/_/g, '/');
+                                         // Try exact match first
+                                         let match = stopsData.find(local => local.code === code);
+                                         // If not, try base match?
+                                         if (!match) {
+                                            const base = code.split('/')[0];
+                                            match = stopsData.find(local => local.code === base);
+                                         }
+                                         return match ? { lat: match.lat, lon: match.lon } : null;
+                                     };
+
+                                     for (let j = i; j < stopIdx; j++) {
+                                         // Distance from stops[j] to stops[j+1]
+                                         const p1 = getCoords(stops[j]);
+                                         const p2 = getCoords(stops[j+1]);
+
+                                         if (p1 && p2) {
+                                            pathDistKm += getDistanceFromLatLonInKm(
+                                                p1.lat, p1.lon,
+                                                p2.lat, p2.lon
+                                            );
+                                         }
+                                     }
+                                     
+                                     // Apply Winding Factor (1.5x) for non-straight roads
+                                     pathDistKm = pathDistKm * 1.5;
+
+                                     // Estimate Time: 4 min per km (~15km/h effective speed on regulated path)
+                                     // + 0.5 min per stop dwell time
+                                     const rideTime = pathDistKm * 4;
+                                     const dwellTime = (stopIdx - i) * 0.5;
+                                     minTimeEst = Math.round(rideTime + dwellTime);
+                                 }
                                  // Collect plates
                                  stops[i].busInfo.forEach(b => incomingPlates.push(b.busPlate));
                              }
@@ -271,8 +314,17 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                          if (minStops === 999) {
                             if (actualTotal > 0) info = "No approaching bus";
                             else info = "No active service";
-                         } else if (minStops === 0) info = "Arriving / At Station";
-                         else info = `${minStops} stops away`;
+                         } else if (minStops === 0) {
+                             info = "Arriving / At Station";
+                         } else {
+                             // Format: "3 stops (~7 min)"
+                             info = `${minStops} stops`;
+                             if (minTimeEst !== 999 && minTimeEst > 0) {
+                                 info += ` (~${minTimeEst} min)`;
+                             } else if (minTimeEst === 0) {
+                                 info += ` (< 1 min)`;
+                             }
+                         }
 
                          // 2. Fetch GPS for Map (If there are incoming buses)
                          // User wants only the 2 closest buses per route
