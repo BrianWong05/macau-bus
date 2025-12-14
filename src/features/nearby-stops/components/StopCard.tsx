@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { NearbyStop } from '../types';
+import { NearbyStop } from '@/features/nearby-stops/types';
 
 interface StopCardProps {
   stop: NearbyStop;
@@ -12,7 +12,6 @@ interface StopCardProps {
   isLoading: boolean;
   lastUpdated: Date | null;
   onExpand: () => void;
-  onRefresh: () => void;
   children?: React.ReactNode;
 }
 
@@ -23,7 +22,6 @@ export const StopCard: React.FC<StopCardProps> = ({
   isLoading,
   lastUpdated,
   onExpand,
-  onRefresh,
   children,
 }) => {
   const formatDistance = (km: number): string => {

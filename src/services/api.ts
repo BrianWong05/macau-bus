@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-import { generateDsatToken } from '../utils/dsatCrypto';
+import { generateDsatToken } from '@/utils/dsatCrypto';
 
 const isDev = import.meta.env.DEV;
 

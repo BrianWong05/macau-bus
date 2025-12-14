@@ -16,13 +16,13 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 // Feature imports
 // Feature imports
-import { NearbyStopsHeader } from '../features/nearby-stops/components/NearbyStopsHeader';
-import { NearbyMapView } from '../features/nearby-stops/components/NearbyMapView';
-import { NearbyStopsList } from '../features/nearby-stops/components/NearbyStopsList';
-import { useArrivalData } from '../features/nearby-stops/hooks/useArrivalData';
-import { useNearbyDiscovery } from '../features/nearby-stops/hooks/useNearbyDiscovery';
-import { LoadingState, ErrorState } from './shared';
-import { NearbyStop } from '../features/nearby-stops/types';
+import { NearbyStopsHeader } from '@/features/nearby-stops/components/NearbyStopsHeader';
+import { NearbyMapView } from '@/features/nearby-stops/components/NearbyMapView';
+import { NearbyStopsList } from '@/features/nearby-stops/components/NearbyStopsList';
+import { useArrivalData } from '@/features/nearby-stops/hooks/useArrivalData';
+import { useNearbyDiscovery } from '@/features/nearby-stops/hooks/useNearbyDiscovery';
+import { LoadingState, ErrorState } from '@/components/shared';
+import { NearbyStop } from '@/features/nearby-stops/types';
 
 interface NearbyStopsProps {
   onClose: () => void;

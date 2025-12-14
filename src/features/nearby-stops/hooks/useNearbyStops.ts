@@ -3,9 +3,9 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import govData from '../../../data/gov_data.json';
-import { getDistanceFromLatLonInKm } from '../../../utils/distance';
-import type { NearbyStop } from '../types';
+import govData from '@/data/gov_data.json';
+import { getDistanceFromLatLonInKm } from '@/utils/distance';
+import type { NearbyStop } from '@/features/nearby-stops/types';
 
 const stopsData = govData.stops;
 

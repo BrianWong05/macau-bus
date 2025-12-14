@@ -2,8 +2,8 @@
  * ETA calculation utilities with traffic-adjusted travel times
  */
 
-import { getDistanceFromLatLonInKm } from './distance';
-import { getStopCoords } from './stopCodeMatcher';
+import { getDistanceFromLatLonInKm } from '@/utils/distance';
+import { getStopCoords } from '@/utils/stopCodeMatcher';
 
 interface TrafficSegment {
   traffic: number;

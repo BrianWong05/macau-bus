@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import MapComponent from './components/MapComponent';
-import BusList from './components/BusList';
-import RouteDashboard from './components/RouteDashboard';
-import NearbyStops from './components/NearbyStops';
+import MapComponent from '@/components/MapComponent';
+import BusList from '@/components/BusList';
+import RouteDashboard from '@/components/RouteDashboard';
+import NearbyStops from '@/components/NearbyStops';
 import { useRouteData, AppHeader, RouteControls, RouteStatusBanner } from '@/features/route-tracker';
 import { fetchTrafficApi } from '@/services/api';
 

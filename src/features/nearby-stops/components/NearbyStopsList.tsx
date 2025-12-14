@@ -1,7 +1,7 @@
 import React from 'react';
-import { formatDistance } from '../../../utils/distance';
-import { getEtaTextColor } from '../../../utils/etaColors';
-import { NearbyStop, ArrivalData } from '../types';
+import { formatDistance } from '@/utils/distance';
+import { getEtaTextColor } from '@/utils/etaColors';
+import { NearbyStop, ArrivalData } from '@/features/nearby-stops/types';
 
 interface NearbyStopsListProps {
   nearbyStops: NearbyStop[];

@@ -2,5 +2,5 @@
  * Shared components - public exports
  */
 
-export { LoadingState } from './LoadingState';
-export { ErrorState } from './ErrorState';
+export { LoadingState } from '@/components/shared/LoadingState';
+export { ErrorState } from '@/components/shared/ErrorState';

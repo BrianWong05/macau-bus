@@ -3,9 +3,12 @@
  */
 
 // Components
-export { AppHeader } from './components/AppHeader';
-export { RouteControls } from './components/RouteControls';
-export { RouteStatusBanner } from './components/RouteStatusBanner';
+export { AppHeader } from '@/features/route-tracker/components/AppHeader';
+export { RouteControls } from '@/features/route-tracker/components/RouteControls';
+export { RouteStatusBanner } from '@/features/route-tracker/components/RouteStatusBanner';
 
 // Hooks
-export { useRouteData } from './hooks/useRouteData';
+export { useRouteData } from '@/features/route-tracker/hooks/useRouteData';
+
+// Types
+export * from '@/features/route-tracker/types';

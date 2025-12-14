@@ -5,7 +5,7 @@
 import { useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
 import L from 'leaflet';
-import type { NearbyStop } from '../types';
+import type { NearbyStop } from '@/features/nearby-stops/types';
 
 interface MapBus {
   latitude: number;

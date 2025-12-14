@@ -3,7 +3,7 @@
  * Handles normalization between API codes (e.g., "M11-1") and local data (e.g., "M11_1")
  */
 
-import govData from '../data/gov_data.json';
+import govData from '@/data/gov_data.json';
 
 const stopsData = govData.stops;
 

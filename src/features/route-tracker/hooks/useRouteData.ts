@@ -8,8 +8,8 @@ import {
   fetchTrafficApi,
   fetchBusListApi,
   fetchMapLocationApi,
-} from '../../../services/api';
-import type { RouteData, BusStop, MapBus, TrafficSegment } from '../types';
+} from '@/services/api';
+import type { RouteData, BusStop, MapBus, TrafficSegment } from '@/features/route-tracker/types';
 
 interface UseRouteDataReturn {
   busData: RouteData | null;
@@ -84,11 +84,14 @@ export const useRouteData = (): UseRouteDataReturn => {
 
           const allBuses = updatedStops.flatMap((s) => s.buses);
 
-          setBusData((prev) => ({
-            ...prev!,
-            stops: updatedStops,
-            buses: allBuses,
-          }));
+          setBusData((prev) => {
+            if (!prev) return prev;
+            return {
+              ...prev,
+              stops: updatedStops,
+              buses: allBuses,
+            };
+          });
 
           setLastUpdated(new Date());
         }

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ALL_ROUTES } from '../data/routes';
+import { ALL_ROUTES } from '@/data/routes';
 
 interface RouteDashboardProps {
   onSelectRoute: (route: string) => void;

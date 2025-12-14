@@ -3,8 +3,8 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import govData from '../../../data/gov_data.json';
-import { getDistanceFromLatLonInKm } from '../../../utils/distance';
+import govData from '@/data/gov_data.json';
+import { getDistanceFromLatLonInKm } from '@/utils/distance';
 
 const stopsData = govData.stops;
 

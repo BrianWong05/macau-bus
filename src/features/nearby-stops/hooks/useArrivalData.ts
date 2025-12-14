@@ -3,11 +3,11 @@
  */
 
 import { useState, useCallback } from 'react';
-import { fetchBusListApi, fetchMapLocationApi, fetchTrafficApi } from '../../../services/api';
-import { getDistanceFromLatLonInKm } from '../../../utils/distance';
-import { getStopCoords, getStopName } from '../../../utils/stopCodeMatcher';
-import govData from '../../../data/gov_data.json';
-import type { ArrivalData, RouteEtaInfo, MapBus } from '../types';
+import { fetchBusListApi, fetchMapLocationApi, fetchTrafficApi } from '@/services/api';
+import { getDistanceFromLatLonInKm } from '@/utils/distance';
+import { getStopCoords, getStopName } from '@/utils/stopCodeMatcher';
+import govData from '@/data/gov_data.json';
+import type { ArrivalData, RouteEtaInfo, MapBus } from '@/features/nearby-stops/types';
 
 const stopsData = govData.stops;
 
