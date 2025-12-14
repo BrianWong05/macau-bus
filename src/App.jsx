@@ -492,9 +492,9 @@ function App() {
                              /* Map Component Container */
                             <div className="h-[500px] w-full relative">
                                 <MapComponent 
-                                    route={busData} 
+                                    stations={busData.stops} 
                                     buses={mapBuses}
-                                    activeRoute={activeRoute}
+                                    traffic={trafficData}
                                 />
                              </div>
                         )}
