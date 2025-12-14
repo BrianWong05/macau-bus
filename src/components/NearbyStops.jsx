@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { fetchBusListApi } from '../services/api';
+import { fetchBusListApi, fetchMapLocationApi } from '../services/api';
 import govData from '../data/gov_data.json';
 
 // Fix for default marker icon
@@ -20,18 +20,29 @@ L.Marker.prototype.options.icon = DefaultIcon;
 const stopsData = govData.stops;
 
 // Helper component to auto-fit bounds
-const NearbyFitBounds = ({ center, stops }) => {
+const NearbyFitBounds = ({ center, stops, buses, expandedStop }) => {
     const map = useMap();
     useEffect(() => {
-        if (center && stops.length > 0) {
-            const bounds = L.latLngBounds();
+        if (!map) return;
+        const bounds = L.latLngBounds();
+        
+        if (expandedStop && buses && buses.length > 0) {
+            // Focus on Stop + Buses
+             // Find expanded stop coords
+             const stop = stops.find(s => s.code === expandedStop);
+             if (stop) bounds.extend([stop.lat, stop.lon]);
+             buses.forEach(b => {
+                 if (b.latitude && b.longitude) bounds.extend([b.latitude, b.longitude]);
+             });
+        } else if (center && stops.length > 0) {
             bounds.extend([center.lat, center.lon]);
             stops.forEach(s => bounds.extend([s.lat, s.lon]));
-            if (bounds.isValid()) {
-                map.fitBounds(bounds, { padding: [50, 50] });
-            }
         }
-    }, [center, stops, map]);
+        
+        if (bounds.isValid()) {
+            map.fitBounds(bounds, { padding: [50, 50] });
+        }
+    }, [center, stops, map, expandedStop, buses]);
     return null;
 };
 
@@ -44,8 +55,10 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
   const [arrivalData, setArrivalData] = useState({}); 
   const [loadingArrivals, setLoadingArrivals] = useState({});
   const [userLocation, setUserLocation] = useState(null);
-  const [viewMode, setViewMode] = useState('list'); // 'list' or 'map'
+  const [viewMode, setViewMode] = useState('list'); 
+  const [stopBuses, setStopBuses] = useState([]); // Buses heading to expanded stop
 
+  // ... (useEffect for geolocation) ...
   useEffect(() => {
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by your browser.");
@@ -53,18 +66,42 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
       return;
     }
 
+    console.log("Requesting Geolocation...");
+    const timeoutId = setTimeout(() => {
+        // Fallback or just log if it takes too long
+        console.warn("Geolocation timed out (manual check).");
+        // We could force an error here if we want to stop "finding forever"
+        // But typically the OS prompt handles this.
+        // Let's force an error state after 15 seconds to unblock UI
+        if (loading) {
+            setError("Location request timed out. Please check permissions.");
+            setLoading(false);
+        }
+    }, 15000);
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        clearTimeout(timeoutId);
+        console.log("Location Found:", position.coords);
         const { latitude, longitude } = position.coords;
         setUserLocation({ lat: latitude, lon: longitude });
         findNearby(latitude, longitude);
       },
       (err) => {
+        clearTimeout(timeoutId);
         console.error("Geo Error:", err);
+        setError(`Location access error: ${err.message}`);
         setPermissionDenied(true);
         setLoading(false);
+      },
+      {
+          enableHighAccuracy: true,
+          timeout: 10000, 
+          maximumAge: 0
       }
     );
+    
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const findNearby = (lat, lon) => {
@@ -113,14 +150,18 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
   const handleExpandStop = async (stop) => {
       if (expandedStop === stop.code) {
           setExpandedStop(null);
+          setStopBuses([]); 
           return;
       }
       setExpandedStop(stop.code);
       setLoadingArrivals(prev => ({...prev, [stop.code]: true}));
       setArrivalData(prev => ({...prev, [stop.code]: {} })); 
+      setStopBuses([]); // Clear previous buses
 
       try {
           const newArrivals = {};
+          let allIncomingBuses = [];
+
           await Promise.all(stop.routes.map(async (route) => {
                const checkDir = async (d) => {
                    try {
@@ -128,6 +169,8 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                         fetchBusListApi(route, d, '2'),
                         fetchBusListApi(route, d, '0')
                      ]);
+                     
+                     // Helper Logic (Duplicated for brevity, could be refactored)
                      const isValid = (r) => r.data && r.data.data && r.data.data.routeInfo && r.data.data.routeInfo.length > 0;
                      const countBuses = (stops) => stops.flatMap(s => s.busInfo || []).length;
                      const findStopIndex = (stops) => {
@@ -158,43 +201,77 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                      }
 
                      if (bestStops && bestIdx !== -1) {
+                         // Found valid route direction!
+                         
+                         // 1. Calculate Arrival Text
                          const stops = bestStops;
                          const stopIdx = bestIdx;
-                         
-                         // Found stop
-                          const buses = stops.flatMap(s => s.busInfo || []);
-                          let minStops = 999;
-                           for (let i = 0; i <= stopIdx; i++) {
-                               if (stops[i].busInfo && stops[i].busInfo.length > 0) {
-                                   const dist = stopIdx - i;
-                                   if (dist < minStops) minStops = dist;
-                               }
-                           }
+                         let minStops = 999;
+                         let incomingPlates = [];
 
-                            const totalActiveBuses = stops.flatMap(s => s.busInfo || []).length;
-                            let info;
-                            if (minStops === 999) {
-                                if (totalActiveBuses > 0) info = "No approaching bus";
-                                else info = "No active service";
-                            } else if (minStops === 0) info = "Arriving / At Station";
-                            else info = `${minStops} stops away`;
-                            
-                            return info;
+                         for (let i = 0; i <= stopIdx; i++) {
+                             if (stops[i].busInfo && stops[i].busInfo.length > 0) {
+                                 const dist = stopIdx - i;
+                                 if (dist < minStops) minStops = dist;
+                                 // Collect plates
+                                 stops[i].busInfo.forEach(b => incomingPlates.push(b.busPlate));
+                             }
+                         }
+
+                         const totalActiveBuses = incomingPlates.length; // Only count incoming? No, existing logic counted all. 
+                         // Logic was: const totalActiveBuses = stops.flatMap(s => s.busInfo || []).length;
+                         // Let's stick strictly to arrival text logic for text.
+                         const actualTotal = stops.flatMap(s => s.busInfo || []).length;
+
+                         let info;
+                         if (minStops === 999) {
+                            if (actualTotal > 0) info = "No approaching bus";
+                            else info = "No active service";
+                         } else if (minStops === 0) info = "Arriving / At Station";
+                         else info = `${minStops} stops away`;
+
+                         // 2. Fetch GPS for Map (If there are incoming buses)
+                         // Only fetch if we have potential buses to show to save bandwidth?
+                         // User wants to see "buses that will go to that stop". 
+                         // So we should try to fetch GPS if `incomingPlates` > 0.
+                         if (incomingPlates.length > 0) {
+                             try {
+                                 const gpsData = await fetchMapLocationApi(route, d);
+                                 const busList = gpsData.busInfoList || (gpsData.data && gpsData.data.busInfoList) || [];
+                                 
+                                 // Filter GPS list by incoming plates
+                                 const matchedBuses = busList
+                                    .filter(b => incomingPlates.includes(b.busPlate))
+                                    .map(b => ({
+                                        ...b,
+                                        route: route,
+                                        dir: d
+                                    }));
+                                 
+                                 if (matchedBuses.length > 0) {
+                                     allIncomingBuses.push(...matchedBuses);
+                                 }
+                             } catch (gpsErr) {
+                                 console.warn("GPS fetch failed for nearby", gpsErr);
+                             }
+                         }
+
+                         return info;
                      }
                    } catch (e) { console.warn(e); }
                    return null;
                };
 
-               // Probe both directions
                const info0 = await checkDir('0');
                if (info0) { newArrivals[route] = info0; return; }
-               
                const info1 = await checkDir('1');
                if (info1) { newArrivals[route] = info1; } 
                else { newArrivals[route] = "No Service / Wrong Sta"; }
           }));
 
           setArrivalData(prev => ({...prev, [stop.code]: newArrivals }));
+          setStopBuses(allIncomingBuses);
+
       } catch (err) {
           console.error("Arrival fetch failed", err);
       } finally {
@@ -204,7 +281,8 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
 
   return (
     <div className="flex flex-col h-full bg-white animate-fade-in-up">
-        {/* Header */}
+        {/* ... Header ... */}
+        {/* Same Header Code, just ensuring it's preserved */}
         <div className="p-4 border-b flex justify-between items-center bg-gray-50 sticky top-0 z-10">
             <h2 className="text-xl font-bold flex items-center gap-2 text-gray-800">
                 📍 Nearby Stops
@@ -231,27 +309,44 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
         {/* Content */}
         <div className="flex-1 overflow-y-auto relative">
             {loading && (
-                <div className="flex flex-col items-center justify-center h-40 gap-3 text-gray-500">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                <div className="flex flex-col items-center justify-center h-full gap-3 text-gray-500">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+                    <div className="text-sm">Finding nearby stops...</div>
                 </div>
             )}
 
+            {!loading && error && (
+                <div className="flex flex-col items-center justify-center h-full p-6 text-center text-red-500">
+                    <div className="text-3xl mb-2">⚠️</div>
+                    <div>{error}</div>
+                    {permissionDenied && <div className="text-xs text-gray-400 mt-2">Please enable location access.</div>}
+                </div>
+            )}
+            
             {!loading && viewMode === 'list' && (
                 <div className="p-4 space-y-3">
-                    {permissionDenied && (
-                        <div className="text-center p-6 text-gray-500">
+                     {permissionDenied && (
+                        <div className="flex flex-col items-center justify-center p-6 text-gray-500">
                             <div className="text-4xl mb-2">🚫</div>
                             <p>Location access denied.</p>
+                            <p className="text-xs mt-1">Enable location to see nearby stops.</p>
                         </div>
-                    )}
-                    {nearbyStops.length === 0 && !permissionDenied && <div className="text-center text-gray-500">No stops found.</div>}
-                    
-                    {nearbyStops.map((stop, index) => (
+                     )}
+                     
+                     {!permissionDenied && nearbyStops.length === 0 && (
+                         <div className="flex flex-col items-center justify-center p-10 text-gray-400">
+                             <div className="text-3xl mb-2">🚏</div>
+                             <div>No stops found nearby.</div>
+                         </div>
+                     )}
+
+                     {nearbyStops.map((stop, index) => (
                         <div 
                             key={stop.raw?.POLE_ID || `${stop.code}-${index}`} 
                             className={`border rounded-xl shadow-sm transition-all bg-white overflow-hidden ${expandedStop === stop.code ? 'ring-2 ring-teal-500 shadow-md' : 'hover:shadow-md border-gray-100'}`}
                         >
-                            <div className="p-4 flex justify-between items-start cursor-pointer" onClick={() => handleExpandStop(stop)}>
+                             {/* ... existing card content ... */}
+                             <div className="p-4 flex justify-between items-start cursor-pointer" onClick={() => handleExpandStop(stop)}>
                                 <div>
                                     <h3 className="font-bold text-gray-800 text-lg flex items-center gap-2">
                                         {stop.name}
@@ -297,7 +392,7 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                                 </div>
                             )}
                         </div>
-                    ))}
+                     ))}
                 </div>
             )}
 
@@ -308,34 +403,70 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                           attribution='&copy; CARTO'
                           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                         />
-                        <NearbyFitBounds center={userLocation} stops={nearbyStops} />
+                        <NearbyFitBounds center={userLocation} stops={nearbyStops} buses={stopBuses} expandedStop={expandedStop} />
                         
                         {/* User Marker */}
                         <CircleMarker center={[userLocation.lat, userLocation.lon]} radius={8} pathOptions={{ color: 'blue', fillColor: '#3b82f6', fillOpacity: 1 }}>
                             <Popup>You are here</Popup>
                         </CircleMarker>
 
-                        {/* Stops */}
-                        {nearbyStops.map(stop => (
-                            <CircleMarker 
-                                key={stop.code} 
-                                center={[stop.lat, stop.lon]}
-                                radius={6}
-                                pathOptions={{ color: 'white', fillColor: '#ef4444', fillOpacity: 1, weight: 2 }} // Red with white border
-                            >
-                                <Popup>
-                                    <div className="text-center">
-                                        <div className="font-bold">{stop.name}</div>
-                                        <div className="text-xs text-gray-500 mb-2">{stop.code}</div>
-                                        <button 
-                                            className="bg-teal-500 text-white text-xs px-2 py-1 rounded"
-                                            onClick={() => { setViewMode('list'); handleExpandStop(stop); }} 
-                                        >
-                                            View Arrivals
-                                        </button>
-                                    </div>
-                                </Popup>
-                            </CircleMarker>
+                        {/* Stops: Filter if Expanded */}
+                        {nearbyStops.map(stop => {
+                            // If expandedStop is set, split behavior:
+                            // Show ONLY expanded stop? Or show others as faded/small?
+                            // User request: "the map should show the only that stop"
+                            const isSelected = expandedStop === stop.code;
+                            if (expandedStop && !isSelected) return null; // Hide others
+
+                            return (
+                                <CircleMarker 
+                                    key={stop.code} 
+                                    center={[stop.lat, stop.lon]}
+                                    radius={isSelected ? 10 : 6}
+                                    pathOptions={{ 
+                                        color: 'white', 
+                                        fillColor: isSelected ? '#14b8a6' : '#ef4444', 
+                                        fillOpacity: 1, 
+                                        weight: 2 
+                                    }}
+                                >
+                                    <Popup>
+                                        <div className="text-center">
+                                            <div className="font-bold">{stop.name}</div>
+                                            <div className="text-xs text-gray-500 mb-2">{stop.code}</div>
+                                            <button 
+                                                className="bg-teal-500 text-white text-xs px-2 py-1 rounded"
+                                                onClick={() => { setViewMode('list'); handleExpandStop(stop); }} 
+                                            >
+                                                View Arrivals
+                                            </button>
+                                        </div>
+                                    </Popup>
+                                </CircleMarker>
+                            );
+                        })}
+
+                        {/* Incoming Buses */}
+                        {stopBuses.map((bus, i) => (
+                             <Marker 
+                                key={`bus-${i}`} 
+                                position={[bus.latitude, bus.longitude]}
+                                icon={L.divIcon({
+                                    className: 'custom-div-icon',
+                                    html: `<div style="background-color: white; border: 2px solid #0d9488; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">🚌</div>`,
+                                    iconSize: [24, 24],
+                                    iconAnchor: [12, 12]
+                                })}
+                             >
+                                 <Popup>
+                                     <div className="text-center font-bold text-teal-700">
+                                         Route {bus.route}
+                                     </div>
+                                     <div className="text-center text-xs">
+                                         {bus.busPlate}
+                                     </div>
+                                 </Popup>
+                             </Marker>
                         ))}
                     </MapContainer>
                 </div>
