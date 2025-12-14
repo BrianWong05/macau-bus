@@ -416,8 +416,8 @@
     },
     {
       "name": "河邊新街/李道巷",
-      "lat": 22.19288506050753,
-      "lon": 113.53153531417134,
+      "lat": 22.19227,
+      "lon": 113.53452,
       "raw": {
         "POLE_ID": 96,
         "P_ALIAS": "M140_1",
@@ -430,7 +430,8 @@
         "NAME_POR": "ALM. SERGIO / TRAV. LIDO",
         "NAME_EN": "ALM. SERGIO / TRAV. LIDO",
         "ROUTE_NOS": "1,18B,26,55,71S,MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "山頂醫院總站",
@@ -650,8 +651,8 @@
     },
     {
       "name": "媽閣廟站",
-      "lat": 22.187650831580886,
-      "lon": 113.52810102975936,
+      "lat": 22.187046,
+      "lon": 113.53108,
       "raw": {
         "POLE_ID": 145,
         "P_ALIAS": "M203_1",
@@ -664,7 +665,8 @@
         "NAME_POR": "TEMPLO Á MA",
         "NAME_EN": "TEMPLO Á MA",
         "ROUTE_NOS": "1,10,11,18,2,5,60,61,65,6B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "勞動節大馬路",
@@ -686,8 +688,8 @@
     },
     {
       "name": "看台街",
-      "lat": 22.21379976230872,
-      "lon": 113.54718525395543,
+      "lat": 22.21318,
+      "lon": 113.55017,
       "raw": {
         "POLE_ID": 161,
         "P_ALIAS": "M222_1",
@@ -700,7 +702,8 @@
         "NAME_POR": "RUA DA TRIBUNA",
         "NAME_EN": "RUA DA TRIBUNA",
         "ROUTE_NOS": "17S,27,3A,N1A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "祐漢第二街",
@@ -758,8 +761,8 @@
     },
     {
       "name": "東北大馬路/保利達",
-      "lat": 22.209547306641554,
-      "lon": 113.55419707859791,
+      "lat": 22.20893,
+      "lon": 113.55718,
       "raw": {
         "POLE_ID": 170,
         "P_ALIAS": "M235_1",
@@ -772,7 +775,8 @@
         "NAME_POR": "AV. NORDESTE/ POLY TEX",
         "NAME_EN": "AV. NORDESTE/ POLY TEX",
         "ROUTE_NOS": "102X,30,34,51A,MT3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "社會工作局",
@@ -902,8 +906,8 @@
     },
     {
       "name": "海洋花園瞭望台",
-      "lat": 22.162227520852333,
-      "lon": 113.54001049546474,
+      "lat": 22.16161,
+      "lon": 113.543,
       "raw": {
         "POLE_ID": 220,
         "P_ALIAS": "T336_1",
@@ -916,7 +920,8 @@
         "NAME_POR": "TERRAÇO PANORÂMICO",
         "NAME_EN": "TERRAÇO PANORÂMICO",
         "ROUTE_NOS": "34,35"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔海濱花園",
@@ -1298,8 +1303,8 @@
     },
     {
       "name": "二龍喉公園",
-      "lat": 22.2015773957677,
-      "lon": 113.54775332463423,
+      "lat": 22.200949,
+      "lon": 113.55079,
       "raw": {
         "POLE_ID": 362,
         "P_ALIAS": "M61_1",
@@ -1312,7 +1317,8 @@
         "NAME_POR": "JARDIM FLORA",
         "NAME_EN": "FLORA GARDEN",
         "ROUTE_NOS": "12,17,18A,2,2A,6A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "福海花園",
@@ -1460,8 +1466,8 @@
     },
     {
       "name": "澳門大學總站",
-      "lat": 22.136252430348065,
-      "lon": 113.54364980006767,
+      "lat": 22.135696,
+      "lon": 113.54666,
       "raw": {
         "POLE_ID": 412,
         "P_ALIAS": "T550_1",
@@ -1474,12 +1480,13 @@
         "NAME_POR": "UNIVERSIDADE DE MACAU/ TERMINAL",
         "NAME_EN": "UNIVERSIDADE DE MACAU/ TERMINAL",
         "ROUTE_NOS": "71,71S"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳大/綜合體育館",
-      "lat": 22.134585923695276,
-      "lon": 113.54031043530662,
+      "lat": 22.13397,
+      "lon": 113.5433,
       "raw": {
         "POLE_ID": 416,
         "P_ALIAS": "T555_2",
@@ -1492,7 +1499,8 @@
         "NAME_POR": "UM / COMPLEXO DESPORTIVO",
         "NAME_EN": "UM / COMPLEXO DESPORTIVO",
         "ROUTE_NOS": "71,71S,72,73,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "慕拉士/飛通大廈",
@@ -1532,8 +1540,8 @@
     },
     {
       "name": "提督馬路/雅廉訪",
-      "lat": 22.20703687243247,
-      "lon": 113.54232751618714,
+      "lat": 22.206404,
+      "lon": 113.54534,
       "raw": {
         "POLE_ID": 448,
         "P_ALIAS": "M16_2",
@@ -1546,12 +1554,13 @@
         "NAME_POR": "AV. ALM. LACERDA/ OUVIDOR ARRIAGA",
         "NAME_EN": "AV. ALM. LACERDA/ OUVIDOR ARRIAGA",
         "ROUTE_NOS": "16,17,28C,32,4,5,65,8,8A,9,9A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "提督馬路/雅廉訪",
-      "lat": 22.207259071972906,
-      "lon": 113.54246095278154,
+      "lat": 22.206627,
+      "lon": 113.54549,
       "raw": {
         "POLE_ID": 11,
         "P_ALIAS": "M16_1",
@@ -1564,7 +1573,8 @@
         "NAME_POR": "AV. ALM. LACERDA/ OUVIDOR ARRIAGA",
         "NAME_EN": "AV. ALM. LACERDA/ OUVIDOR ARRIAGA",
         "ROUTE_NOS": "1,16S,26,26A,3,33,3X,N1B,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "提督/高士德",
@@ -1604,8 +1614,8 @@
     },
     {
       "name": "殷皇子馬路",
-      "lat": 22.19224406807327,
-      "lon": 113.53869059903576,
+      "lat": 22.191654,
+      "lon": 113.54165,
       "raw": {
         "POLE_ID": 120,
         "P_ALIAS": "M170_1",
@@ -1618,12 +1628,13 @@
         "NAME_POR": "AV.INFANTE D. HENRIQUE",
         "NAME_EN": "AV.INFANTE D. HENRIQUE",
         "ROUTE_NOS": "11,21A,26A,33"
-      }
+      },
+      "updated": true
     },
     {
       "name": "北京街/假日酒店",
-      "lat": 22.192341136734765,
-      "lon": 113.54467382592875,
+      "lat": 22.191708,
+      "lon": 113.54766,
       "raw": {
         "POLE_ID": 109,
         "P_ALIAS": "M158_1",
@@ -1636,7 +1647,8 @@
         "NAME_POR": "RUA DE PEQUIM/ HOLIDAY INN",
         "NAME_EN": "RUA DE PEQUIM/ HOLIDAY INN",
         "ROUTE_NOS": "10,10B,25B,28C,50"
-      }
+      },
+      "updated": true
     },
     {
       "name": "高美士/利澳",
@@ -1730,8 +1742,8 @@
     },
     {
       "name": "中區/殷皇子馬路",
-      "lat": 22.192201486317053,
-      "lon": 113.53853780994324,
+      "lat": 22.19159,
+      "lon": 113.54152,
       "raw": {
         "POLE_ID": 121,
         "P_ALIAS": "M171_1",
@@ -1744,12 +1756,13 @@
         "NAME_POR": "CENTRO/INFANTE D. HENRIQUE",
         "NAME_EN": "CENTRO/INFANTE D. HENRIQUE",
         "ROUTE_NOS": "10,2,3A,5,8A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "中區/殷皇子馬路",
-      "lat": 22.192255007500464,
-      "lon": 113.53848239320601,
+      "lat": 22.19164,
+      "lon": 113.54147,
       "raw": {
         "POLE_ID": 464,
         "P_ALIAS": "M171_2",
@@ -1762,12 +1775,13 @@
         "NAME_POR": "CENTRO/INFANTE D. HENRIQUE",
         "NAME_EN": "CENTRO/INFANTE D. HENRIQUE",
         "ROUTE_NOS": "101X,11,21A,26A,33,N1A,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "十六浦",
-      "lat": 22.197992051691713,
-      "lon": 113.53359026866259,
+      "lat": 22.197367,
+      "lon": 113.53655,
       "raw": {
         "POLE_ID": 90,
         "P_ALIAS": "M132_1",
@@ -1780,7 +1794,8 @@
         "NAME_POR": "PONTE 16",
         "NAME_EN": "PONTE 16",
         "ROUTE_NOS": "101X,18B,26,26A,33,4,8A,N1A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "沙梨頭海邊街",
@@ -1856,8 +1871,8 @@
     },
     {
       "name": "巴波沙大馬路",
-      "lat": 22.21341801876874,
-      "lon": 113.54458770979245,
+      "lat": 22.2128,
+      "lon": 113.54757,
       "raw": {
         "POLE_ID": 466,
         "P_ALIAS": "M8_2",
@@ -1870,12 +1885,13 @@
         "NAME_POR": "AV. ARTUR DE TAMAGNINI BARBOSA",
         "NAME_EN": "AV. ARTUR DE TAMAGNINI BARBOSA",
         "ROUTE_NOS": "1,10,101X,27,29,3,N1A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "巴波沙大馬路",
-      "lat": 22.21337789063367,
-      "lon": 113.54458445952154,
+      "lat": 22.21276,
+      "lon": 113.54757,
       "raw": {
         "POLE_ID": 4,
         "P_ALIAS": "M8_1",
@@ -1888,7 +1904,8 @@
         "NAME_POR": "AV. ARTUR DE TAMAGNINI BARBOSA",
         "NAME_EN": "AV. ARTUR DE TAMAGNINI BARBOSA",
         "ROUTE_NOS": "25,34,65,9,9A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "看台街/騎士馬路",
@@ -1910,8 +1927,8 @@
     },
     {
       "name": "葡京酒店",
-      "lat": 22.189824536176182,
-      "lon": 113.54178765961774,
+      "lat": 22.1892,
+      "lon": 113.544779,
       "raw": {
         "POLE_ID": 46,
         "P_ALIAS": "M69_1",
@@ -1924,12 +1941,13 @@
         "NAME_POR": "HOTEL LISBOA",
         "NAME_EN": "HOTEL LISBOA",
         "ROUTE_NOS": "10,10B,12,23,5X,N1B,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "葡京酒店",
-      "lat": 22.18984927927119,
-      "lon": 113.54184924519004,
+      "lat": 22.18923,
+      "lon": 113.54484,
       "raw": {
         "POLE_ID": 469,
         "P_ALIAS": "M69_2",
@@ -1942,7 +1960,8 @@
         "NAME_POR": "HOTEL LISBOA",
         "NAME_EN": "HOTEL LISBOA",
         "ROUTE_NOS": "102X,3,32,3A,6B,7,8,H1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "友誼馬路/行車天橋",
@@ -1964,8 +1983,8 @@
     },
     {
       "name": "看台街",
-      "lat": 22.213788724594185,
-      "lon": 113.54727906606237,
+      "lat": 22.21317,
+      "lon": 113.55027,
       "raw": {
         "POLE_ID": 472,
         "P_ALIAS": "M222_2",
@@ -1978,7 +1997,8 @@
         "NAME_POR": "RUA DA TRIBUNA",
         "NAME_EN": "RUA DA TRIBUNA",
         "ROUTE_NOS": "30,34,51A,AP1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "祐漢街市",
@@ -2036,8 +2056,8 @@
     },
     {
       "name": "二龍喉公園",
-      "lat": 22.201530636712455,
-      "lon": 113.54769648196424,
+      "lat": 22.200893,
+      "lon": 113.55071,
       "raw": {
         "POLE_ID": 477,
         "P_ALIAS": "M61_2",
@@ -2050,12 +2070,13 @@
         "NAME_POR": "JARDIM FLORA",
         "NAME_EN": "FLORA GARDEN",
         "ROUTE_NOS": "18,18B,19,22,23,25,25B,32,56,H2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "得勝花園",
-      "lat": 22.19983636661404,
-      "lon": 113.54570368419667,
+      "lat": 22.19922,
+      "lon": 113.548706,
       "raw": {
         "POLE_ID": 50,
         "P_ALIAS": "M73_2",
@@ -2068,12 +2089,13 @@
         "NAME_POR": "JARDIM DA VITÓRIA",
         "NAME_EN": "JARDIM DA VITÓRIA",
         "ROUTE_NOS": "18,18A,18B,19,2,4,9"
-      }
+      },
+      "updated": true
     },
     {
       "name": "塔石體育館",
-      "lat": 22.197672043914288,
-      "lon": 113.54377645660523,
+      "lat": 22.19704,
+      "lon": 113.54677,
       "raw": {
         "POLE_ID": 478,
         "P_ALIAS": "M270_1",
@@ -2086,12 +2108,13 @@
         "NAME_POR": "PAVILHÃO POLIDESPORTIVO TAP SEAC",
         "NAME_EN": "PAVILHÃO POLIDESPORTIVO TAP SEAC",
         "ROUTE_NOS": "22,25,25B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "塔石體育館",
-      "lat": 22.19742655255161,
-      "lon": 113.54357280930117,
+      "lat": 22.196798,
+      "lon": 113.54658,
       "raw": {
         "POLE_ID": 479,
         "P_ALIAS": "M270_2",
@@ -2104,7 +2127,8 @@
         "NAME_POR": "PAVILHÃO POLIDESPORTIVO TAP SEAC",
         "NAME_EN": "PAVILHÃO POLIDESPORTIVO TAP SEAC",
         "ROUTE_NOS": "12,18,18B,2A,7,8,8A,9,9A,H2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "水坑尾/公共行政大樓",
@@ -2198,8 +2222,8 @@
     },
     {
       "name": "旅遊塔/行車隧道",
-      "lat": 22.180765686060553,
-      "lon": 113.53391503356414,
+      "lat": 22.180109,
+      "lon": 113.53693,
       "raw": {
         "POLE_ID": 324,
         "P_ALIAS": "M182_1",
@@ -2212,7 +2236,8 @@
         "NAME_POR": "TORRE/ TÚNEL RODOVIÁRIOS",
         "NAME_EN": "TORRE/ TÚNEL RODOVIÁRIOS",
         "ROUTE_NOS": "26,60,65,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "區華利前地",
@@ -2288,8 +2313,8 @@
     },
     {
       "name": "凱泉灣總站",
-      "lat": 22.191427838719733,
-      "lon": 113.5301239099294,
+      "lat": 22.19081,
+      "lon": 113.53311,
       "raw": {
         "POLE_ID": 484,
         "P_ALIAS": "M185_2",
@@ -2302,12 +2327,13 @@
         "NAME_POR": "RIVIERA MACAU / TERMINAL",
         "NAME_EN": "RIVIERA MACAU / TERMINAL",
         "ROUTE_NOS": "6B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "司打口",
-      "lat": 22.194161065908915,
-      "lon": 113.53230156607185,
+      "lat": 22.193548,
+      "lon": 113.53532,
       "raw": {
         "POLE_ID": 377,
         "P_ALIAS": "M139_1",
@@ -2320,12 +2346,13 @@
         "NAME_POR": "PRAÇA PONTE HORTA",
         "NAME_EN": "PRAÇA PONTE HORTA",
         "ROUTE_NOS": "16S,55,71S,MT4,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "司打口",
-      "lat": 22.1942277283654,
-      "lon": 113.53233850963466,
+      "lat": 22.193605,
+      "lon": 113.53535,
       "raw": {
         "POLE_ID": 485,
         "P_ALIAS": "M139_2",
@@ -2338,12 +2365,13 @@
         "NAME_POR": "PRAÇA PONTE HORTA",
         "NAME_EN": "PRAÇA PONTE HORTA",
         "ROUTE_NOS": "1,10,11,16,2,21A,26,5,60,61,65,6B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "粵通碼頭",
-      "lat": 22.196199346968225,
-      "lon": 113.53329161437016,
+      "lat": 22.19557,
+      "lon": 113.53629,
       "raw": {
         "POLE_ID": 94,
         "P_ALIAS": "M136_1",
@@ -2356,12 +2384,13 @@
         "NAME_POR": "PONTE CAIS N.14",
         "NAME_EN": "PONTE CAIS N.14",
         "ROUTE_NOS": "1,10,16,16S,2,3A,5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "粵通碼頭",
-      "lat": 22.196097652134394,
-      "lon": 113.53325056584931,
+      "lat": 22.195477,
+      "lon": 113.53625,
       "raw": {
         "POLE_ID": 486,
         "P_ALIAS": "M136_2",
@@ -2374,7 +2403,8 @@
         "NAME_POR": "PONTE CAIS N.14",
         "NAME_EN": "PONTE CAIS N.14",
         "ROUTE_NOS": "11,21A,26,MT4,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "營地大街",
@@ -2522,8 +2552,8 @@
     },
     {
       "name": "鮑思高球場",
-      "lat": 22.203215600780172,
-      "lon": 113.54874128964344,
+      "lat": 22.2026,
+      "lon": 113.5517333333,
       "raw": {
         "POLE_ID": 31,
         "P_ALIAS": "M46_1",
@@ -2536,7 +2566,8 @@
         "NAME_POR": "COR. MESQUITA/ D. BOSCO",
         "NAME_EN": "D. BOSCO COLLEGE SPORTS CENTRE",
         "ROUTE_NOS": "12,17,22,23"
-      }
+      },
+      "updated": true
     },
     {
       "name": "勞動節街/中葡職業技術學校",
@@ -2576,8 +2607,8 @@
     },
     {
       "name": "筷子基總站",
-      "lat": 22.208956873665155,
-      "lon": 113.54053681148464,
+      "lat": 22.208364,
+      "lon": 113.54349,
       "raw": {
         "POLE_ID": 20,
         "P_ALIAS": "M26_1",
@@ -2590,12 +2621,13 @@
         "NAME_POR": "FAI CHI KEI/TERMINAL",
         "NAME_EN": "FAI CHI KEI/TERMINAL",
         "ROUTE_NOS": "1A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "筷子基總站",
-      "lat": 22.209788765643488,
-      "lon": 113.54025974059851,
+      "lat": 22.209179,
+      "lon": 113.543236,
       "raw": {
         "POLE_ID": 494,
         "P_ALIAS": "M26_4",
@@ -2608,12 +2640,13 @@
         "NAME_POR": "FAI CHI KEI/TERMINAL",
         "NAME_EN": "FAI CHI KEI/TERMINAL",
         "ROUTE_NOS": "33"
-      }
+      },
+      "updated": true
     },
     {
       "name": "黑沙環馬路",
-      "lat": 22.208666764222563,
-      "lon": 113.54676453237792,
+      "lat": 22.20805,
+      "lon": 113.54976,
       "raw": {
         "POLE_ID": 22,
         "P_ALIAS": "M28_1",
@@ -2626,12 +2659,13 @@
         "NAME_POR": "EST. AREIA PRETA",
         "NAME_EN": "EST. AREIA PRETA",
         "ROUTE_NOS": "10,12,19,1A,2,22,6A,8"
-      }
+      },
+      "updated": true
     },
     {
       "name": "黑沙環馬路",
-      "lat": 22.208745612872423,
-      "lon": 113.54673836520327,
+      "lat": 22.208136,
+      "lon": 113.549736,
       "raw": {
         "POLE_ID": 496,
         "P_ALIAS": "M28_2",
@@ -2644,12 +2678,13 @@
         "NAME_POR": "EST. AREIA PRETA",
         "NAME_EN": "EST. AREIA PRETA",
         "ROUTE_NOS": "28B,28C,29,34,H2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "盧廉若公園",
-      "lat": 22.20064808203051,
-      "lon": 113.54517190402198,
+      "lat": 22.200043,
+      "lon": 113.548195,
       "raw": {
         "POLE_ID": 52,
         "P_ALIAS": "M76_1",
@@ -2662,12 +2697,13 @@
         "NAME_POR": "JARDIM LOU LIM IOC",
         "NAME_EN": "JARDIM LOU LIM IOC",
         "ROUTE_NOS": "12,2,22,28C,2A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "盧廉若公園",
-      "lat": 22.200799090211845,
-      "lon": 113.54528688230597,
+      "lat": 22.200167,
+      "lon": 113.548294,
       "raw": {
         "POLE_ID": 498,
         "P_ALIAS": "M76_2",
@@ -2680,12 +2716,13 @@
         "NAME_POR": "JARDIM LOU LIM IOC",
         "NAME_EN": "JARDIM LOU LIM IOC",
         "ROUTE_NOS": "16,16S,25,25B,5,9,9A,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "媽閣廟站",
-      "lat": 22.18760843245179,
-      "lon": 113.528039548481,
+      "lat": 22.18699,
+      "lon": 113.53103,
       "raw": {
         "POLE_ID": 499,
         "P_ALIAS": "M203_2",
@@ -2698,12 +2735,13 @@
         "NAME_POR": "TEMPLO Á MA",
         "NAME_EN": "TEMPLO Á MA",
         "ROUTE_NOS": "16S,21A,26,28B,55,71S,MT4,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門運動場",
-      "lat": 22.15607168173764,
-      "lon": 113.55206160226315,
+      "lat": 22.15541,
+      "lon": 113.55501,
       "raw": {
         "POLE_ID": 209,
         "P_ALIAS": "T324_1",
@@ -2716,12 +2754,13 @@
         "NAME_POR": "ESTÁDIO DE MACAU",
         "NAME_EN": "ESTÁDIO DE MACAU",
         "ROUTE_NOS": "102X,35,37,MT1,MT3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門運動場",
-      "lat": 22.15610179417993,
-      "lon": 113.55199081144073,
+      "lat": 22.15544,
+      "lon": 113.554955,
       "raw": {
         "POLE_ID": 506,
         "P_ALIAS": "T324_2",
@@ -2734,12 +2773,13 @@
         "NAME_POR": "ESTÁDIO DE MACAU",
         "NAME_EN": "ESTÁDIO DE MACAU",
         "ROUTE_NOS": "11,15,22,25B,26,26A,28A,30,33,34,72"
-      }
+      },
+      "updated": true
     },
     {
       "name": "蘇利安圓形地",
-      "lat": 22.16452763184746,
-      "lon": 113.54682220316556,
+      "lat": 22.163864,
+      "lon": 113.54982,
       "raw": {
         "POLE_ID": 215,
         "P_ALIAS": "T330_1",
@@ -2752,7 +2792,8 @@
         "NAME_POR": "ROTUNDA LEONEL SOUSA",
         "NAME_EN": "ROTUNDA LEONEL SOUSA",
         "ROUTE_NOS": "11,21A,22,25,25B,26A,28A,33,50,50B,H3,MT1,MT5,N2,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "海洋廣場",
@@ -2792,8 +2833,8 @@
     },
     {
       "name": "海洋花園瞭望台",
-      "lat": 22.162079935519785,
-      "lon": 113.53992684226189,
+      "lat": 22.16146,
+      "lon": 113.54291,
       "raw": {
         "POLE_ID": 511,
         "P_ALIAS": "T336_2",
@@ -2806,12 +2847,13 @@
         "NAME_POR": "TERRAÇO PANORÂMICO",
         "NAME_EN": "TERRAÇO PANORÂMICO",
         "ROUTE_NOS": "15,15S"
-      }
+      },
+      "updated": true
     },
     {
       "name": "花城公園",
-      "lat": 22.156766591439357,
-      "lon": 113.55425035025392,
+      "lat": 22.156267,
+      "lon": 113.55744,
       "raw": {
         "POLE_ID": 512,
         "P_ALIAS": "T339_2",
@@ -2824,12 +2866,13 @@
         "NAME_POR": "JARDIM CIDADE DAS FLORES",
         "NAME_EN": "JARDIM CIDADE DAS FLORES",
         "ROUTE_NOS": "11,22,25B,26A,28A,33,MT1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門大學總站",
-      "lat": 22.136252772747728,
-      "lon": 113.54331005309324,
+      "lat": 22.135702,
+      "lon": 113.546295,
       "raw": {
         "POLE_ID": 517,
         "P_ALIAS": "T550_2",
@@ -2842,12 +2885,13 @@
         "NAME_POR": "UNIVERSIDADE DE MACAU/ TERMINAL",
         "NAME_EN": "UNIVERSIDADE DE MACAU/ TERMINAL",
         "ROUTE_NOS": "72"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門大學總站",
-      "lat": 22.136359082785912,
-      "lon": 113.54365115183467,
+      "lat": 22.135807,
+      "lon": 113.54666,
       "raw": {
         "POLE_ID": 518,
         "P_ALIAS": "T550_3",
@@ -2860,12 +2904,13 @@
         "NAME_POR": "UNIVERSIDADE DE MACAU/ TERMINAL",
         "NAME_EN": "UNIVERSIDADE DE MACAU/ TERMINAL",
         "ROUTE_NOS": "701X,701XS"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門大學總站",
-      "lat": 22.13636029206197,
-      "lon": 113.54331262305932,
+      "lat": 22.135807,
+      "lon": 113.546295,
       "raw": {
         "POLE_ID": 519,
         "P_ALIAS": "T550_4",
@@ -2878,12 +2923,13 @@
         "NAME_POR": "UNIVERSIDADE DE MACAU/ TERMINAL",
         "NAME_EN": "UNIVERSIDADE DE MACAU/ TERMINAL",
         "ROUTE_NOS": "73,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "湖畔大廈",
-      "lat": 22.159551632034905,
-      "lon": 113.5580548819881,
+      "lat": 22.15894,
+      "lon": 113.56104,
       "raw": {
         "POLE_ID": 369,
         "P_ALIAS": "T408_1",
@@ -2896,12 +2942,13 @@
         "NAME_POR": "EDIFÍCIO DO LAGO",
         "NAME_EN": "EDIFÍCIO DO LAGO",
         "ROUTE_NOS": "26,36,37,N2,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "湖畔大廈",
-      "lat": 22.15964445392038,
-      "lon": 113.55817194992494,
+      "lat": 22.15903,
+      "lon": 113.56116,
       "raw": {
         "POLE_ID": 525,
         "P_ALIAS": "T408_2",
@@ -2914,12 +2961,13 @@
         "NAME_POR": "EDIFÍCIO DO LAGO",
         "NAME_EN": "EDIFÍCIO DO LAGO",
         "ROUTE_NOS": "35,36,72"
-      }
+      },
+      "updated": true
     },
     {
       "name": "湖畔大廈",
-      "lat": 22.159433965254216,
-      "lon": 113.55815142131064,
+      "lat": 22.15882,
+      "lon": 113.56114,
       "raw": {
         "POLE_ID": 528,
         "P_ALIAS": "T408_5",
@@ -2932,12 +2980,13 @@
         "NAME_POR": "EDIFÍCIO DO LAGO",
         "NAME_EN": "EDIFÍCIO DO LAGO",
         "ROUTE_NOS": "30,34"
-      }
+      },
+      "updated": true
     },
     {
       "name": "湖畔大廈",
-      "lat": 22.15953100956595,
-      "lon": 113.55826952815647,
+      "lat": 22.15891,
+      "lon": 113.56126,
       "raw": {
         "POLE_ID": 529,
         "P_ALIAS": "T408_6",
@@ -2950,12 +2999,13 @@
         "NAME_POR": "EDIFÍCIO DO LAGO",
         "NAME_EN": "EDIFÍCIO DO LAGO",
         "ROUTE_NOS": "30X,56,AP1,MT3,N2,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "湖畔大廈",
-      "lat": 22.15932471573771,
-      "lon": 113.5581391195786,
+      "lat": 22.158691,
+      "lon": 113.56116,
       "raw": {
         "POLE_ID": 531,
         "P_ALIAS": "T408_8",
@@ -2968,12 +3018,13 @@
         "NAME_POR": "EDIFÍCIO DO LAGO",
         "NAME_EN": "EDIFÍCIO DO LAGO",
         "ROUTE_NOS": "MT5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "湖畔大廈",
-      "lat": 22.159311651983167,
-      "lon": 113.5582702621716,
+      "lat": 22.1587,
+      "lon": 113.56126,
       "raw": {
         "POLE_ID": 532,
         "P_ALIAS": "T408_9",
@@ -2986,12 +3037,13 @@
         "NAME_POR": "EDIFÍCIO DO LAGO",
         "NAME_EN": "EDIFÍCIO DO LAGO",
         "ROUTE_NOS": "11"
-      }
+      },
+      "updated": true
     },
     {
       "name": "湖畔大廈",
-      "lat": 22.15940880992399,
-      "lon": 113.55838888864494,
+      "lat": 22.15879,
+      "lon": 113.56138,
       "raw": {
         "POLE_ID": 533,
         "P_ALIAS": "T408_10",
@@ -3004,7 +3056,8 @@
         "NAME_POR": "EDIFÍCIO DO LAGO",
         "NAME_EN": "EDIFÍCIO DO LAGO",
         "ROUTE_NOS": "39"
-      }
+      },
+      "updated": true
     },
     {
       "name": "連勝/鏡湖醫院",
@@ -3134,8 +3187,8 @@
     },
     {
       "name": "永寧廣場總站",
-      "lat": 22.213393992927596,
-      "lon": 113.5505219029634,
+      "lat": 22.21256,
+      "lon": 113.553566,
       "raw": {
         "POLE_ID": 153,
         "P_ALIAS": "M214_2",
@@ -3148,7 +3201,8 @@
         "NAME_POR": "AL. TRANQUILIDADE / TERMINAL",
         "NAME_EN": "AL. TRANQUILIDADE / TERMINAL",
         "ROUTE_NOS": "12,2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "永康街/麗華",
@@ -3386,8 +3440,8 @@
     },
     {
       "name": "回力",
-      "lat": 22.196568782464784,
-      "lon": 113.55220869600082,
+      "lat": 22.196095,
+      "lon": 113.5553,
       "raw": {
         "POLE_ID": 44,
         "P_ALIAS": "M62_1",
@@ -3400,12 +3454,13 @@
         "NAME_POR": "JAI ALAI",
         "NAME_EN": "JAI ALAI",
         "ROUTE_NOS": "10B,29"
-      }
+      },
+      "updated": true
     },
     {
       "name": "回力",
-      "lat": 22.196742710327253,
-      "lon": 113.55234213281624,
+      "lat": 22.196621,
+      "lon": 113.5551,
       "raw": {
         "POLE_ID": 536,
         "P_ALIAS": "M62_2",
@@ -3418,7 +3473,8 @@
         "NAME_POR": "JAI ALAI",
         "NAME_EN": "JAI ALAI",
         "ROUTE_NOS": "8"
-      }
+      },
+      "updated": true
     },
     {
       "name": "黑沙環新街/南華",
@@ -3584,8 +3640,8 @@
     },
     {
       "name": "高士德/培正",
-      "lat": 22.20223616907279,
-      "lon": 113.54539837253293,
+      "lat": 22.201584,
+      "lon": 113.54842,
       "raw": {
         "POLE_ID": 56,
         "P_ALIAS": "M84_1",
@@ -3598,7 +3654,8 @@
         "NAME_POR": "HORTA E COSTA/ ESC. PUI CHING",
         "NAME_EN": "HORTA E COSTA/ ESC. PUI CHING",
         "ROUTE_NOS": "25,25B,28C,5,9,9A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "連勝馬路/高士德",
@@ -3638,8 +3695,8 @@
     },
     {
       "name": "沙梨頭北街/筷子基北灣",
-      "lat": 22.209463049736957,
-      "lon": 113.53875424755493,
+      "lat": 22.20885,
+      "lon": 113.54174,
       "raw": {
         "POLE_ID": 539,
         "P_ALIAS": "M95_2",
@@ -3652,7 +3709,8 @@
         "NAME_POR": "RUA NORTE DO PATANE/BACIA NORTE DO PATANE",
         "NAME_EN": "RUA NORTE DO PATANE/BACIA NORTE DO PATANE",
         "ROUTE_NOS": "5X,8A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "中華廣場",
@@ -3710,8 +3768,8 @@
     },
     {
       "name": "愕斜巷/山頂醫院",
-      "lat": 22.195206081537684,
-      "lon": 113.54291943116105,
+      "lat": 22.194523,
+      "lon": 113.54587,
       "raw": {
         "POLE_ID": 99,
         "P_ALIAS": "M145_1",
@@ -3724,7 +3782,8 @@
         "NAME_POR": "CALÇADA  DA  SURPRESA / HOSPITAL  S.  JANUÁRIO",
         "NAME_EN": "CALÇADA  DA  SURPRESA / HOSPITAL  S.  JANUÁRIO",
         "ROUTE_NOS": "17,6A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "半邊橙/迅發花園",
@@ -3998,8 +4057,8 @@
     },
     {
       "name": "青洲總站",
-      "lat": 22.20997417317635,
-      "lon": 113.53332513312282,
+      "lat": 22.20936,
+      "lon": 113.53631,
       "raw": {
         "POLE_ID": 149,
         "P_ALIAS": "M209_1",
@@ -4012,12 +4071,13 @@
         "NAME_POR": "EST. ILHA VERDE/ TERMINAL",
         "NAME_EN": "EST. ILHA VERDE/ TERMINAL",
         "ROUTE_NOS": "23,28B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "青洲總站",
-      "lat": 22.210641976814085,
-      "lon": 113.5331236893273,
+      "lat": 22.21003,
+      "lon": 113.53611,
       "raw": {
         "POLE_ID": 540,
         "P_ALIAS": "M209_2",
@@ -4030,7 +4090,8 @@
         "NAME_POR": "EST. ILHA VERDE/ TERMINAL",
         "NAME_EN": "EST. ILHA VERDE/ TERMINAL",
         "ROUTE_NOS": "27,8,8A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "青洲/鴨涌河",
@@ -4268,8 +4329,8 @@
     },
     {
       "name": "華寶花園",
-      "lat": 22.156169662805084,
-      "lon": 113.55209135541425,
+      "lat": 22.155533,
+      "lon": 113.55513,
       "raw": {
         "POLE_ID": 210,
         "P_ALIAS": "T325_2",
@@ -4282,7 +4343,8 @@
         "NAME_POR": "EDF. JARDIM DE VA POU",
         "NAME_EN": "EDF. JARDIM DE VA POU",
         "ROUTE_NOS": "102X,15,26,30,30X,34,37,72,MT3,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "聖公會中學",
@@ -4430,8 +4492,8 @@
     },
     {
       "name": "信虹花園",
-      "lat": 22.157022450196546,
-      "lon": 113.5568934331445,
+      "lat": 22.15641,
+      "lon": 113.559875,
       "raw": {
         "POLE_ID": 200,
         "P_ALIAS": "T314_2",
@@ -4444,7 +4506,8 @@
         "NAME_POR": "JARDIM LAMEIRAS",
         "NAME_EN": "JARDIM LAMEIRAS",
         "ROUTE_NOS": "15,21A,25,36,50,50B,56,AP1,AP1X,MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔CEM貨倉",
@@ -4466,8 +4529,8 @@
     },
     {
       "name": "偉龍/科技大學",
-      "lat": 22.152716758564893,
-      "lon": 113.56213717805382,
+      "lat": 22.152071,
+      "lon": 113.56514,
       "raw": {
         "POLE_ID": 298,
         "P_ALIAS": "T373_1",
@@ -4480,7 +4543,8 @@
         "NAME_POR": "WAI LONG/M.U.S.T.",
         "NAME_EN": "WAI LONG/M.U.S.T.",
         "ROUTE_NOS": "36,51X,AP1,AP1X,N2,N5,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "望德聖母灣馬路/連貫公路",
@@ -4790,8 +4854,8 @@
     },
     {
       "name": "澳大/研究生宿舍",
-      "lat": 22.125402609081537,
-      "lon": 113.54330454068777,
+      "lat": 22.12479,
+      "lon": 113.54623,
       "raw": {
         "POLE_ID": 402,
         "P_ALIAS": "T551_1",
@@ -4804,7 +4868,8 @@
         "NAME_POR": "UM / RESIDÊNCIA DE E. DE PÓS-GRADUAÇÃO",
         "NAME_EN": "UM / RESIDÊNCIA DE E. DE PÓS-GRADUAÇÃO",
         "ROUTE_NOS": "71,71S,73"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳大/中央教學樓",
@@ -5042,8 +5107,8 @@
     },
     {
       "name": "澳門機場",
-      "lat": 22.158332951307262,
-      "lon": 113.57082484749542,
+      "lat": 22.15779,
+      "lon": 113.57395,
       "raw": {
         "POLE_ID": 236,
         "P_ALIAS": "T356_1",
@@ -5056,7 +5121,8 @@
         "NAME_POR": "AEROPORTO  DE  MACAU",
         "NAME_EN": "AEROPORTO  DE  MACAU",
         "ROUTE_NOS": "26,51A,51X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "機場倉庫",
@@ -5222,8 +5288,8 @@
     },
     {
       "name": "氹仔電訊",
-      "lat": 22.161249793623742,
-      "lon": 113.553661594435,
+      "lat": 22.16092,
+      "lon": 113.55638,
       "raw": {
         "POLE_ID": 548,
         "P_ALIAS": "T308_1",
@@ -5236,7 +5302,8 @@
         "NAME_POR": "AV. SUN YAT SEN / CTM",
         "NAME_EN": "AV. SUN YAT SEN / CTM",
         "ROUTE_NOS": "22,25,25AX,25B,28A,50,50B,MT1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "筷子基衛生中心",
@@ -5258,8 +5325,8 @@
     },
     {
       "name": "殷皇子馬路",
-      "lat": 22.19211274060685,
-      "lon": 113.53882773653048,
+      "lat": 22.19163,
+      "lon": 113.54168,
       "raw": {
         "POLE_ID": 552,
         "P_ALIAS": "M170_2",
@@ -5272,12 +5339,13 @@
         "NAME_POR": "AV.INFANTE D. HENRIQUE",
         "NAME_EN": "AV.INFANTE D. HENRIQUE",
         "ROUTE_NOS": "10,101X,10B,3,3A,3X,N1B,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "愕斜巷/山頂醫院",
-      "lat": 22.195048067061325,
-      "lon": 113.54279511945488,
+      "lat": 22.1944,
+      "lon": 113.54578,
       "raw": {
         "POLE_ID": 553,
         "P_ALIAS": "M145_2",
@@ -5290,12 +5358,13 @@
         "NAME_POR": "CALÇADA  DA  SURPRESA / HOSPITAL  S.  JANUÁRIO",
         "NAME_EN": "CALÇADA  DA  SURPRESA / HOSPITAL  S.  JANUÁRIO",
         "ROUTE_NOS": "28C"
-      }
+      },
+      "updated": true
     },
     {
       "name": "河邊新街/凱泉灣",
-      "lat": 22.19114206362269,
-      "lon": 113.53041284892153,
+      "lat": 22.190485,
+      "lon": 113.533356,
       "raw": {
         "POLE_ID": 555,
         "P_ALIAS": "M183_2",
@@ -5308,12 +5377,13 @@
         "NAME_POR": "ALM. SÉRGIO / RIVIERA  MACAU",
         "NAME_EN": "ALM. SÉRGIO / RIVIERA  MACAU",
         "ROUTE_NOS": "10,18,18B,2,26,5,60,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "河邊新街/貨倉巷",
-      "lat": 22.190611022792194,
-      "lon": 113.53006467431852,
+      "lat": 22.189997,
+      "lon": 113.53304,
       "raw": {
         "POLE_ID": 557,
         "P_ALIAS": "M186_2",
@@ -5326,7 +5396,8 @@
         "NAME_POR": "ALM. SÉRGIO / TRV. DOS ARMAZÉNS",
         "NAME_EN": "ALM. SÉRGIO / TRV. DOS ARMAZÉNS",
         "ROUTE_NOS": "11,21A,55"
-      }
+      },
+      "updated": true
     },
     {
       "name": "林茂/澳門遊艇會",
@@ -5528,8 +5599,8 @@
     },
     {
       "name": "新馬路/大豐",
-      "lat": 22.19545694839294,
-      "lon": 113.53527788756307,
+      "lat": 22.19484,
+      "lon": 113.53826,
       "raw": {
         "POLE_ID": 579,
         "P_ALIAS": "M135_2",
@@ -5542,7 +5613,8 @@
         "NAME_POR": "ALMEIDA RIBEIRO / TAI FUNG",
         "NAME_EN": "ALMEIDA RIBEIRO / TAI FUNG",
         "ROUTE_NOS": "10,18,2,3,3A,3X,5,6A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "水坑尾/方圓廣場",
@@ -5564,8 +5636,8 @@
     },
     {
       "name": "和諧廣場/業興大廈",
-      "lat": 22.13047510769007,
-      "lon": 113.5600957923956,
+      "lat": 22.12986,
+      "lon": 113.56307,
       "raw": {
         "POLE_ID": 590,
         "P_ALIAS": "C688_1",
@@ -5578,12 +5650,13 @@
         "NAME_POR": "AL. DA HARMONIA / EDF. IP HENG",
         "NAME_EN": "AL. DA HARMONIA / EDF. IP HENG",
         "ROUTE_NOS": "15,21A,25,26,26A,50,52,59,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "和諧廣場/樂群樓",
-      "lat": 22.13026507170329,
-      "lon": 113.55982511559225,
+      "lat": 22.12965,
+      "lon": 113.5628333333,
       "raw": {
         "POLE_ID": 592,
         "P_ALIAS": "C689_1",
@@ -5596,7 +5669,8 @@
         "NAME_POR": "AL. DA HARMONIA / EDF. LOK KUAN",
         "NAME_EN": "AL. DA HARMONIA / EDF. LOK KUAN",
         "ROUTE_NOS": "15,15S,21A,25,26,26A,50,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "海擎天總站",
@@ -5672,8 +5746,8 @@
     },
     {
       "name": "泉裕豪庭",
-      "lat": 22.159403729236686,
-      "lon": 113.55554520264027,
+      "lat": 22.158785,
+      "lon": 113.55856,
       "raw": {
         "POLE_ID": 599,
         "P_ALIAS": "T310_1",
@@ -5686,12 +5760,13 @@
         "NAME_POR": "CHUN U VILLA",
         "NAME_EN": "CHUN U VILLA",
         "ROUTE_NOS": "11,22,25B,28A,33,MT1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "百利寶花園",
-      "lat": 22.158507939076568,
-      "lon": 113.5562606697537,
+      "lat": 22.1578866667,
+      "lon": 113.559235,
       "raw": {
         "POLE_ID": 601,
         "P_ALIAS": "T311_1",
@@ -5704,7 +5779,8 @@
         "NAME_POR": "TREASURE GARDEN",
         "NAME_EN": "TREASURE GARDEN",
         "ROUTE_NOS": "22,25,25AX,25B,28A,50,50B,MT1,MT4,MT5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "霍英東馬路/永利皇宮",
@@ -5960,8 +6036,8 @@
     },
     {
       "name": "氹仔客運碼頭",
-      "lat": 22.164030401785524,
-      "lon": 113.57290365973321,
+      "lat": 22.163336,
+      "lon": 113.576,
       "raw": {
         "POLE_ID": 633,
         "P_ALIAS": "T345_1",
@@ -5974,12 +6050,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DA TAIPA",
         "NAME_EN": "TAIPA FERRY TERMINAL",
         "ROUTE_NOS": "26,51A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔客運碼頭",
-      "lat": 22.163829196792623,
-      "lon": 113.57287411989492,
+      "lat": 22.16315,
+      "lon": 113.57595,
       "raw": {
         "POLE_ID": 634,
         "P_ALIAS": "T345_2",
@@ -5992,12 +6069,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DA TAIPA",
         "NAME_EN": "TAIPA FERRY TERMINAL",
         "ROUTE_NOS": "103,AP1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔客運碼頭",
-      "lat": 22.163704158092507,
-      "lon": 113.57334301133668,
+      "lat": 22.163055,
+      "lon": 113.5764,
       "raw": {
         "POLE_ID": 637,
         "P_ALIAS": "T345_5",
@@ -6010,12 +6088,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DA TAIPA",
         "NAME_EN": "TAIPA FERRY TERMINAL",
         "ROUTE_NOS": "26,51A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔客運碼頭",
-      "lat": 22.163416290195926,
-      "lon": 113.57327221316116,
+      "lat": 22.162788,
+      "lon": 113.57633,
       "raw": {
         "POLE_ID": 638,
         "P_ALIAS": "T345_6",
@@ -6028,7 +6107,8 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DA TAIPA",
         "NAME_EN": "TAIPA FERRY TERMINAL",
         "ROUTE_NOS": "MT1,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "海蘭花園/黑沙",
@@ -6086,8 +6166,8 @@
     },
     {
       "name": "永寧廣場總站",
-      "lat": 22.213863876960854,
-      "lon": 113.54941121267024,
+      "lat": 22.212328,
+      "lon": 113.55408,
       "raw": {
         "POLE_ID": 647,
         "P_ALIAS": "M214_1",
@@ -6100,7 +6180,8 @@
         "NAME_POR": "AL. TRANQUILIDADE / TERMINAL",
         "NAME_EN": "AL. TRANQUILIDADE / TERMINAL",
         "ROUTE_NOS": "12,19,2,6A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "高勵雅馬路",
@@ -6266,8 +6347,8 @@
     },
     {
       "name": "澳門機場",
-      "lat": 22.158307743945066,
-      "lon": 113.57077668382351,
+      "lat": 22.157695,
+      "lon": 113.573802,
       "raw": {
         "POLE_ID": 669,
         "P_ALIAS": "T356_2",
@@ -6280,12 +6361,13 @@
         "NAME_POR": "AEROPORTO  DE  MACAU",
         "NAME_EN": "AEROPORTO  DE  MACAU",
         "ROUTE_NOS": "AP1,AP1X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門機場",
-      "lat": 22.158189758856967,
-      "lon": 113.57055124897992,
+      "lat": 22.157566,
+      "lon": 113.5736,
       "raw": {
         "POLE_ID": 672,
         "P_ALIAS": "T356_3",
@@ -6298,7 +6380,8 @@
         "NAME_POR": "AEROPORTO  DE  MACAU",
         "NAME_EN": "AEROPORTO  DE  MACAU",
         "ROUTE_NOS": "36,MT1,MT4,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "馬場海邊馬路",
@@ -6320,8 +6403,8 @@
     },
     {
       "name": "牧場街總站",
-      "lat": 22.216041324409094,
-      "lon": 113.54373192261424,
+      "lat": 22.215399,
+      "lon": 113.546745,
       "raw": {
         "POLE_ID": 681,
         "P_ALIAS": "M18_7",
@@ -6334,12 +6417,13 @@
         "NAME_POR": "Rua dos Currais / TERMINAL",
         "NAME_EN": "Rua dos Currais / TERMINAL",
         "ROUTE_NOS": "18"
-      }
+      },
+      "updated": true
     },
     {
       "name": "牧場街總站",
-      "lat": 22.21616079175304,
-      "lon": 113.54379285665597,
+      "lat": 22.215506,
+      "lon": 113.54676,
       "raw": {
         "POLE_ID": 684,
         "P_ALIAS": "M18_10",
@@ -6352,12 +6436,13 @@
         "NAME_POR": "Rua dos Currais / TERMINAL",
         "NAME_EN": "Rua dos Currais / TERMINAL",
         "ROUTE_NOS": "29,34,9A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "外港碼頭",
-      "lat": 22.19819781121123,
-      "lon": 113.5545949906327,
+      "lat": 22.197496,
+      "lon": 113.55762,
       "raw": {
         "POLE_ID": 686,
         "P_ALIAS": "M239_1",
@@ -6370,12 +6455,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DO PORTO EXTERIOR",
         "NAME_EN": "OUTER HARBOUR FERRY TERMINAL",
         "ROUTE_NOS": "12T,17S,1A,3A,56,AP1,N1A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "外港碼頭",
-      "lat": 22.198176520790597,
-      "lon": 113.5543532061099,
+      "lat": 22.19749,
+      "lon": 113.55742,
       "raw": {
         "POLE_ID": 687,
         "P_ALIAS": "M239_2",
@@ -6388,12 +6474,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DO PORTO EXTERIOR",
         "NAME_EN": "OUTER HARBOUR FERRY TERMINAL",
         "ROUTE_NOS": "10,102X,10B,28B,29,31T,32,3A,AP1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "外港碼頭",
-      "lat": 22.198105133314154,
-      "lon": 113.55462602740965,
+      "lat": 22.1974,
+      "lon": 113.5576,
       "raw": {
         "POLE_ID": 688,
         "P_ALIAS": "M239_3",
@@ -6406,12 +6493,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DO PORTO EXTERIOR",
         "NAME_EN": "OUTER HARBOUR FERRY TERMINAL",
         "ROUTE_NOS": "3,60"
-      }
+      },
+      "updated": true
     },
     {
       "name": "外港碼頭",
-      "lat": 22.198096589748413,
-      "lon": 113.55431475703938,
+      "lat": 22.197393,
+      "lon": 113.55743,
       "raw": {
         "POLE_ID": 689,
         "P_ALIAS": "M239_4",
@@ -6424,7 +6512,8 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DO PORTO EXTERIOR",
         "NAME_EN": "OUTER HARBOUR FERRY TERMINAL",
         "ROUTE_NOS": "12,28A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "初級法院刑事大樓",
@@ -6500,8 +6589,8 @@
     },
     {
       "name": "排角/銀河",
-      "lat": 22.15136281340586,
-      "lon": 113.55167398070891,
+      "lat": 22.15065,
+      "lon": 113.55465,
       "raw": {
         "POLE_ID": 708,
         "P_ALIAS": "T365_2",
@@ -6514,7 +6603,8 @@
         "NAME_POR": "PAI KOK / GALAXY",
         "NAME_EN": "PAI KOK / GALAXY",
         "ROUTE_NOS": "26A,35"
-      }
+      },
+      "updated": true
     },
     {
       "name": "海上居",
@@ -6536,8 +6626,8 @@
     },
     {
       "name": "鮑思高球場",
-      "lat": 22.203037345077604,
-      "lon": 113.54895906078198,
+      "lat": 22.202496,
+      "lon": 113.55185,
       "raw": {
         "POLE_ID": 712,
         "P_ALIAS": "M46_2",
@@ -6550,12 +6640,13 @@
         "NAME_POR": "COR. MESQUITA/ D. BOSCO",
         "NAME_EN": "D. BOSCO COLLEGE SPORTS CENTRE",
         "ROUTE_NOS": "18,18B,2,2A,5X,6A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "港珠澳大橋邊檢大樓",
-      "lat": 22.20211207200019,
-      "lon": 113.57124205121079,
+      "lat": 22.201475,
+      "lon": 113.57426,
       "raw": {
         "POLE_ID": 713,
         "P_ALIAS": "M800_8",
@@ -6568,7 +6659,8 @@
         "NAME_POR": "POSTO FRONTEIRIÇO DA PONTE HONG KONG-ZHUHAI-MACAU",
         "NAME_EN": "POSTO FRONTEIRIÇO DA PONTE HONG KONG-ZHUHAI-MACAU",
         "ROUTE_NOS": "101X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "北安大馬路/新城區",
@@ -6662,8 +6754,8 @@
     },
     {
       "name": "關閘總站",
-      "lat": 22.21562727070712,
-      "lon": 113.54632624889881,
+      "lat": 22.215206,
+      "lon": 113.54941,
       "raw": {
         "POLE_ID": 732,
         "P_ALIAS": "M1_2",
@@ -6676,12 +6768,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "10"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.21564153107426,
-      "lon": 113.54624311081318,
+      "lat": 22.215143,
+      "lon": 113.54932,
       "raw": {
         "POLE_ID": 734,
         "P_ALIAS": "M1_4",
@@ -6694,12 +6787,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "27"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.215784537177832,
-      "lon": 113.54622551605608,
+      "lat": 22.215303,
+      "lon": 113.54932,
       "raw": {
         "POLE_ID": 735,
         "P_ALIAS": "M1_5",
@@ -6712,12 +6806,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.21548541848531,
-      "lon": 113.54602936168631,
+      "lat": 22.214945,
+      "lon": 113.54911,
       "raw": {
         "POLE_ID": 736,
         "P_ALIAS": "M1_6",
@@ -6730,12 +6825,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "17,61"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.216046564550926,
-      "lon": 113.54613203783812,
+      "lat": 22.215502,
+      "lon": 113.54918,
       "raw": {
         "POLE_ID": 739,
         "P_ALIAS": "M1_9",
@@ -6748,12 +6844,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "3,3X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.21584181782512,
-      "lon": 113.54590275964593,
+      "lat": 22.215282,
+      "lon": 113.54882,
       "raw": {
         "POLE_ID": 741,
         "P_ALIAS": "M1_11",
@@ -6766,12 +6863,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.215655106770694,
-      "lon": 113.54586958133461,
+      "lat": 22.215034,
+      "lon": 113.54878,
       "raw": {
         "POLE_ID": 742,
         "P_ALIAS": "M1_12",
@@ -6784,12 +6882,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "25"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.215504330862217,
-      "lon": 113.54584205969371,
+      "lat": 22.214924,
+      "lon": 113.54877,
       "raw": {
         "POLE_ID": 743,
         "P_ALIAS": "M1_13",
@@ -6802,12 +6901,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "51A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.215821226562213,
-      "lon": 113.54581226375969,
+      "lat": 22.215244,
+      "lon": 113.54874,
       "raw": {
         "POLE_ID": 745,
         "P_ALIAS": "M1_14",
@@ -6820,12 +6920,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "30,34"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.215520913165534,
-      "lon": 113.5457506247586,
+      "lat": 22.214937,
+      "lon": 113.548676,
       "raw": {
         "POLE_ID": 747,
         "P_ALIAS": "M1_16",
@@ -6838,12 +6939,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "25B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘總站",
-      "lat": 22.21558015609348,
-      "lon": 113.54567036035277,
+      "lat": 22.215012,
+      "lon": 113.54855,
       "raw": {
         "POLE_ID": 749,
         "P_ALIAS": "M1_18",
@@ -6856,12 +6958,13 @@
         "NAME_POR": "PORTAS DO CERCO/ TERMINAL",
         "NAME_EN": "PORTAS DO CERCO/ TERMINAL",
         "ROUTE_NOS": "AP1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "筷子基總站",
-      "lat": 22.209088882726764,
-      "lon": 113.54049265830899,
+      "lat": 22.208492,
+      "lon": 113.54346,
       "raw": {
         "POLE_ID": 492,
         "P_ALIAS": "M26_2",
@@ -6874,12 +6977,13 @@
         "NAME_POR": "FAI CHI KEI/TERMINAL",
         "NAME_EN": "FAI CHI KEI/TERMINAL",
         "ROUTE_NOS": "4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "筷子基總站",
-      "lat": 22.209359312422126,
-      "lon": 113.54040261982084,
+      "lat": 22.208755,
+      "lon": 113.54337,
       "raw": {
         "POLE_ID": 493,
         "P_ALIAS": "M26_3",
@@ -6892,7 +6996,8 @@
         "NAME_POR": "FAI CHI KEI/TERMINAL",
         "NAME_EN": "FAI CHI KEI/TERMINAL",
         "ROUTE_NOS": "32"
-      }
+      },
+      "updated": true
     },
     {
       "name": "新雅馬路/母親會",
@@ -6914,8 +7019,8 @@
     },
     {
       "name": "回力",
-      "lat": 22.19718914493267,
-      "lon": 113.55219578544536,
+      "lat": 22.19656,
+      "lon": 113.5552,
       "raw": {
         "POLE_ID": 761,
         "P_ALIAS": "M62_3",
@@ -6928,7 +7033,8 @@
         "NAME_POR": "JAI ALAI",
         "NAME_EN": "JAI ALAI",
         "ROUTE_NOS": "28C"
-      }
+      },
+      "updated": true
     },
     {
       "name": "慕拉士巷",
@@ -6986,8 +7092,8 @@
     },
     {
       "name": "得勝花園",
-      "lat": 22.200067242838887,
-      "lon": 113.5459594136601,
+      "lat": 22.199429,
+      "lon": 113.548935,
       "raw": {
         "POLE_ID": 762,
         "P_ALIAS": "M73_1",
@@ -7000,12 +7106,13 @@
         "NAME_POR": "JARDIM DA VITÓRIA",
         "NAME_EN": "JARDIM DA VITÓRIA",
         "ROUTE_NOS": "12,22,25,25B,2A,9A,H2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "高士德/培正",
-      "lat": 22.202251773641773,
-      "lon": 113.54538094025142,
+      "lat": 22.20162,
+      "lon": 113.54838,
       "raw": {
         "POLE_ID": 763,
         "P_ALIAS": "M84_2",
@@ -7018,12 +7125,13 @@
         "NAME_POR": "HORTA E COSTA/ ESC. PUI CHING",
         "NAME_EN": "HORTA E COSTA/ ESC. PUI CHING",
         "ROUTE_NOS": "12,22,23,32,6A,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "沙梨頭北街/筷子基北灣",
-      "lat": 22.2095144969661,
-      "lon": 113.53873784609372,
+      "lat": 22.208841,
+      "lon": 113.541755,
       "raw": {
         "POLE_ID": 764,
         "P_ALIAS": "M95_3",
@@ -7036,7 +7144,8 @@
         "NAME_POR": "RUA NORTE DO PATANE/BACIA NORTE DO PATANE",
         "NAME_EN": "RUA NORTE DO PATANE/BACIA NORTE DO PATANE",
         "ROUTE_NOS": "26,26A,N1A,N1B,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "聖方濟各老人院",
@@ -7076,8 +7185,8 @@
     },
     {
       "name": "十六浦",
-      "lat": 22.198052356056877,
-      "lon": 113.53360616219902,
+      "lat": 22.19741,
+      "lon": 113.53657,
       "raw": {
         "POLE_ID": 770,
         "P_ALIAS": "M132_2",
@@ -7090,12 +7199,13 @@
         "NAME_POR": "PONTE 16",
         "NAME_EN": "PONTE 16",
         "ROUTE_NOS": "1,18A,19,3,3X,61,6A,MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "新馬路/大豐",
-      "lat": 22.195467418158238,
-      "lon": 113.5352670403271,
+      "lat": 22.194878,
+      "lon": 113.538216,
       "raw": {
         "POLE_ID": 773,
         "P_ALIAS": "M135_1",
@@ -7108,12 +7218,13 @@
         "NAME_POR": "ALMEIDA RIBEIRO / TAI FUNG",
         "NAME_EN": "ALMEIDA RIBEIRO / TAI FUNG",
         "ROUTE_NOS": "101X,N1B,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "河邊新街/李道巷",
-      "lat": 22.192926743777647,
-      "lon": 113.53155979544881,
+      "lat": 22.192314,
+      "lon": 113.53455,
       "raw": {
         "POLE_ID": 775,
         "P_ALIAS": "M140_2",
@@ -7126,12 +7237,13 @@
         "NAME_POR": "ALM. SERGIO / TRAV. LIDO",
         "NAME_EN": "ALM. SERGIO / TRAV. LIDO",
         "ROUTE_NOS": "10,11,18,2,21A,5,60,61,65,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "北京街/假日酒店",
-      "lat": 22.192358328048183,
-      "lon": 113.54472475678098,
+      "lat": 22.191736,
+      "lon": 113.54772,
       "raw": {
         "POLE_ID": 776,
         "P_ALIAS": "M158_2",
@@ -7144,7 +7256,8 @@
         "NAME_POR": "RUA DE PEQUIM/ HOLIDAY INN",
         "NAME_EN": "RUA DE PEQUIM/ HOLIDAY INN",
         "ROUTE_NOS": "28A,28B,29,3,32,5X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "加思欄馬路",
@@ -7184,8 +7297,8 @@
     },
     {
       "name": "河邊新街/凱泉灣",
-      "lat": 22.190853178380646,
-      "lon": 113.53022417112707,
+      "lat": 22.190235,
+      "lon": 113.53318,
       "raw": {
         "POLE_ID": 779,
         "P_ALIAS": "M183_1",
@@ -7198,7 +7311,8 @@
         "NAME_POR": "ALM. SÉRGIO / RIVIERA  MACAU",
         "NAME_EN": "ALM. SÉRGIO / RIVIERA  MACAU",
         "ROUTE_NOS": "1,61,65,71S,MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "馬場東大馬路/黑沙環衛生中心",
@@ -7220,8 +7334,8 @@
     },
     {
       "name": "港珠澳大橋邊檢大樓",
-      "lat": 22.202508930296,
-      "lon": 113.57181788902038,
+      "lat": 22.20189,
+      "lon": 113.57484,
       "raw": {
         "POLE_ID": 783,
         "P_ALIAS": "M800_4",
@@ -7234,12 +7348,13 @@
         "NAME_POR": "POSTO FRONTEIRIÇO DA PONTE HONG KONG-ZHUHAI-MACAU",
         "NAME_EN": "POSTO FRONTEIRIÇO DA PONTE HONG KONG-ZHUHAI-MACAU",
         "ROUTE_NOS": "103"
-      }
+      },
+      "updated": true
     },
     {
       "name": "港珠澳大橋邊檢大樓",
-      "lat": 22.20210579476266,
-      "lon": 113.57157131278154,
+      "lat": 22.201468,
+      "lon": 113.574646,
       "raw": {
         "POLE_ID": 785,
         "P_ALIAS": "M800_6",
@@ -7252,12 +7367,13 @@
         "NAME_POR": "POSTO FRONTEIRIÇO DA PONTE HONG KONG-ZHUHAI-MACAU",
         "NAME_EN": "POSTO FRONTEIRIÇO DA PONTE HONG KONG-ZHUHAI-MACAU",
         "ROUTE_NOS": "103"
-      }
+      },
+      "updated": true
     },
     {
       "name": "港珠澳大橋邊檢大樓",
-      "lat": 22.202109269111876,
-      "lon": 113.57138905924774,
+      "lat": 22.20147,
+      "lon": 113.5744,
       "raw": {
         "POLE_ID": 786,
         "P_ALIAS": "M800_7",
@@ -7270,12 +7386,13 @@
         "NAME_POR": "POSTO FRONTEIRIÇO DA PONTE HONG KONG-ZHUHAI-MACAU",
         "NAME_EN": "POSTO FRONTEIRIÇO DA PONTE HONG KONG-ZHUHAI-MACAU",
         "ROUTE_NOS": "102X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔電訊",
-      "lat": 22.16151360821364,
-      "lon": 113.55340837453785,
+      "lat": 22.1608,
+      "lon": 113.55649,
       "raw": {
         "POLE_ID": 790,
         "P_ALIAS": "T308_3",
@@ -7288,7 +7405,8 @@
         "NAME_POR": "AV. SUN YAT SEN / CTM",
         "NAME_EN": "AV. SUN YAT SEN / CTM",
         "ROUTE_NOS": "102X,15S,21A,26A,30,33,H3,N2,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔嘉樂庇馬路",
@@ -7310,8 +7428,8 @@
     },
     {
       "name": "泉裕豪庭",
-      "lat": 22.159383871831523,
-      "lon": 113.55556382231906,
+      "lat": 22.158743,
+      "lon": 113.5586,
       "raw": {
         "POLE_ID": 792,
         "P_ALIAS": "T310_2",
@@ -7324,12 +7442,13 @@
         "NAME_POR": "CHUN U VILLA",
         "NAME_EN": "CHUN U VILLA",
         "ROUTE_NOS": "102X,35,36,37,39,50B,MT5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "百利寶花園",
-      "lat": 22.158688210920822,
-      "lon": 113.55608974027454,
+      "lat": 22.158115,
+      "lon": 113.55902,
       "raw": {
         "POLE_ID": 793,
         "P_ALIAS": "T311_2",
@@ -7342,7 +7461,8 @@
         "NAME_POR": "TREASURE GARDEN",
         "NAME_EN": "TREASURE GARDEN",
         "ROUTE_NOS": "102X,21A,26A,33,36,N2,N3,N5,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "花城公園",
@@ -7364,8 +7484,8 @@
     },
     {
       "name": "信虹花園",
-      "lat": 22.15696467652088,
-      "lon": 113.55688318651484,
+      "lat": 22.156345,
+      "lon": 113.55986,
       "raw": {
         "POLE_ID": 797,
         "P_ALIAS": "T314_1",
@@ -7378,7 +7498,8 @@
         "NAME_POR": "JARDIM LAMEIRAS",
         "NAME_EN": "JARDIM LAMEIRAS",
         "ROUTE_NOS": "N2,N3,N5,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "連貫公路/新濠影匯",
@@ -7400,8 +7521,8 @@
     },
     {
       "name": "華寶花園",
-      "lat": 22.15629562841428,
-      "lon": 113.5518062738516,
+      "lat": 22.155678,
+      "lon": 113.55477,
       "raw": {
         "POLE_ID": 800,
         "P_ALIAS": "T325_1",
@@ -7414,12 +7535,13 @@
         "NAME_POR": "EDF. JARDIM DE VA POU",
         "NAME_EN": "EDF. JARDIM DE VA POU",
         "ROUTE_NOS": "11,22,25B,26A,28A,33,MT1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "連貫公路/巴黎人",
-      "lat": 22.145068827791423,
-      "lon": 113.56051948909578,
+      "lat": 22.144028,
+      "lon": 113.56341,
       "raw": {
         "POLE_ID": 705,
         "P_ALIAS": "T376_1",
@@ -7432,12 +7554,13 @@
         "NAME_POR": "EST. DO ISTMO / PARISIAN",
         "NAME_EN": "EST. DO ISTMO / PARISIAN",
         "ROUTE_NOS": "15,21A,26,26A,701X,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "連貫公路/巴黎人",
-      "lat": 22.1454212756918,
-      "lon": 113.56053714776863,
+      "lat": 22.144346,
+      "lon": 113.56342,
       "raw": {
         "POLE_ID": 707,
         "P_ALIAS": "T376_2",
@@ -7450,7 +7573,8 @@
         "NAME_POR": "EST. DO ISTMO / PARISIAN",
         "NAME_EN": "EST. DO ISTMO / PARISIAN",
         "ROUTE_NOS": "25,25AX,25B,25BS,51X,56,MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門土木工程實驗室",
@@ -7526,8 +7650,8 @@
     },
     {
       "name": "澳大/研究生宿舍",
-      "lat": 22.1254606306649,
-      "lon": 113.54330770704529,
+      "lat": 22.125078,
+      "lon": 113.546265,
       "raw": {
         "POLE_ID": 801,
         "P_ALIAS": "T551_2",
@@ -7540,7 +7664,8 @@
         "NAME_POR": "UM / RESIDÊNCIA DE E. DE PÓS-GRADUAÇÃO",
         "NAME_EN": "UM / RESIDÊNCIA DE E. DE PÓS-GRADUAÇÃO",
         "ROUTE_NOS": "72,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "金峰南岸/金譽峰",
@@ -7598,8 +7723,8 @@
     },
     {
       "name": "牧場街總站",
-      "lat": 22.21580069739373,
-      "lon": 113.54367065565312,
+      "lat": 22.215221,
+      "lon": 113.54661,
       "raw": {
         "POLE_ID": 675,
         "P_ALIAS": "M18_1",
@@ -7612,12 +7737,13 @@
         "NAME_POR": "Rua dos Currais / TERMINAL",
         "NAME_EN": "Rua dos Currais / TERMINAL",
         "ROUTE_NOS": "16,16S"
-      }
+      },
+      "updated": true
     },
     {
       "name": "牧場街總站",
-      "lat": 22.215967359894183,
-      "lon": 113.54357535134943,
+      "lat": 22.215443,
+      "lon": 113.5466,
       "raw": {
         "POLE_ID": 677,
         "P_ALIAS": "M18_3",
@@ -7630,12 +7756,13 @@
         "NAME_POR": "Rua dos Currais / TERMINAL",
         "NAME_EN": "Rua dos Currais / TERMINAL",
         "ROUTE_NOS": "65"
-      }
+      },
+      "updated": true
     },
     {
       "name": "牧場街總站",
-      "lat": 22.215933756039615,
-      "lon": 113.543698760882,
+      "lat": 22.215307,
+      "lon": 113.54674,
       "raw": {
         "POLE_ID": 679,
         "P_ALIAS": "M18_5",
@@ -7648,7 +7775,8 @@
         "NAME_POR": "Rua dos Currais / TERMINAL",
         "NAME_EN": "Rua dos Currais / TERMINAL",
         "ROUTE_NOS": "9"
-      }
+      },
+      "updated": true
     },
     {
       "name": "聖路濟亞中心",
@@ -7670,8 +7798,8 @@
     },
     {
       "name": "蝴蝶谷大馬路總站",
-      "lat": 22.12940001817825,
-      "lon": 113.55940038810394,
+      "lat": 22.128775,
+      "lon": 113.562355,
       "raw": {
         "POLE_ID": 807,
         "P_ALIAS": "C690_2",
@@ -7684,12 +7812,13 @@
         "NAME_POR": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "NAME_EN": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "ROUTE_NOS": "25AX,51X,H3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "蝴蝶谷大馬路總站",
-      "lat": 22.12939999933741,
-      "lon": 113.55953412682756,
+      "lat": 22.128775,
+      "lon": 113.56251,
       "raw": {
         "POLE_ID": 808,
         "P_ALIAS": "C690_3",
@@ -7702,12 +7831,13 @@
         "NAME_POR": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "NAME_EN": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "ROUTE_NOS": "51"
-      }
+      },
+      "updated": true
     },
     {
       "name": "蝴蝶谷大馬路總站",
-      "lat": 22.129318776862355,
-      "lon": 113.55926843039671,
+      "lat": 22.128662,
+      "lon": 113.56215,
       "raw": {
         "POLE_ID": 809,
         "P_ALIAS": "C690_4",
@@ -7720,12 +7850,13 @@
         "NAME_POR": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "NAME_EN": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "ROUTE_NOS": "55"
-      }
+      },
+      "updated": true
     },
     {
       "name": "蝴蝶谷大馬路總站",
-      "lat": 22.12931912953326,
-      "lon": 113.55940038083007,
+      "lat": 22.128664,
+      "lon": 113.562355,
       "raw": {
         "POLE_ID": 810,
         "P_ALIAS": "C690_5",
@@ -7738,12 +7869,13 @@
         "NAME_POR": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "NAME_EN": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "ROUTE_NOS": "52"
-      }
+      },
+      "updated": true
     },
     {
       "name": "蝴蝶谷大馬路總站",
-      "lat": 22.129319489845372,
-      "lon": 113.5595350180376,
+      "lat": 22.128666,
+      "lon": 113.562515,
       "raw": {
         "POLE_ID": 811,
         "P_ALIAS": "C690_6",
@@ -7756,12 +7888,13 @@
         "NAME_POR": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "NAME_EN": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "ROUTE_NOS": "56,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "蝴蝶谷大馬路總站",
-      "lat": 22.12940003678406,
-      "lon": 113.55926754787922,
+      "lat": 22.12877,
+      "lon": 113.56215,
       "raw": {
         "POLE_ID": 812,
         "P_ALIAS": "C690_1",
@@ -7774,7 +7907,8 @@
         "NAME_POR": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "NAME_EN": "AV. VALE DAS BORBOLETAS / TERMINAL",
         "ROUTE_NOS": "15S1,51A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "賽馬會",
@@ -7814,8 +7948,8 @@
     },
     {
       "name": "南新花園",
-      "lat": 22.158042546087938,
-      "lon": 113.54641924563133,
+      "lat": 22.157454,
+      "lon": 113.54956,
       "raw": {
         "POLE_ID": 217,
         "P_ALIAS": "T332_1",
@@ -7828,12 +7962,13 @@
         "NAME_POR": "EDF. NAM SUN",
         "NAME_EN": "EDF. NAM SUN",
         "ROUTE_NOS": "11,22,28A,33,35,36,MT2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "南新花園",
-      "lat": 22.15804593175156,
-      "lon": 113.54697829906006,
+      "lat": 22.157455,
+      "lon": 113.550064,
       "raw": {
         "POLE_ID": 692,
         "P_ALIAS": "T332_2",
@@ -7846,12 +7981,13 @@
         "NAME_POR": "EDF. NAM SUN",
         "NAME_EN": "EDF. NAM SUN",
         "ROUTE_NOS": "15,26,30,30X,34,37,MT4,MT5,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔客運碼頭",
-      "lat": 22.163422092147133,
-      "lon": 113.57275696017759,
+      "lat": 22.162756,
+      "lon": 113.575836,
       "raw": {
         "POLE_ID": 635,
         "P_ALIAS": "T345_3",
@@ -7864,12 +8000,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DA TAIPA",
         "NAME_EN": "TAIPA FERRY TERMINAL",
         "ROUTE_NOS": "MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "氹仔客運碼頭",
-      "lat": 22.1638983477578,
-      "lon": 113.57335438560634,
+      "lat": 22.163166,
+      "lon": 113.57642,
       "raw": {
         "POLE_ID": 636,
         "P_ALIAS": "T345_4",
@@ -7882,7 +8019,8 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DA TAIPA",
         "NAME_EN": "TAIPA FERRY TERMINAL",
         "ROUTE_NOS": "36"
-      }
+      },
+      "updated": true
     },
     {
       "name": "永寧廣場總站",
@@ -7940,8 +8078,8 @@
     },
     {
       "name": "和諧廣場/樂群樓",
-      "lat": 22.130474264757954,
-      "lon": 113.55982236732147,
+      "lat": 22.12986,
+      "lon": 113.56283,
       "raw": {
         "POLE_ID": 823,
         "P_ALIAS": "C689_2",
@@ -7954,12 +8092,13 @@
         "NAME_POR": "AL. DA HARMONIA / EDF. LOK KUAN",
         "NAME_EN": "AL. DA HARMONIA / EDF. LOK KUAN",
         "ROUTE_NOS": "25AX,51,51A,51X,52,55,56,59,H3,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "和諧廣場/業興大廈",
-      "lat": 22.130260568693426,
-      "lon": 113.56009784247291,
+      "lat": 22.129838,
+      "lon": 113.56317,
       "raw": {
         "POLE_ID": 825,
         "P_ALIAS": "C688_2",
@@ -7972,7 +8111,8 @@
         "NAME_POR": "AL. DA HARMONIA / EDF. IP HENG",
         "NAME_EN": "AL. DA HARMONIA / EDF. IP HENG",
         "ROUTE_NOS": "51,51A,51X,55,56,H3,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "機場大馬路/科大醫院",
@@ -8066,8 +8206,8 @@
     },
     {
       "name": "十月一號前地",
-      "lat": 22.191487055955907,
-      "lon": 113.54325397843847,
+      "lat": 22.19089,
+      "lon": 113.54623,
       "raw": {
         "POLE_ID": 839,
         "P_ALIAS": "M160_1",
@@ -8080,12 +8220,13 @@
         "NAME_POR": "PRACETA DE 1 DE OUTUBRO",
         "NAME_EN": "PRACETA DE 1 DE OUTUBRO",
         "ROUTE_NOS": "10,10B,22,25,25B,3,5X,8"
-      }
+      },
+      "updated": true
     },
     {
       "name": "十月一號前地",
-      "lat": 22.191544545345756,
-      "lon": 113.54323144679381,
+      "lat": 22.1909666667,
+      "lon": 113.5462,
       "raw": {
         "POLE_ID": 840,
         "P_ALIAS": "M160_2",
@@ -8098,7 +8239,8 @@
         "NAME_POR": "PRACETA DE 1 DE OUTUBRO",
         "NAME_EN": "PRACETA DE 1 DE OUTUBRO",
         "ROUTE_NOS": "28A,28B,28C,29,32,3AX,50,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "得勝斜路",
@@ -8192,8 +8334,8 @@
     },
     {
       "name": "青洲坊總站",
-      "lat": 22.21257538509881,
-      "lon": 113.540706826198,
+      "lat": 22.211987,
+      "lon": 113.54362,
       "raw": {
         "POLE_ID": 854,
         "P_ALIAS": "M20_2",
@@ -8206,12 +8348,13 @@
         "NAME_POR": "BAIRRO DA ILHA VERDE / TERMINAL",
         "NAME_EN": "BAIRRO DA ILHA VERDE / TERMINAL",
         "ROUTE_NOS": "34"
-      }
+      },
+      "updated": true
     },
     {
       "name": "青洲坊總站",
-      "lat": 22.21250973605388,
-      "lon": 113.54052909806404,
+      "lat": 22.211853,
+      "lon": 113.543434,
       "raw": {
         "POLE_ID": 855,
         "P_ALIAS": "M20_3",
@@ -8224,12 +8367,13 @@
         "NAME_POR": "BAIRRO DA ILHA VERDE / TERMINAL",
         "NAME_EN": "BAIRRO DA ILHA VERDE / TERMINAL",
         "ROUTE_NOS": "16,16S,5X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "青洲坊總站",
-      "lat": 22.21237332734825,
-      "lon": 113.54075192856533,
+      "lat": 22.211695,
+      "lon": 113.54374,
       "raw": {
         "POLE_ID": 858,
         "P_ALIAS": "M20_6",
@@ -8242,7 +8386,8 @@
         "NAME_POR": "BAIRRO DA ILHA VERDE / TERMINAL",
         "NAME_EN": "BAIRRO DA ILHA VERDE / TERMINAL",
         "ROUTE_NOS": "30"
-      }
+      },
+      "updated": true
     },
     {
       "name": "台山平民大廈",
@@ -8264,8 +8409,8 @@
     },
     {
       "name": "鄭觀應公立學校",
-      "lat": 22.214278525987627,
-      "lon": 113.54190589030634,
+      "lat": 22.21366,
+      "lon": 113.54491,
       "raw": {
         "POLE_ID": 861,
         "P_ALIAS": "M4_1",
@@ -8278,12 +8423,13 @@
         "NAME_POR": "ESCOLA OFICIAL ZHENG GUANYING",
         "NAME_EN": "ESCOLA OFICIAL ZHENG GUANYING",
         "ROUTE_NOS": "29,34"
-      }
+      },
+      "updated": true
     },
     {
       "name": "鄭觀應公立學校",
-      "lat": 22.214261306854297,
-      "lon": 113.54224687253907,
+      "lat": 22.21364,
+      "lon": 113.54525,
       "raw": {
         "POLE_ID": 862,
         "P_ALIAS": "M4_2",
@@ -8296,7 +8442,8 @@
         "NAME_POR": "ESCOLA OFICIAL ZHENG GUANYING",
         "NAME_EN": "ESCOLA OFICIAL ZHENG GUANYING",
         "ROUTE_NOS": "16,16S,18,25B,65,9A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "青洲/美樂花園",
@@ -8318,8 +8465,8 @@
     },
     {
       "name": "青洲/嘉應花園",
-      "lat": 22.211309181161575,
-      "lon": 113.54056652559059,
+      "lat": 22.210684,
+      "lon": 113.54362,
       "raw": {
         "POLE_ID": 15,
         "P_ALIAS": "M21_1",
@@ -8332,12 +8479,13 @@
         "NAME_POR": "CONS. BORJA/KA IENG",
         "NAME_EN": "CONS. BORJA/KA IENG",
         "ROUTE_NOS": "H2,N1B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "柯維納馬路",
-      "lat": 22.15762916556344,
-      "lon": 113.54314957984008,
+      "lat": 22.156982,
+      "lon": 113.5461,
       "raw": {
         "POLE_ID": 867,
         "P_ALIAS": "T326_1",
@@ -8350,12 +8498,13 @@
         "NAME_POR": "ESTRADA GOV. A. OLIVEIRA",
         "NAME_EN": "ESTRADA GOV. A. OLIVEIRA",
         "ROUTE_NOS": "15,34,35,36"
-      }
+      },
+      "updated": true
     },
     {
       "name": "柯維納馬路",
-      "lat": 22.15762489750836,
-      "lon": 113.5428864016733,
+      "lat": 22.15698,
+      "lon": 113.54588,
       "raw": {
         "POLE_ID": 868,
         "P_ALIAS": "T326_2",
@@ -8368,12 +8517,13 @@
         "NAME_POR": "ESTRADA GOV. A. OLIVEIRA",
         "NAME_EN": "ESTRADA GOV. A. OLIVEIRA",
         "ROUTE_NOS": "26,52,MT2,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "柯維納馬路",
-      "lat": 22.15774399506431,
-      "lon": 113.54271099017288,
+      "lat": 22.157158,
+      "lon": 113.54566,
       "raw": {
         "POLE_ID": 869,
         "P_ALIAS": "T326_3",
@@ -8386,12 +8536,13 @@
         "NAME_POR": "ESTRADA GOV. A. OLIVEIRA",
         "NAME_EN": "ESTRADA GOV. A. OLIVEIRA",
         "ROUTE_NOS": "15,26,36,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "柯維納馬路",
-      "lat": 22.157745744135408,
-      "lon": 113.54299111731257,
+      "lat": 22.157164,
+      "lon": 113.54593,
       "raw": {
         "POLE_ID": 870,
         "P_ALIAS": "T326_4",
@@ -8404,12 +8555,13 @@
         "NAME_POR": "ESTRADA GOV. A. OLIVEIRA",
         "NAME_EN": "ESTRADA GOV. A. OLIVEIRA",
         "ROUTE_NOS": "30,34,MT2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "柯維納馬路",
-      "lat": 22.157747252313065,
-      "lon": 113.54323268850099,
+      "lat": 22.157171,
+      "lon": 113.54622,
       "raw": {
         "POLE_ID": 871,
         "P_ALIAS": "T326_5",
@@ -8422,12 +8574,13 @@
         "NAME_POR": "ESTRADA GOV. A. OLIVEIRA",
         "NAME_EN": "ESTRADA GOV. A. OLIVEIRA",
         "ROUTE_NOS": "11,22,28A,33"
-      }
+      },
+      "updated": true
     },
     {
       "name": "內港客運碼頭",
-      "lat": 22.19501553151551,
-      "lon": 113.53263645637878,
+      "lat": 22.194378,
+      "lon": 113.5356,
       "raw": {
         "POLE_ID": 875,
         "P_ALIAS": "M137_1",
@@ -8440,12 +8593,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DO PORTO INTERIOR",
         "NAME_EN": "TERMINAL MARÍTIMO DE PASSAGEIROS DO PORTO INTERIOR",
         "ROUTE_NOS": "10,18,18B,2,3A,5,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "水坑尾/天神巷",
-      "lat": 22.194133296805052,
-      "lon": 113.54037068147088,
+      "lat": 22.193533,
+      "lon": 113.54335,
       "raw": {
         "POLE_ID": 880,
         "P_ALIAS": "M144_1",
@@ -8458,12 +8612,13 @@
         "NAME_POR": "CAMPO / TRAVESSA DOS ANJOS",
         "NAME_EN": "CAMPO / TRAVESSA DOS ANJOS",
         "ROUTE_NOS": "2,2A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "水坑尾/天神巷",
-      "lat": 22.19437668592739,
-      "lon": 113.54037247728978,
+      "lat": 22.1938,
+      "lon": 113.54338,
       "raw": {
         "POLE_ID": 881,
         "P_ALIAS": "M144_2",
@@ -8476,12 +8631,13 @@
         "NAME_POR": "CAMPO / TRAVESSA DOS ANJOS",
         "NAME_EN": "CAMPO / TRAVESSA DOS ANJOS",
         "ROUTE_NOS": "12,22,25,25B,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "水坑尾/天神巷",
-      "lat": 22.19440360528314,
-      "lon": 113.54038365479764,
+      "lat": 22.19374,
+      "lon": 113.54335,
       "raw": {
         "POLE_ID": 883,
         "P_ALIAS": "M144_3",
@@ -8494,7 +8650,8 @@
         "NAME_POR": "CAMPO / TRAVESSA DOS ANJOS",
         "NAME_EN": "CAMPO / TRAVESSA DOS ANJOS",
         "ROUTE_NOS": "16,16S,5,9,9A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "水坑尾/高可寧大宅",
@@ -8552,8 +8709,8 @@
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189873942612905,
-      "lon": 113.54063331409714,
+      "lat": 22.189245,
+      "lon": 113.54358,
       "raw": {
         "POLE_ID": 892,
         "P_ALIAS": "M172_1",
@@ -8566,12 +8723,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "101X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189990571221337,
-      "lon": 113.54059709357755,
+      "lat": 22.189346,
+      "lon": 113.54356,
       "raw": {
         "POLE_ID": 893,
         "P_ALIAS": "M172_2",
@@ -8584,12 +8742,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "11,21A,3A,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.1901004142566,
-      "lon": 113.54056552625096,
+      "lat": 22.189453,
+      "lon": 113.543526,
       "raw": {
         "POLE_ID": 894,
         "P_ALIAS": "M172_3",
@@ -8602,12 +8761,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "26A,33,8A,N1A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.190068870052183,
-      "lon": 113.54038582989685,
+      "lat": 22.189438,
+      "lon": 113.54342,
       "raw": {
         "POLE_ID": 895,
         "P_ALIAS": "M172_4",
@@ -8620,12 +8780,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "6B,9"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.18997736889895,
-      "lon": 113.54040950087807,
+      "lat": 22.189342,
+      "lon": 113.54344,
       "raw": {
         "POLE_ID": 896,
         "P_ALIAS": "M172_5",
@@ -8638,12 +8799,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "23,32,32T,9A,N1B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189857367714406,
-      "lon": 113.54043592391916,
+      "lat": 22.189228,
+      "lon": 113.54347,
       "raw": {
         "POLE_ID": 897,
         "P_ALIAS": "M172_6",
@@ -8656,12 +8818,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "3X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.18995527739343,
-      "lon": 113.5403519717028,
+      "lat": 22.189331,
+      "lon": 113.543304,
       "raw": {
         "POLE_ID": 898,
         "P_ALIAS": "M172_7",
@@ -8674,12 +8837,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "71,73"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.190058064797608,
-      "lon": 113.54032583221569,
+      "lat": 22.189436,
+      "lon": 113.543274,
       "raw": {
         "POLE_ID": 899,
         "P_ALIAS": "M172_8",
@@ -8692,12 +8856,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "50,52,N3,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189817631247116,
-      "lon": 113.54024480983489,
+      "lat": 22.189297,
+      "lon": 113.5432,
       "raw": {
         "POLE_ID": 906,
         "P_ALIAS": "M172_10",
@@ -8710,12 +8875,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "39,50B,MT5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189765782902125,
-      "lon": 113.54033339346823,
+      "lat": 22.189188,
+      "lon": 113.543236,
       "raw": {
         "POLE_ID": 907,
         "P_ALIAS": "M172_11",
@@ -8728,12 +8894,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "22,28A,33,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189981266348376,
-      "lon": 113.54006113450639,
+      "lat": 22.189362,
+      "lon": 113.54309,
       "raw": {
         "POLE_ID": 908,
         "P_ALIAS": "M172_12",
@@ -8746,12 +8913,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "11,MT2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189868137421985,
-      "lon": 113.54008471979891,
+      "lat": 22.189272,
+      "lon": 113.5431,
       "raw": {
         "POLE_ID": 909,
         "P_ALIAS": "M172_13",
@@ -8764,12 +8932,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "25B,MT1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189736731994554,
-      "lon": 113.54018205075236,
+      "lat": 22.189169,
+      "lon": 113.543144,
       "raw": {
         "POLE_ID": 910,
         "P_ALIAS": "M172_14",
@@ -8782,12 +8951,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "25,25AX"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189740946915194,
-      "lon": 113.54008259587987,
+      "lat": 22.18918,
+      "lon": 113.54303,
       "raw": {
         "POLE_ID": 912,
         "P_ALIAS": "M172_15",
@@ -8800,12 +8970,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "21A,26A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189558701197072,
-      "lon": 113.54014042312238,
+      "lat": 22.18892,
+      "lon": 113.54309,
       "raw": {
         "POLE_ID": 913,
         "P_ALIAS": "M172_16",
@@ -8818,12 +8989,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "22,25,25AX,25B,28A,2AS,39,3AX,50,50B,73,MT1,MT2,MT5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.19002297796793,
-      "lon": 113.54017419134122,
+      "lat": 22.189394,
+      "lon": 113.54318,
       "raw": {
         "POLE_ID": 917,
         "P_ALIAS": "M172_9",
@@ -8836,12 +9008,13 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "29,3A,6B,H1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "亞馬喇前地",
-      "lat": 22.189615538634282,
-      "lon": 113.54062639566243,
+      "lat": 22.189034,
+      "lon": 113.54369,
       "raw": {
         "POLE_ID": 922,
         "P_ALIAS": "M172_17",
@@ -8854,7 +9027,8 @@
         "NAME_POR": "PRAÇA FERREIRA AMARAL",
         "NAME_EN": "PRAÇA FERREIRA AMARAL",
         "ROUTE_NOS": "12T,2A,7"
-      }
+      },
+      "updated": true
     },
     {
       "name": "石排灣馬路/擎天匯",
@@ -8876,8 +9050,8 @@
     },
     {
       "name": "蓮花路停車場",
-      "lat": 22.13955349018747,
-      "lon": 113.55750672862871,
+      "lat": 22.138922,
+      "lon": 113.56027,
       "raw": {
         "POLE_ID": 934,
         "P_ALIAS": "T355_2",
@@ -8890,7 +9064,8 @@
         "NAME_POR": "AUTO-SILO DA ESTRADA FLOR DE LÓTUS",
         "NAME_EN": "AUTO-SILO DA ESTRADA FLOR DE LÓTUS",
         "ROUTE_NOS": "102X,25B,25BS,26,50,701X,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "蓮花路/新濠影匯",
@@ -9020,8 +9195,8 @@
     },
     {
       "name": "筷子基街/廣大中學",
-      "lat": 22.206553621307567,
-      "lon": 113.53604399666632,
+      "lat": 22.205917,
+      "lon": 113.53916,
       "raw": {
         "POLE_ID": 953,
         "P_ALIAS": "M120_2",
@@ -9034,12 +9209,13 @@
         "NAME_POR": "RUA DE FÁI CHI KEI / ESCOLA KWONG TAI",
         "NAME_EN": "RUA DE FÁI CHI KEI / ESCOLA KWONG TAI",
         "ROUTE_NOS": "1A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "青洲/嘉應花園",
-      "lat": 22.211313724459696,
-      "lon": 113.54052595830653,
+      "lat": 22.210669,
+      "lon": 113.5437,
       "raw": {
         "POLE_ID": 954,
         "P_ALIAS": "M21_2",
@@ -9052,12 +9228,13 @@
         "NAME_POR": "CONS. BORJA/KA IENG",
         "NAME_EN": "CONS. BORJA/KA IENG",
         "ROUTE_NOS": "101X,1A,23,26A,27,28B,8"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘馬路",
-      "lat": 22.213412375950053,
-      "lon": 113.54563704594024,
+      "lat": 22.212759,
+      "lon": 113.54862,
       "raw": {
         "POLE_ID": 956,
         "P_ALIAS": "M7_1",
@@ -9070,12 +9247,13 @@
         "NAME_POR": "ISTMO F.AMARAL",
         "NAME_EN": "ISTMO F.AMARAL",
         "ROUTE_NOS": "3,3X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘馬路",
-      "lat": 22.21319112443692,
-      "lon": 113.5456047508014,
+      "lat": 22.21257,
+      "lon": 113.54859,
       "raw": {
         "POLE_ID": 957,
         "P_ALIAS": "M7_2",
@@ -9088,12 +9266,13 @@
         "NAME_POR": "ISTMO F.AMARAL",
         "NAME_EN": "ISTMO F.AMARAL",
         "ROUTE_NOS": "16,16S"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘馬路",
-      "lat": 22.212935357296125,
-      "lon": 113.54556703802099,
+      "lat": 22.21231,
+      "lon": 113.54855,
       "raw": {
         "POLE_ID": 958,
         "P_ALIAS": "M7_3",
@@ -9106,7 +9285,8 @@
         "NAME_POR": "ISTMO F.AMARAL",
         "NAME_EN": "ISTMO F.AMARAL",
         "ROUTE_NOS": "17,25"
-      }
+      },
+      "updated": true
     },
     {
       "name": "青茂/青葱大廈",
@@ -9182,8 +9362,8 @@
     },
     {
       "name": "蓮花路停車場",
-      "lat": 22.139531919417866,
-      "lon": 113.55782429534888,
+      "lat": 22.1389,
+      "lon": 113.56074,
       "raw": {
         "POLE_ID": 967,
         "P_ALIAS": "T355_1",
@@ -9196,12 +9376,13 @@
         "NAME_POR": "AUTO-SILO DA ESTRADA FLOR DE LÓTUS",
         "NAME_EN": "AUTO-SILO DA ESTRADA FLOR DE LÓTUS",
         "ROUTE_NOS": "15,21A,25,26,26A,50,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "偉龍/科技大學",
-      "lat": 22.15234155562452,
-      "lon": 113.56181727783965,
+      "lat": 22.151752,
+      "lon": 113.5649,
       "raw": {
         "POLE_ID": 968,
         "P_ALIAS": "T373_2",
@@ -9214,7 +9395,8 @@
         "NAME_POR": "WAI LONG/M.U.S.T.",
         "NAME_EN": "WAI LONG/M.U.S.T.",
         "ROUTE_NOS": "26,51A,MT1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "俾利喇/望德樓",
@@ -9254,8 +9436,8 @@
     },
     {
       "name": "望廈總站",
-      "lat": 22.20758457111684,
-      "lon": 113.54831616118533,
+      "lat": 22.206768,
+      "lon": 113.55126,
       "raw": {
         "POLE_ID": 975,
         "P_ALIAS": "M32_2",
@@ -9268,12 +9450,13 @@
         "NAME_POR": "MONG HÁ / TERMINAL",
         "NAME_EN": "MONG HÁ / TERMINAL",
         "ROUTE_NOS": "MT3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "望廈總站",
-      "lat": 22.207515493915267,
-      "lon": 113.54826873943595,
+      "lat": 22.206638,
+      "lon": 113.55119,
       "raw": {
         "POLE_ID": 977,
         "P_ALIAS": "M32_4",
@@ -9286,7 +9469,8 @@
         "NAME_POR": "MONG HÁ / TERMINAL",
         "NAME_EN": "MONG HÁ / TERMINAL",
         "ROUTE_NOS": "27"
-      }
+      },
+      "updated": true
     },
     {
       "name": "溜冰路/葡京人",
@@ -9308,8 +9492,8 @@
     },
     {
       "name": "排角/銀河",
-      "lat": 22.151181782580036,
-      "lon": 113.55212420278087,
+      "lat": 22.150478,
+      "lon": 113.555084,
       "raw": {
         "POLE_ID": 982,
         "P_ALIAS": "T365_1",
@@ -9322,7 +9506,8 @@
         "NAME_POR": "PAI KOK / GALAXY",
         "NAME_EN": "PAI KOK / GALAXY",
         "ROUTE_NOS": "25B,30X,72,MT1,MT3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "關閘東側上落客區",
@@ -9344,8 +9529,8 @@
     },
     {
       "name": "內港客運碼頭",
-      "lat": 22.19535875067737,
-      "lon": 113.53278690578829,
+      "lat": 22.194725,
+      "lon": 113.535774,
       "raw": {
         "POLE_ID": 984,
         "P_ALIAS": "M137_2",
@@ -9358,12 +9543,13 @@
         "NAME_POR": "TERMINAL MARÍTIMO DE PASSAGEIROS DO PORTO INTERIOR",
         "NAME_EN": "TERMINAL MARÍTIMO DE PASSAGEIROS DO PORTO INTERIOR",
         "ROUTE_NOS": "1,11,21A,26,71S,MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "慕拉士馬路/望善樓",
-      "lat": 22.20728771076515,
-      "lon": 113.54947501525179,
+      "lat": 22.206669,
+      "lon": 113.552444,
       "raw": {
         "POLE_ID": 985,
         "P_ALIAS": "M35_1",
@@ -9376,12 +9562,13 @@
         "NAME_POR": "VENC. MORAIS/EDF. MONG SIN",
         "NAME_EN": "VENC. MORAIS/EDF. MONG SIN",
         "ROUTE_NOS": "1A,28B,29,H2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "慕拉士馬路/望善樓",
-      "lat": 22.207457854367313,
-      "lon": 113.54926620706203,
+      "lat": 22.20685,
+      "lon": 113.55224,
       "raw": {
         "POLE_ID": 986,
         "P_ALIAS": "M35_2",
@@ -9394,7 +9581,8 @@
         "NAME_POR": "VENC. MORAIS/EDF. MONG SIN",
         "NAME_EN": "VENC. MORAIS/EDF. MONG SIN",
         "ROUTE_NOS": "10,2,34,6A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "宋玉生廣場/建興龍",
@@ -9506,8 +9694,8 @@
     },
     {
       "name": "望德聖母灣馬路/軍營",
-      "lat": 22.15139789789753,
-      "lon": 113.55200622970642,
+      "lat": 22.15085,
+      "lon": 113.55494,
       "raw": {
         "POLE_ID": 995,
         "P_ALIAS": "T364_1",
@@ -9520,12 +9708,13 @@
         "NAME_POR": "EST. BAIA N. S. ESPERANÇA / QUARTEL",
         "NAME_EN": "EST. BAIA N. S. ESPERANÇA / QUARTEL",
         "ROUTE_NOS": "35,71S,MT1,MT3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "望德聖母灣馬路/軍營",
-      "lat": 22.15129010958742,
-      "lon": 113.55228790355896,
+      "lat": 22.150702,
+      "lon": 113.555305,
       "raw": {
         "POLE_ID": 996,
         "P_ALIAS": "T364_2",
@@ -9538,7 +9727,8 @@
         "NAME_POR": "EST. BAIA N. S. ESPERANÇA / QUARTEL",
         "NAME_EN": "EST. BAIA N. S. ESPERANÇA / QUARTEL",
         "ROUTE_NOS": "25B,26A,72"
-      }
+      },
+      "updated": true
     },
     {
       "name": "路氹西/銀河",
@@ -9632,8 +9822,8 @@
     },
     {
       "name": "俾若翰街/綠楊花園",
-      "lat": 22.20807155189729,
-      "lon": 113.53782586254317,
+      "lat": 22.207474,
+      "lon": 113.54085,
       "raw": {
         "POLE_ID": 1003,
         "P_ALIAS": "M108_1",
@@ -9646,12 +9836,13 @@
         "NAME_POR": "R. DO COMANDANTE JOÃO BELO / EDF. LOK YEUNG FA YUEN",
         "NAME_EN": "R. DO COMANDANTE JOÃO BELO / EDF. LOK YEUNG FA YUEN",
         "ROUTE_NOS": "101X,1A,32,3X,51A,5X,MT4,N2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "俾若翰街/綠楊花園",
-      "lat": 22.208101231113137,
-      "lon": 113.5379356474145,
+      "lat": 22.207664,
+      "lon": 113.541534,
       "raw": {
         "POLE_ID": 1004,
         "P_ALIAS": "M108_2",
@@ -9664,7 +9855,8 @@
         "NAME_POR": "R. DO COMANDANTE JOÃO BELO / EDF. LOK YEUNG FA YUEN",
         "NAME_EN": "R. DO COMANDANTE JOÃO BELO / EDF. LOK YEUNG FA YUEN",
         "ROUTE_NOS": "H2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門理工大學",
@@ -9776,8 +9968,8 @@
     },
     {
       "name": "連貫公路/威尼斯人",
-      "lat": 22.1498619984618,
-      "lon": 113.56075668925801,
+      "lat": 22.14925,
+      "lon": 113.56369,
       "raw": {
         "POLE_ID": 1014,
         "P_ALIAS": "T363_1",
@@ -9790,12 +9982,13 @@
         "NAME_POR": "EST. DO ISTMO / VENETIAN",
         "NAME_EN": "EST. DO ISTMO / VENETIAN",
         "ROUTE_NOS": "15,21A,26,26A,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "連貫公路/威尼斯人",
-      "lat": 22.15009641994134,
-      "lon": 113.56076846692771,
+      "lat": 22.149446,
+      "lon": 113.563705,
       "raw": {
         "POLE_ID": 1015,
         "P_ALIAS": "T363_2",
@@ -9808,12 +10001,13 @@
         "NAME_POR": "EST. DO ISTMO / VENETIAN",
         "NAME_EN": "EST. DO ISTMO / VENETIAN",
         "ROUTE_NOS": "25,25AX,25B,56,MT4"
-      }
+      },
+      "updated": true
     },
     {
       "name": "媽閣交通樞紐",
-      "lat": 22.184505947039025,
-      "lon": 113.5270406119239,
+      "lat": 22.18391,
+      "lon": 113.53007,
       "raw": {
         "POLE_ID": 1016,
         "P_ALIAS": "M3_1",
@@ -9826,12 +10020,13 @@
         "NAME_POR": "CENTRO MODAL DE TRANSPORTES DA BARRA",
         "NAME_EN": "BARRA PUBLIC TRANSPORT INTERCHANGE",
         "ROUTE_NOS": "1,2"
-      }
+      },
+      "updated": true
     },
     {
       "name": "媽閣交通樞紐",
-      "lat": 22.184639539167687,
-      "lon": 113.52705338568398,
+      "lat": 22.18404,
+      "lon": 113.530075,
       "raw": {
         "POLE_ID": 1017,
         "P_ALIAS": "M3_2",
@@ -9844,12 +10039,13 @@
         "NAME_POR": "CENTRO MODAL DE TRANSPORTES DA BARRA",
         "NAME_EN": "BARRA PUBLIC TRANSPORT INTERCHANGE",
         "ROUTE_NOS": "18,18B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "媽閣交通樞紐",
-      "lat": 22.184777403604237,
-      "lon": 113.52706656739984,
+      "lat": 22.18417,
+      "lon": 113.530075,
       "raw": {
         "POLE_ID": 1018,
         "P_ALIAS": "M3_3",
@@ -9862,12 +10058,13 @@
         "NAME_POR": "CENTRO MODAL DE TRANSPORTES DA BARRA",
         "NAME_EN": "BARRA PUBLIC TRANSPORT INTERCHANGE",
         "ROUTE_NOS": "11,5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "媽閣交通樞紐",
-      "lat": 22.18488818297648,
-      "lon": 113.52707715910714,
+      "lat": 22.184305,
+      "lon": 113.53007,
       "raw": {
         "POLE_ID": 1019,
         "P_ALIAS": "M3_4",
@@ -9880,12 +10077,13 @@
         "NAME_POR": "CENTRO MODAL DE TRANSPORTES DA BARRA",
         "NAME_EN": "BARRA PUBLIC TRANSPORT INTERCHANGE",
         "ROUTE_NOS": "10,21A,61"
-      }
+      },
+      "updated": true
     },
     {
       "name": "黑沙海灘",
-      "lat": 22.11890608843537,
-      "lon": 113.5664073122596,
+      "lat": 22.118752,
+      "lon": 113.56936,
       "raw": {
         "POLE_ID": 1023,
         "P_ALIAS": "C669_1",
@@ -9898,12 +10096,13 @@
         "NAME_POR": "PRAIA DE HAC SÁ",
         "NAME_EN": "HAC SA BEACH",
         "ROUTE_NOS": "15,21A,26A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "黑沙海灘",
-      "lat": 22.11935537316396,
-      "lon": 113.56639665691972,
+      "lat": 22.118832,
+      "lon": 113.56935,
       "raw": {
         "POLE_ID": 1024,
         "P_ALIAS": "C669_2",
@@ -9916,12 +10115,13 @@
         "NAME_POR": "PRAIA DE HAC SÁ",
         "NAME_EN": "HAC SA BEACH",
         "ROUTE_NOS": "15,21A,26A"
-      }
+      },
+      "updated": true
     },
     {
       "name": "聯生圓形地總站",
-      "lat": 22.12622073699619,
-      "lon": 113.55200252029051,
+      "lat": 22.125532,
+      "lon": 113.55487,
       "raw": {
         "POLE_ID": 1029,
         "P_ALIAS": "C654_1",
@@ -9934,12 +10134,13 @@
         "NAME_POR": "ROTUNDA DA CONCÓRDIA / TERMINAL",
         "NAME_EN": "ROTUNDA DA CONCÓRDIA / TERMINAL",
         "ROUTE_NOS": "59"
-      }
+      },
+      "updated": true
     },
     {
       "name": "聯生圓形地總站",
-      "lat": 22.126331714213723,
-      "lon": 113.55195607611282,
+      "lat": 22.125706,
+      "lon": 113.554855,
       "raw": {
         "POLE_ID": 1030,
         "P_ALIAS": "C654_2",
@@ -9952,12 +10153,13 @@
         "NAME_POR": "ROTUNDA DA CONCÓRDIA / TERMINAL",
         "NAME_EN": "ROTUNDA DA CONCÓRDIA / TERMINAL",
         "ROUTE_NOS": "15,21A,26A,50,N3"
-      }
+      },
+      "updated": true
     },
     {
       "name": "聯生圓形地總站",
-      "lat": 22.12648264560229,
-      "lon": 113.5519694476906,
+      "lat": 22.125948,
+      "lon": 113.554955,
       "raw": {
         "POLE_ID": 1031,
         "P_ALIAS": "C654_3",
@@ -9970,7 +10172,8 @@
         "NAME_POR": "ROTUNDA DA CONCÓRDIA / TERMINAL",
         "NAME_EN": "ROTUNDA DA CONCÓRDIA / TERMINAL",
         "ROUTE_NOS": "25,26"
-      }
+      },
+      "updated": true
     },
     {
       "name": "高美士/馬六甲街停車場",
@@ -10010,8 +10213,8 @@
     },
     {
       "name": "東北大馬路/保利達",
-      "lat": 22.20977339670702,
-      "lon": 113.55441164547035,
+      "lat": 22.20911,
+      "lon": 113.557335,
       "raw": {
         "POLE_ID": 1037,
         "P_ALIAS": "M235_2",
@@ -10024,7 +10227,8 @@
         "NAME_POR": "AV. NORDESTE/ POLY TEX",
         "NAME_EN": "AV. NORDESTE/ POLY TEX",
         "ROUTE_NOS": "27,3AX,AP1"
-      }
+      },
+      "updated": true
     },
     {
       "name": "新馬路/華僑",
@@ -10064,8 +10268,8 @@
     },
     {
       "name": "橫琴澳方口岸",
-      "lat": 22.141650645705997,
-      "lon": 113.54308588187773,
+      "lat": 22.141088,
+      "lon": 113.545975,
       "raw": {
         "POLE_ID": 1045,
         "P_ALIAS": "T560_1",
@@ -10078,12 +10282,13 @@
         "NAME_POR": "POSTO FRONTEIRIÇO MACAU - HENGQIN",
         "NAME_EN": "MACAO – HENGQIN FRONTIER POST",
         "ROUTE_NOS": "25BS"
-      }
+      },
+      "updated": true
     },
     {
       "name": "橫琴澳方口岸",
-      "lat": 22.14164049441707,
-      "lon": 113.54284003875244,
+      "lat": 22.141087,
+      "lon": 113.54576,
       "raw": {
         "POLE_ID": 1046,
         "P_ALIAS": "T560_2",
@@ -10096,12 +10301,13 @@
         "NAME_POR": "POSTO FRONTEIRIÇO MACAU - HENGQIN",
         "NAME_EN": "MACAO – HENGQIN FRONTIER POST",
         "ROUTE_NOS": "25B"
-      }
+      },
+      "updated": true
     },
     {
       "name": "橫琴澳方口岸",
-      "lat": 22.14192989893201,
-      "lon": 113.54267633792531,
+      "lat": 22.141321,
+      "lon": 113.5457,
       "raw": {
         "POLE_ID": 1048,
         "P_ALIAS": "T560_4",
@@ -10114,12 +10320,13 @@
         "NAME_POR": "POSTO FRONTEIRIÇO MACAU - HENGQIN",
         "NAME_EN": "MACAO – HENGQIN FRONTIER POST",
         "ROUTE_NOS": "50"
-      }
+      },
+      "updated": true
     },
     {
       "name": "橫琴澳方口岸",
-      "lat": 22.141942215611447,
-      "lon": 113.54304429722072,
+      "lat": 22.141321,
+      "lon": 113.54593,
       "raw": {
         "POLE_ID": 1049,
         "P_ALIAS": "T560_5",
@@ -10132,12 +10339,13 @@
         "NAME_POR": "POSTO FRONTEIRIÇO MACAU - HENGQIN",
         "NAME_EN": "MACAO – HENGQIN FRONTIER POST",
         "ROUTE_NOS": "701X,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "橫琴澳方口岸",
-      "lat": 22.141949230543094,
-      "lon": 113.54324127530565,
+      "lat": 22.141321,
+      "lon": 113.546135,
       "raw": {
         "POLE_ID": 1050,
         "P_ALIAS": "T560_6",
@@ -10150,12 +10358,13 @@
         "NAME_POR": "POSTO FRONTEIRIÇO MACAU - HENGQIN",
         "NAME_EN": "MACAO – HENGQIN FRONTIER POST",
         "ROUTE_NOS": "102X"
-      }
+      },
+      "updated": true
     },
     {
       "name": "橫琴澳方口岸",
-      "lat": 22.14195765968667,
-      "lon": 113.5434104993187,
+      "lat": 22.141327,
+      "lon": 113.54634,
       "raw": {
         "POLE_ID": 1051,
         "P_ALIAS": "T560_7",
@@ -10168,7 +10377,8 @@
         "NAME_POR": "POSTO FRONTEIRIÇO MACAU - HENGQIN",
         "NAME_EN": "MACAO – HENGQIN FRONTIER POST",
         "ROUTE_NOS": "701X,701XS,N6"
-      }
+      },
+      "updated": true
     },
     {
       "name": "西灣湖景大馬路/媽閣交通樞紐",
@@ -10280,8 +10490,8 @@
     },
     {
       "name": "蘇利安圓形地",
-      "lat": 22.16482016625598,
-      "lon": 113.54466602010454,
+      "lat": 22.164154,
+      "lon": 113.547714,
       "raw": {
         "POLE_ID": 1059,
         "P_ALIAS": "T330_4",
@@ -10294,12 +10504,13 @@
         "NAME_POR": "ROTUNDA LEONEL SOUSA",
         "NAME_EN": "ROTUNDA LEONEL SOUSA",
         "ROUTE_NOS": "11,35,36,MT2,N5"
-      }
+      },
+      "updated": true
     },
     {
       "name": "蘇利安圓形地",
-      "lat": 22.164696754527796,
-      "lon": 113.5454547738741,
+      "lat": 22.164051,
+      "lon": 113.548416,
       "raw": {
         "POLE_ID": 1060,
         "P_ALIAS": "T330_2",
@@ -10312,7 +10523,8 @@
         "NAME_POR": "ROTUNDA LEONEL SOUSA",
         "NAME_EN": "ROTUNDA LEONEL SOUSA",
         "ROUTE_NOS": "35,36"
-      }
+      },
+      "updated": true
     },
     {
       "name": "澳門旅遊大學",

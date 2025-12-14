@@ -317,20 +317,25 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
 
                         {/* Stops */}
                         {nearbyStops.map(stop => (
-                            <Marker key={stop.code} position={[stop.lat, stop.lon]}>
+                            <CircleMarker 
+                                key={stop.code} 
+                                center={[stop.lat, stop.lon]}
+                                radius={6}
+                                pathOptions={{ color: 'white', fillColor: '#ef4444', fillOpacity: 1, weight: 2 }} // Red with white border
+                            >
                                 <Popup>
                                     <div className="text-center">
                                         <div className="font-bold">{stop.name}</div>
                                         <div className="text-xs text-gray-500 mb-2">{stop.code}</div>
                                         <button 
                                             className="bg-teal-500 text-white text-xs px-2 py-1 rounded"
-                                            onClick={() => { setViewMode('list'); handleExpandStop(stop); }} // Switch to list to see details? Or just expand?
+                                            onClick={() => { setViewMode('list'); handleExpandStop(stop); }} 
                                         >
                                             View Arrivals
                                         </button>
                                     </div>
                                 </Popup>
-                            </Marker>
+                            </CircleMarker>
                         ))}
                     </MapContainer>
                 </div>
