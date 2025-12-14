@@ -405,8 +405,7 @@ function App() {
                 <NearbyStops 
                     onClose={() => setShowNearby(false)}
                     onSelectRoute={(route) => {
-                        setRouteNo(route);
-                        handleSearchDirect(route);
+                        handleSelectRoute(route);
                         setShowNearby(false);
                     }}
                 />
@@ -414,10 +413,7 @@ function App() {
 
             {/* 2. Route Dashboard (Route List) */}
             {!busData && !showNearby && (
-                <RouteDashboard onSelectRoute={(route) => {
-                    setRouteNo(route);
-                    handleSearchDirect(route);
-                }} />
+                <RouteDashboard onSelectRoute={handleSelectRoute} />
             )}
 
             {/* 3. Active Bus Detail View */}

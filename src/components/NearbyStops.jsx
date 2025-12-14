@@ -126,9 +126,7 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
 
                      if (res.data && res.data.data && res.data.data.routeInfo) {
                          const stops = res.data.data.routeInfo;
-                         console.log(`Checking Route ${route} (Dir ${d}) for Stop ${stop.code}`);
-                         // console.log("Stops in route:", stops.map(s => s.staCode).join(', '));
-
+                         
                          // Match robustly: API returns "T311/2" or "M11-1" or "M11_1".
                          const stopIdx = stops.findIndex(s => {
                              // Normalize everything to hyphens
