@@ -26,14 +26,21 @@ const NearbyFitBounds = ({ center, stops, buses, expandedStop }) => {
         if (!map) return;
         const bounds = L.latLngBounds();
         
-        if (expandedStop && buses && buses.length > 0) {
-            // Focus on Stop + Buses
-             // Find expanded stop coords
+        if (expandedStop) {
+            // Priority 1: Focus on Selected Stop
              const stop = stops.find(s => s.code === expandedStop);
-             if (stop) bounds.extend([stop.lat, stop.lon]);
-             buses.forEach(b => {
-                 if (b.latitude && b.longitude) bounds.extend([b.latitude, b.longitude]);
-             });
+             if (stop) {
+                 bounds.extend([stop.lat, stop.lon]);
+                 // Also include buses if they exist
+                 if (buses && buses.length > 0) {
+                     buses.forEach(b => {
+                         if (b.latitude && b.longitude) bounds.extend([b.latitude, b.longitude]);
+                     });
+                 }
+                 // If only stop is there, specific zoom? 
+                 // fitBounds will handle it, but maybe we want checking if bounds is just one point?
+                 // Leaflet fitBounds on single point works but might be max zoom.
+             }
         } else if (center && stops.length > 0) {
             bounds.extend([center.lat, center.lon]);
             stops.forEach(s => bounds.extend([s.lat, s.lon]));
