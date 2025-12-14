@@ -8,6 +8,7 @@ export { StopCard } from './components/StopCard';
 export { NearbyFitBounds } from './components/NearbyFitBounds';
 export { NearbyStopsHeader } from './components/NearbyStopsHeader';
 export { NearbyMapView } from './components/NearbyMapView.jsx';
+export { NearbyStopsList } from './components/NearbyStopsList.jsx';
 
 // Hooks
 export { useNearbyStops } from './hooks/useNearbyStops';
