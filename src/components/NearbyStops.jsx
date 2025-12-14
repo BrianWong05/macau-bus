@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, CircleMarker, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { fetchBusListApi, fetchMapLocationApi } from '../services/api';
+import { fetchBusListApi, fetchMapLocationApi, fetchTrafficApi } from '../services/api';
 import govData from '../data/gov_data.json';
 
 // Fix for default marker icon
@@ -246,8 +246,18 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                      }
 
                      if (bestStops && bestIdx !== -1) {
-                         // Found valid route direction!
-                                                  // 1. Calculate Arrival Info (Rich Data)
+                          // Found valid route direction!
+                          
+                          // Fetch traffic data for this route/direction
+                          let routeTrafficData = [];
+                          try {
+                              const trafficSegments = await fetchTrafficApi(route, d);
+                              routeTrafficData = trafficSegments || [];
+                          } catch (trafficErr) {
+                              console.log("Traffic fetch failed for NearbyStops, using default:", trafficErr);
+                          }
+                          
+                                                   // 1. Calculate Arrival Info (Rich Data)
                           const stops = bestStops;
                           const stopIdx = bestIdx;
                           const totalStops = stops.length;
@@ -295,13 +305,42 @@ const NearbyStops = ({ onClose, onSelectRoute }) => {
                               }
                               return pathDistKm;
                           };
+                          
+                          // Calculate traffic-adjusted travel time segment by segment
+                          // Each segment gets its own traffic multiplier
+                          const calcTravelTime = (fromIdx, toIdx) => {
+                              let totalTime = 0;
+                              for (let j = fromIdx; j < toIdx; j++) {
+                                  const p1 = getCoords(stops[j]);
+                                  const p2 = getCoords(stops[j+1]);
+                                  if (p1 && p2) {
+                                      const segmentDistKm = getDistanceFromLatLonInKm(p1.lat, p1.lon, p2.lat, p2.lon);
+                                      
+                                      // Get traffic level for this segment
+                                      // Traffic: 1=smooth(1x), 2=moderate(1.5x), 3+=congested(2x)
+                                      let trafficMultiplier = 1.0;
+                                      if (routeTrafficData && routeTrafficData[j]) {
+                                          const traffic = routeTrafficData[j].traffic || 1;
+                                          if (traffic >= 3) trafficMultiplier = 2.0;      // 🔴 Congested
+                                          else if (traffic >= 2) trafficMultiplier = 1.5; // 🟡 Moderate
+                                          // else 🟢 Smooth = 1.0
+                                      }
+                                      
+                                      // Base: 5 min/km, adjusted by traffic
+                                      totalTime += segmentDistKm * 5.0 * trafficMultiplier;
+                                  }
+                              }
+                              return totalTime;
+                          };
 
                           // Collect ALL incoming buses with individual ETAs
                           for (let i = 0; i <= stopIdx; i++) {
                               if (stops[i].busInfo && stops[i].busInfo.length > 0) {
                                   const stopsAway = stopIdx - i;
                                   const pathDistKm = calcPathDistance(i, stopIdx);
-                                  const rideTime = pathDistKm * 5.0;
+                                  
+                                  // Calculate traffic-adjusted ride time (per-segment)
+                                  const rideTime = calcTravelTime(i, stopIdx);
                                   const dwellTime = stopsAway * 0.5;
                                   let eta = Math.round(rideTime + dwellTime);
                                   if (eta === 0 && stopsAway > 0 && pathDistKm > 0.1) eta = 1;
