@@ -57,6 +57,18 @@ export interface RouteResult {
   totalDuration: number; // Estimated total duration in minutes
 }
 
+export interface WalkSegment {
+  distanceMeters: number;
+  durationMinutes: number;
+}
+
+export interface TripResult {
+  startWalk: WalkSegment;
+  busRoute: RouteResult;
+  endWalk: WalkSegment;
+  totalDuration: number; // Walking + bus + walking
+}
+
 // ============== RouteFinder Class ==============
 
 export class RouteFinder {
@@ -117,6 +129,11 @@ export class RouteFinder {
                 if (match && match.raw) {
                     stop.nameEn = match.raw.P_NAME_EN || match.raw.NAME_EN || '';
                     stop.namePt = match.raw.P_NAME_POR || match.raw.NAME_POR || '';
+                }
+                // Also enrich with coordinates if available
+                if (match && match.lat !== undefined && match.lon !== undefined) {
+                    stop.lat = match.lat;
+                    stop.lng = match.lon;
                 }
             });
         }
@@ -710,6 +727,74 @@ export class RouteFinder {
     }
     
     return results;
+  }
+
+  /**
+   * Find a complete trip from coordinates to coordinates
+   * Includes walking segments to/from nearest stops
+   * @param from - Starting coordinates
+   * @param to - Destination coordinates
+   * @returns TripResult with walking + bus + walking, or null if no route
+   */
+  findTrip(
+    from: { lat: number; lng: number },
+    to: { lat: number; lng: number }
+  ): TripResult[] | null {
+    if (!this.graph) return null;
+
+    const WALKING_SPEED_M_PER_MIN = 80; // 80 meters per minute (~4.8 km/h)
+
+    // Find nearest stops
+    const startStopId = this.findNearestStop(from.lat, from.lng);
+    const endStopId = this.findNearestStop(to.lat, to.lng);
+
+    if (!startStopId || !endStopId) {
+      console.warn('findTrip: Could not find nearby stops');
+      return null;
+    }
+
+    const startStop = this.graph.stops[startStopId];
+    const endStop = this.graph.stops[endStopId];
+
+    if (!startStop || !endStop) return null;
+
+    // Calculate walking distances
+    const startWalkDistance = this.haversineDistance(
+      from.lat, from.lng,
+      startStop.lat || 0, startStop.lng || 0
+    );
+    const endWalkDistance = this.haversineDistance(
+      endStop.lat || 0, endStop.lng || 0,
+      to.lat, to.lng
+    );
+
+    // Find bus routes
+    const busRoutes = this.findRoute(startStopId, endStopId);
+    if (busRoutes.length === 0) return null;
+
+    // Build trip results
+    const tripResults: TripResult[] = busRoutes.map(route => {
+      const startWalk: WalkSegment = {
+        distanceMeters: Math.round(startWalkDistance),
+        durationMinutes: Math.round(startWalkDistance / WALKING_SPEED_M_PER_MIN),
+      };
+      const endWalk: WalkSegment = {
+        distanceMeters: Math.round(endWalkDistance),
+        durationMinutes: Math.round(endWalkDistance / WALKING_SPEED_M_PER_MIN),
+      };
+
+      return {
+        startWalk,
+        busRoute: route,
+        endWalk,
+        totalDuration: startWalk.durationMinutes + route.totalDuration + endWalk.durationMinutes,
+      };
+    });
+
+    // Sort by total duration
+    tripResults.sort((a, b) => a.totalDuration - b.totalDuration);
+
+    return tripResults;
   }
 }
 

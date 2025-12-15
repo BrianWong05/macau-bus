@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { RouteFinder, RouteResult, BusStop } from '@/services/RouteFinder';
+import { RouteFinder, RouteResult, BusStop, TripResult } from '@/services/RouteFinder';
 import { RouteResultCard } from '@/components/RouteResultCard';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { searchPlace, PlaceResult } from '@/services/Geocoding';
 
 // ============== Icons (Inline SVG) ==============
 
@@ -63,9 +64,17 @@ export const RoutePlanner: React.FC = () => {
   const [selectedEnd, setSelectedEnd] = useState<BusStop | null>(null);
   
   const [results, setResults] = useState<RouteResult[] | null>(null);
+  const [tripResults, setTripResults] = useState<TripResult[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [locatingStart, setLocatingStart] = useState(false);
+  
+  // Coordinates for place-based routing
+  const [startCoords, setStartCoords] = useState<{lat: number; lng: number} | null>(null);
+  const [endCoords, setEndCoords] = useState<{lat: number; lng: number} | null>(null);
+  
+  // Place search results
+  const [placeResults, setPlaceResults] = useState<PlaceResult[]>([]);
 
   // Initialize RouteFinder
   useEffect(() => {
@@ -145,33 +154,68 @@ export const RoutePlanner: React.FC = () => {
     setLoading(true);
     setError(null);
     setResults(null);
+    setTripResults(null);
 
     try {
       // Small delay for UX
       await new Promise(resolve => setTimeout(resolve, 300));
       
-      // Use ID if selected, otherwise try to use input as ID if user typed it manually
-      const sId = selectedStart?.id || startInput;
-      const eId = selectedEnd?.id || endInput;
+      // Determine if we're doing coordinate-based or stop-based search
+      let useCoordSearch = !!(startCoords && endCoords);
+      let finalStartCoords: {lat: number; lng: number} | null = startCoords;
+      let finalEndCoords: {lat: number; lng: number} | null = endCoords;
       
-      const foundRoutes = routeFinder.findRoute(sId, eId);
+      // Auto-geocode if input looks like a place name (not a stop ID)
+      // Stop IDs typically start with M, T, C followed by numbers
+      const isStopId = (input: string) => /^[MTC]\d+/i.test(input.trim());
       
-      if (foundRoutes.length > 0) {
-        setResults(foundRoutes);
-        
-        // Enrich with traffic asynchronously
-        routeFinder.enrichWithTraffic(foundRoutes).then(enriched => {
-            // Only update if the user hasn't started a new search (simple check: if results are still non-null)
-            // Ideally we'd valid against a search ID, but this is a simple app.
-            // Using functional state update to ensure we don't overwrite if cleared
-            setResults(prev => {
-                if (!prev) return null; // Cancelled
-                return [...enriched]; // Create new array to force re-render
-            });
-        }).catch(err => console.error("Traffic enrichment failed:", err));
-        
+      // If no coords but input doesn't look like a stop ID, try to geocode
+      if (!startCoords && !selectedStart && !isStopId(startInput)) {
+        const places = await searchPlace(startInput);
+        if (places.length > 0) {
+          finalStartCoords = { lat: places[0].lat, lng: places[0].lng };
+          useCoordSearch = true;
+        }
+      }
+      
+      if (!endCoords && !selectedEnd && !isStopId(endInput)) {
+        const places = await searchPlace(endInput);
+        if (places.length > 0) {
+          finalEndCoords = { lat: places[0].lat, lng: places[0].lng };
+          useCoordSearch = true;
+        }
+      }
+      
+      // If we have any coordinates, do coordinate-based search
+      if (useCoordSearch && finalStartCoords && finalEndCoords) {
+        const trips = routeFinder.findTrip(finalStartCoords, finalEndCoords);
+        if (trips && trips.length > 0) {
+          setTripResults(trips);
+          setResults(trips.map(trip => trip.busRoute));
+        } else {
+          setError(t('route_planner.no_route', 'No route found between these locations'));
+        }
       } else {
-        setError(t('route_planner.no_route', 'No route found between these stops'));
+        // Use stop ID-based routing (existing logic)
+        const sId = selectedStart?.id || startInput;
+        const eId = selectedEnd?.id || endInput;
+        
+        const foundRoutes = routeFinder.findRoute(sId, eId);
+        
+        if (foundRoutes.length > 0) {
+          setResults(foundRoutes);
+          
+          // Enrich with traffic asynchronously
+          routeFinder.enrichWithTraffic(foundRoutes).then(enriched => {
+              setResults(prev => {
+                  if (!prev) return null;
+                  return [...enriched];
+              });
+          }).catch(err => console.error("Traffic enrichment failed:", err));
+          
+        } else {
+          setError(t('route_planner.no_route', 'No route found between these stops'));
+        }
       }
     } catch (err) {
       console.error('Route finding error:', err);
@@ -179,30 +223,61 @@ export const RoutePlanner: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [routeFinder, startInput, endInput, selectedStart, selectedEnd, t]);
+  }, [routeFinder, startInput, endInput, selectedStart, selectedEnd, startCoords, endCoords, t]);
 
   const [suggestions, setSuggestions] = useState<BusStop[]>([]);
   const [activeField, setActiveField] = useState<'start' | 'end' | null>(null);
 
-  // Search Logic
-  const updateSuggestions = useCallback((query: string) => {
-    if (!routeFinder || !query) {
+  // Search Logic - combines bus stops and places
+  const updateSuggestions = useCallback(async (query: string) => {
+    if (!routeFinder || !query || query.length < 2) {
       setSuggestions([]);
+      setPlaceResults([]);
       return;
     }
-    const found = routeFinder.searchStops(query);
-    setSuggestions(found);
+    
+    // Bus stop search (synchronous)
+    const stops = routeFinder.searchStops(query);
+    setSuggestions(stops);
+    
+    // Place search (async) - only if query is 3+ chars
+    if (query.length >= 3) {
+      try {
+        const places = await searchPlace(query);
+        setPlaceResults(places);
+      } catch (e) {
+        console.error('Place search error:', e);
+      }
+    }
   }, [routeFinder]);
 
   const selectStop = (stop: BusStop, field: 'start' | 'end') => {
     if (field === 'start') {
       setStartInput(stop.name);
       setSelectedStart(stop);
+      setStartCoords(stop.lat && stop.lng ? { lat: stop.lat, lng: stop.lng } : null);
     } else {
       setEndInput(stop.name);
       setSelectedEnd(stop);
+      setEndCoords(stop.lat && stop.lng ? { lat: stop.lat, lng: stop.lng } : null);
     }
     setSuggestions([]);
+    setPlaceResults([]);
+    setActiveField(null);
+  };
+
+  const selectPlace = (place: PlaceResult, field: 'start' | 'end') => {
+    if (field === 'start') {
+      setStartInput(place.name);
+      setSelectedStart(null); // Not a bus stop
+      setStartCoords({ lat: place.lat, lng: place.lng });
+    } else {
+      setEndInput(place.name);
+      setSelectedEnd(null);
+      setEndCoords({ lat: place.lat, lng: place.lng });
+    }
+    setSuggestions([]);
+    setPlaceResults([]);
     setActiveField(null);
   };
 
@@ -297,7 +372,7 @@ export const RoutePlanner: React.FC = () => {
                     placeholder={t('route_planner.search_placeholder', 'Search stop name or ID')}
                     className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
                   />
-                  {suggestions.length > 0 && activeField === 'start' && (
+                  {(suggestions.length > 0 || placeResults.length > 0) && activeField === 'start' && (
                     <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 mt-1 max-h-60 overflow-y-auto">
                       {suggestions.map(stop => (
                         <button
@@ -309,6 +384,22 @@ export const RoutePlanner: React.FC = () => {
                           <div className="text-xs text-teal-600 font-mono">{stop.id}</div>
                         </button>
                       ))}
+                      {/* Place Results */}
+                      {placeResults.length > 0 && (
+                        <>
+                          <div className="px-4 py-1 text-xs text-gray-400 bg-gray-50 font-semibold">Places</div>
+                          {placeResults.map((place, idx) => (
+                            <button
+                              key={`place-${idx}`}
+                              className="w-full text-left px-4 py-2 hover:bg-blue-50 border-b border-gray-50 last:border-0"
+                              onClick={() => selectPlace(place, 'start')}
+                            >
+                              <div className="font-bold text-gray-800">{place.name}</div>
+                              <div className="text-xs text-blue-600">📍 Place</div>
+                            </button>
+                          ))}
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -360,7 +451,7 @@ export const RoutePlanner: React.FC = () => {
                   placeholder={t('route_planner.search_placeholder', 'Search stop name or ID')}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
                 />
-                {suggestions.length > 0 && activeField === 'end' && (
+                {(suggestions.length > 0 || placeResults.length > 0) && activeField === 'end' && (
                     <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50 mt-1 max-h-60 overflow-y-auto">
                       {suggestions.map(stop => (
                         <button
@@ -372,6 +463,22 @@ export const RoutePlanner: React.FC = () => {
                           <div className="text-xs text-teal-600 font-mono">{stop.id}</div>
                         </button>
                       ))}
+                      {/* Place Results */}
+                      {placeResults.length > 0 && (
+                        <>
+                          <div className="px-4 py-1 text-xs text-gray-400 bg-gray-50 font-semibold">Places</div>
+                          {placeResults.map((place, idx) => (
+                            <button
+                              key={`place-end-${idx}`}
+                              className="w-full text-left px-4 py-2 hover:bg-blue-50 border-b border-gray-50 last:border-0"
+                              onClick={() => selectPlace(place, 'end')}
+                            >
+                              <div className="font-bold text-gray-800">{place.name}</div>
+                              <div className="text-xs text-blue-600">📍 Place</div>
+                            </button>
+                          ))}
+                        </>
+                      )}
                     </div>
                   )}
               </div>
