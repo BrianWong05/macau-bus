@@ -2,7 +2,7 @@
   "name": "macau_bus",
   "private": true,
   "version": "0.0.0",
-  "homepage": ".",
+  "homepage": "https://BrianWong05.github.io/macau_bus/",
   "type": "module",
   "scripts": {
     "dev": "vite",

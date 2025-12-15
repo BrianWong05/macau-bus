@@ -3,9 +3,16 @@ import axios from 'axios';
 import { generateDsatToken } from '@/utils/dsatCrypto';
 
 const isDev = import.meta.env.DEV;
+const BASE_URL = 'https://bis.dsat.gov.mo:37812';
 
+// Cloudflare Worker proxy for production (bypasses CORS)
+const WORKER_URL = 'https://tight-lab-4f49.wongtiniaomacau.workers.dev';
 
-
+// Helper: wrap URL with proxy in production
+const proxyUrl = (path: string) => {
+  const fullUrl = `${BASE_URL}${path}`;
+  return isDev ? path : `${WORKER_URL}/?url=${encodeURIComponent(fullUrl)}`;
+};
 
 // 1. Fetch Route List (Stops)
 export const fetchRouteDataApi = async (rNo: string, dir: string) => {
@@ -19,10 +26,7 @@ export const fetchRouteDataApi = async (rNo: string, dir: string) => {
     const token = generateDsatToken(params);
     const qs = new URLSearchParams(params).toString();
     
-    // Original URL Logic from App.jsx
-    const targetUrl = isDev 
-        ? `/macauweb/getRouteData.html`
-        : `https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/macauweb/getRouteData.html`;
+    const targetUrl = proxyUrl('/macauweb/getRouteData.html');
 
     try {
             const response = await axios.post(targetUrl, qs, {
@@ -55,10 +59,8 @@ export const fetchTrafficApi = async (rNoRaw: string | number, dir: string) => {
         const token = generateDsatToken(params);
         const qs = new URLSearchParams(params).toString();
         
-        // Official endpoint logic
-        const targetUrl = isDev 
-             ? '/ddbus/common/supermap/route/traffic' 
-             : 'https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/ddbus/common/supermap/route/traffic';
+        // Use Cloudflare Worker proxy in production
+        const targetUrl = proxyUrl('/ddbus/common/supermap/route/traffic');
 
         const response = await axios.post(targetUrl, qs, {
                  headers: {
@@ -112,9 +114,8 @@ export const fetchBusListApi = async (rNo: string, dir: string, routeType: strin
       };
       const token = generateDsatToken(params);
       
-      const targetUrl = isDev 
-        ? '/macauweb/routestation/bus' 
-        : 'https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/macauweb/routestation/bus';
+      // Use Cloudflare Worker proxy in production
+      const targetUrl = proxyUrl('/macauweb/routestation/bus');
 
       try {
           const res = await axios.post(targetUrl, 
@@ -144,9 +145,8 @@ export const fetchMapLocationApi = async (rNo: string, dir: string) => {
       };
       const token = generateDsatToken(params);
 
-      const url = isDev 
-        ? '/macauweb/routestation/location' 
-        : 'https://cors-anywhere.herokuapp.com/https://bis.dsat.gov.mo:37812/macauweb/routestation/location';
+      // Use Cloudflare Worker proxy in production
+      const url = proxyUrl('/macauweb/routestation/location');
       
       // Use GET request with params in URL to avoid Error 1200 (Invalid Session/Method)
       const qs = new URLSearchParams(params).toString();
