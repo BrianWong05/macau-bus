@@ -274,8 +274,12 @@ export const useArrivalData = (): UseArrivalDataReturn => {
               // Sort by ETA (closest first)
               incomingBuses.sort((a, b) => a.eta - b.eta);
               
-              // Get top 2 buses for display
-              const topBuses = incomingBuses.slice(0, 2);
+              // Get buses for display:
+              // - Include any arrived/arriving buses (stopsAway === 0)
+              // - Plus at least 2 upcoming buses (stopsAway > 0)
+              const arrivedBuses = incomingBuses.filter(b => b.stopsAway === 0);
+              const upcomingBuses = incomingBuses.filter(b => b.stopsAway > 0).slice(0, 2);
+              const topBuses = [...arrivedBuses, ...upcomingBuses];
               const destination = stops[stops.length - 1]?.staName || '';
               const actualTotal = stops.flatMap((s: any) => s.busInfo || []).length;
 
