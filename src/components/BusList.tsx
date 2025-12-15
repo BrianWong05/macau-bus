@@ -1,7 +1,7 @@
 
 import React from 'react';
-
-
+import { useTranslation } from 'react-i18next';
+import { getLocalizedStopName } from '@/utils/localizedStopName';
 
 // Helper to map busType
 const getBusTypeLabel = (type: string) => {
@@ -19,6 +19,8 @@ interface BusListProps {
 }
 
 const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
+    const { i18n } = useTranslation();
+    
     return (
         <div className="pb-10">
             {stops.map((stop, index) => {
@@ -91,7 +93,7 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
 
                         {/* Col 3: Stop Details */}
                         <div className="py-2 pl-1 pt-8"> 
-                            <div className="font-bold text-gray-800 text-sm leading-tight">{index + 1}. {stop.staName}</div>
+                            <div className="font-bold text-gray-800 text-sm leading-tight">{index + 1}. {getLocalizedStopName(stop.staCode, stop.staName)}</div>
                             <div className="text-xs text-gray-400 mt-1 flex gap-2 items-center flex-wrap">
                                 <span>{stop.staCode}</span>
                                 {stop.laneName && <span className="text-teal-600 bg-teal-50 px-1 rounded border border-teal-100">{stop.laneName}</span>}

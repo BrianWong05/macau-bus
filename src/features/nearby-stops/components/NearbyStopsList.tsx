@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatDistance } from '@/utils/distance';
 import { getEtaTextColor } from '@/utils/etaColors';
+import { getLocalizedStopName } from '@/utils/localizedStopName';
 import { NearbyStop, ArrivalData } from '@/features/nearby-stops/types';
 
 interface NearbyStopsListProps {
@@ -59,7 +60,7 @@ export const NearbyStopsList: React.FC<NearbyStopsListProps> = ({
           <div className="p-4 flex justify-between items-start cursor-pointer" onClick={() => onExpandStop(stop)}>
             <div>
               <h3 className="font-bold text-gray-800 text-lg flex items-center gap-2">
-                {stop.name}
+                {getLocalizedStopName(stop.code, stop.name)}
                 {expandedStop === stop.code 
                   ? <span className="text-xs text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full">{t('open')}</span> 
                   : <span className="text-xs text-gray-400">▼</span>

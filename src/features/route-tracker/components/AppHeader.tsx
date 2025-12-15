@@ -5,6 +5,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { getLocalizedStopName } from '@/utils/localizedStopName';
 
 interface AppHeaderProps {
   activeRoute: string;
@@ -100,7 +101,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
           </div>
           <div className="flex-1 min-w-0">
             <div className="text-xs text-teal-100 uppercase font-semibold tracking-wider">{t('to_destination')}</div>
-            <div className="font-medium truncate">{busData.stops[busData.stops.length-1]?.staName}</div>
+            <div className="font-medium truncate">{getLocalizedStopName(busData.stops[busData.stops.length-1]?.staCode, busData.stops[busData.stops.length-1]?.staName)}</div>
           </div>
         </div>
       )}
