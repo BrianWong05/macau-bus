@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RouteLeg, RouteResult } from '@/services/RouteFinder';
+import govData from '@/data/gov_data.json';
 
 // ============== Icons (Inline SVG) ==============
 
@@ -110,20 +111,60 @@ const LegCard: React.FC<LegCardProps> = ({ leg, isFirst, isLast, legIndex }) => 
             </span>
           </div>
 
-          {/* From/To Stations */}
+          {/* From/To Stations with expandable stop list */}
           <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
-            <div className="flex items-start gap-2">
-              <div className="flex flex-col items-center pt-1">
-                <div className="w-2 h-2 rounded-full bg-green-500" />
-                <div className="w-0.5 h-6 bg-gray-300" />
-                <div className="w-2 h-2 rounded-full bg-red-500" />
-              </div>
-              <div className="flex-1 space-y-3">
-                <div>
+            {/* Container with continuous line */}
+            <div className="relative">
+              {/* Continuous vertical line - positioned behind everything */}
+              <div className="absolute left-[5px] top-3 bottom-8 w-0.5 bg-gray-300" />
+              
+              {/* Board at */}
+              <div className="relative flex items-start gap-3">
+                <div className="w-3 flex justify-center flex-shrink-0">
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-500 z-10" />
+                </div>
+                <div className="flex-1 pb-1">
                   <div className="text-xs text-gray-400">{t('route_result.board_at', 'Board at')}</div>
                   <div className="font-medium text-gray-800">{leg.fromStopName}</div>
                 </div>
-                <div>
+              </div>
+              
+              {/* Intermediate Stops (when expanded) */}
+              {expanded && leg.stops.slice(1, -1).map((stopId, idx) => {
+                // Normalize stopId: replace "/" with "_" to match gov_data format
+                const normalizedId = stopId.replace('/', '_');
+                const baseId = stopId.split('/')[0].split('_')[0];
+                
+                // Find stop name from govData
+                const stopInfo = govData.stops.find(
+                  (s) => s.raw?.ALIAS === stopId || 
+                         s.raw?.P_ALIAS === stopId ||
+                         s.raw?.ALIAS === normalizedId ||
+                         s.raw?.P_ALIAS === normalizedId ||
+                         s.raw?.ALIAS === baseId ||
+                         s.raw?.P_ALIAS?.startsWith(baseId + '_')
+                );
+                const stopName = stopInfo?.name || stopId;
+                
+                return (
+                  <div key={stopId} className="relative flex items-start gap-3 py-0.5">
+                    <div className="w-3 flex justify-center flex-shrink-0">
+                      <div className="w-2 h-2 rounded-full bg-gray-300 z-10" />
+                    </div>
+                    <div className="flex-1 text-sm text-gray-500">
+                      <span className="text-gray-400 mr-1">{idx + 2}.</span>
+                      {stopName}
+                    </div>
+                  </div>
+                );
+              })}
+              
+              {/* Alight at */}
+              <div className="relative flex items-start gap-3">
+                <div className="w-3 flex justify-center flex-shrink-0">
+                  <div className="w-2.5 h-2.5 rounded-full bg-red-500 z-10" />
+                </div>
+                <div className="flex-1">
                   <div className="text-xs text-gray-400">{t('route_result.alight_at', 'Alight at')}</div>
                   <div className="font-medium text-gray-800">{leg.toStopName}</div>
                 </div>
@@ -138,16 +179,6 @@ const LegCard: React.FC<LegCardProps> = ({ leg, isFirst, isLast, legIndex }) => 
               <span>{expanded ? t('route_result.hide_stops', 'Hide stops') : t('route_result.show_stops', 'Show stops')}</span>
               <ChevronDownIcon className={`w-3 h-3 transition-transform ${expanded ? 'rotate-180' : ''}`} />
             </button>
-
-            {/* Expanded Stop List (Placeholder) */}
-            {expanded && (
-              <div className="mt-2 pt-2 border-t border-gray-200">
-                <div className="text-xs text-gray-400 italic">
-                  {/* TODO: Render leg.stops here when available */}
-                  {t('route_result.stop_list_placeholder', 'Stop list will be shown here...')}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
