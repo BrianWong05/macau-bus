@@ -11,13 +11,11 @@ interface AppHeaderProps {
   activeRoute: string;
   busData: any;
   routeNo: string;
-  showNearby: boolean;
   hasOppositeDirection: boolean;
   onBack: () => void;
   onSearch: () => void;
   onSetRouteNo: (val: string) => void;
   onToggleDirection: () => void;
-  onShowNearby: () => void;
   onResetToHome: () => void;
 }
 
@@ -25,13 +23,11 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   activeRoute,
   busData,
   routeNo,
-  showNearby,
   hasOppositeDirection,
   onBack,
   onSearch,
   onSetRouteNo,
   onToggleDirection,
-  onShowNearby,
   onResetToHome,
 }) => {
   const { t } = useTranslation();
@@ -58,17 +54,10 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         </h1>
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
-          <button 
-            onClick={onShowNearby}
-            className="bg-white/20 p-2 rounded-full hover:bg-white/30 transition backdrop-blur-sm"
-            title="Nearby Stops"
-          >
-            📍
-          </button>
         </div>
       </div>
 
-      {!busData && !showNearby && (
+      {!busData && (
         <div className="text-teal-100 text-sm mb-2">
           {t('subtitle', 'Real-time bus tracking & traffic')}
         </div>

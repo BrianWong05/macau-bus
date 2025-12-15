@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import MapComponent from '@/components/MapComponent';
 import BusList from '@/components/BusList';
 import RouteDashboard from '@/components/RouteDashboard';
-import NearbyStops from '@/components/NearbyStops';
 import { useRouteData, AppHeader, RouteControls, RouteStatusBanner } from '@/features/route-tracker';
 import { fetchTrafficApi } from '@/services/api';
 
@@ -11,7 +10,6 @@ function App() {
   const [activeRoute, setActiveRoute] = useState(''); // Actual confirmed route for fetching
   const [direction, setDirection] = useState('0'); // '0' or '1'
   const [viewMode, setViewMode] = useState<'dashboard' | 'list' | 'map'>('dashboard'); // 'list' | 'map'
-  const [showNearby, setShowNearby] = useState(false);
   const [scrollToStop, setScrollToStop] = useState<string | null>(null);
 
   // Use extracted hook for route data management
@@ -94,12 +92,14 @@ function App() {
     executeSearch(routeNo, direction);
   };
 
-  const handleSelectRoute = (route: string, dir = '0') => {
+  const handleSelectRoute = (route: string, stopCode?: string, dir?: string | null) => {
+      const finalDir = dir || '0';
       setRouteNo(route);
-      setDirection(dir);
+      setDirection(finalDir);
       setActiveRoute(route); // Sync local state
       setViewMode('list');
-      executeSearch(route, dir);
+      executeSearch(route, finalDir);
+      if (stopCode) setScrollToStop(stopCode);
   };
   
   // Note: fetchRealtimeBus and fetchBusLocation are now provided by useRouteData hook
@@ -193,19 +193,16 @@ function App() {
           activeRoute={activeRoute}
           busData={busData}
           routeNo={routeNo}
-          showNearby={showNearby}
           hasOppositeDirection={hasOppositeDirection}
           onBack={handleBack}
           onSearch={handleSearch}
           onSetRouteNo={setRouteNo}
           onToggleDirection={toggleDirection}
-          onShowNearby={() => setShowNearby(true)}
           onResetToHome={() => {
             setBusData(null);
             setTrafficData([]);
             setActiveRoute('');
             setRouteNo('');
-            setShowNearby(false);
             setViewMode('dashboard');
           }}
         />
@@ -213,25 +210,14 @@ function App() {
         {/* Content Area */}
         <div className="flex-1 flex flex-col overflow-y-auto relative">
             
-            {/* 1. Nearby Stops Modal */}
-            {showNearby && (
-                <NearbyStops 
-                    onClose={() => setShowNearby(false)}
-                    onSelectRoute={(route, stopCode, dir) => {
-                        handleSelectRoute(route, dir || '0');
-                        if (stopCode) setScrollToStop(stopCode);
-                        setShowNearby(false);
-                    }}
-                />
-            )}
-
             {/* 2. Route Dashboard (Route List) */}
-            {!busData && !showNearby && (
+            {!busData && (
                 <RouteDashboard onSelectRoute={handleSelectRoute} />
             )}
 
             {/* 3. Active Bus Detail View */}
-            {busData && !showNearby && (
+            {/* 3. Active Bus Detail View */}
+            {busData && (
                 <div className="flex-1 flex flex-col relative">
                     
                      {/* Controls Bar & Refresh */}

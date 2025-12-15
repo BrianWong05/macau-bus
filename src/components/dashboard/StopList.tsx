@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useArrivalData } from '@/features/nearby-stops/hooks/useArrivalData';
-import { StopCard } from './StopCard';
+import { StopCard } from '@/components/dashboard/StopCard';
 
 interface StopListProps {
   stops: any[];
