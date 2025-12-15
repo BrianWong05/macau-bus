@@ -39,6 +39,19 @@ export const StopList: React.FC<StopListProps> = ({
   // Auto-refresh arrival data when stop is expanded
   useEffect(() => {
     if (!expandedStop) return;
+    
+    // Scroll element into view smoothly after a short delay to allow expansion animation
+    setTimeout(() => {
+      // Look for the element by id which we will set in StopCard or a wrapper
+      // Assuming unique IDs like `stop-card-${stopCode}`
+      const element = document.getElementById(`stop-card-${expandedStop}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Optional: adjust scroll position to account for fixed header if needed
+        // but 'start' usually puts it at the top of the scrollable container
+      }
+    }, 100);
+
     fetchStopData(expandedStop);
     const interval = setInterval(() => fetchStopData(expandedStop), 8000);
     return () => clearInterval(interval);
@@ -68,16 +81,21 @@ export const StopList: React.FC<StopListProps> = ({
   return (
     <div className="space-y-3">
       {stops.map((stop, idx) => (
-        <StopCard
-          key={`${stop.code || idx}`}
-          stop={stop}
-          isExpanded={expandedStop === stop.code}
-          arrivalData={arrivalData}
-          loadingArrivals={loadingArrivals[stop.code]}
-          onToggle={() => handleToggleStop(stop.code)}
-          onSelectRoute={onSelectRoute}
-          userLocation={userLocation}
-        />
+        <div 
+          key={`${stop.code || idx}`} 
+          id={`stop-card-${stop.code}`}
+          className="scroll-mt-4"
+        >
+          <StopCard
+            stop={stop}
+            isExpanded={expandedStop === stop.code}
+            arrivalData={arrivalData}
+            loadingArrivals={loadingArrivals[stop.code]}
+            onToggle={() => handleToggleStop(stop.code)}
+            onSelectRoute={onSelectRoute}
+            userLocation={userLocation}
+          />
+        </div>
       ))}
     </div>
   );
