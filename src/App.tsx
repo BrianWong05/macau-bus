@@ -11,6 +11,8 @@ function App() {
   const [direction, setDirection] = useState('0'); // '0' or '1'
   const [viewMode, setViewMode] = useState<'dashboard' | 'list' | 'map'>('dashboard'); // 'list' | 'map'
   const [scrollToStop, setScrollToStop] = useState<string | null>(null);
+  const [previousSearchMode, setPreviousSearchMode] = useState<'route' | 'stop'>('route');
+  const [expandedStopCode, setExpandedStopCode] = useState<string | null>(null);
 
   // Use extracted hook for route data management
   const {
@@ -85,6 +87,7 @@ function App() {
       setTrafficData([]);
       setViewMode('dashboard');
       setHasOppositeDirection(true);
+      // Note: previousSearchMode is passed to RouteDashboard so it can restore the mode
   };
 
   const handleSearch = () => {
@@ -212,10 +215,15 @@ function App() {
             
             {/* 2. Route Dashboard (Route List) */}
             {!busData && (
-                <RouteDashboard onSelectRoute={handleSelectRoute} />
+                <RouteDashboard 
+                  onSelectRoute={handleSelectRoute} 
+                  initialSearchMode={previousSearchMode}
+                  onSearchModeChange={setPreviousSearchMode}
+                  expandedStop={expandedStopCode}
+                  onExpandedStopChange={setExpandedStopCode}
+                />
             )}
 
-            {/* 3. Active Bus Detail View */}
             {/* 3. Active Bus Detail View */}
             {busData && (
                 <div className="flex-1 flex flex-col relative">

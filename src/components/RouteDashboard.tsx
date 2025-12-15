@@ -9,6 +9,10 @@ import { StopList } from '@/components/dashboard/StopList';
 
 interface RouteDashboardProps {
   onSelectRoute: (route: string, stopCode?: string, direction?: string | null) => void;
+  initialSearchMode?: 'route' | 'stop';
+  onSearchModeChange?: (mode: 'route' | 'stop') => void;
+  expandedStop?: string | null;
+  onExpandedStopChange?: (stopCode: string | null) => void;
 }
 
 type SearchMode = 'route' | 'stop';
@@ -33,13 +37,20 @@ interface StopWithDistance extends StopData {
 
 const stopsData = govData.stops as StopData[];
 
-const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
+const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute, initialSearchMode = 'route', onSearchModeChange, expandedStop, onExpandedStopChange }) => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchMode, setSearchMode] = useState<SearchMode>('route');
+  const [searchMode, setSearchMode] = useState<SearchMode>(initialSearchMode);
   const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+
+  // Notify parent when search mode changes
+  const handleModeChange = (mode: SearchMode) => {
+    setSearchMode(mode);
+    setSearchTerm('');
+    onSearchModeChange?.(mode);
+  };
 
   // Get user location when stop mode is selected
   useEffect(() => {
@@ -102,10 +113,7 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
         {/* Search Mode Toggle */}
         <SearchModeToggle 
           searchMode={searchMode} 
-          onModeChange={(mode) => {
-            setSearchMode(mode);
-            setSearchTerm('');
-          }} 
+          onModeChange={handleModeChange} 
         />
 
         {/* Search Header */}
@@ -137,6 +145,8 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
             locationLoading={locationLoading}
             locationError={locationError}
             onSelectRoute={onSelectRoute}
+            expandedStop={expandedStop}
+            onExpandedStopChange={onExpandedStopChange}
           />
         )}
       </div>

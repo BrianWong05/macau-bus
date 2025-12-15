@@ -9,6 +9,8 @@ interface StopListProps {
   locationLoading: boolean;
   locationError: string | null;
   onSelectRoute: (route: string, stopCode?: string, direction?: string | null) => void;
+  expandedStop?: string | null;
+  onExpandedStopChange?: (stopCode: string | null) => void;
 }
 
 export const StopList: React.FC<StopListProps> = ({
@@ -16,11 +18,23 @@ export const StopList: React.FC<StopListProps> = ({
   userLocation,
   locationLoading,
   locationError,
-  onSelectRoute
+  onSelectRoute,
+  expandedStop: controlledExpandedStop,
+  onExpandedStopChange
 }) => {
   const { t } = useTranslation();
-  const [expandedStop, setExpandedStop] = useState<string | null>(null);
+  const [localExpandedStop, setLocalExpandedStop] = useState<string | null>(null);
   const { arrivalData, loadingArrivals, fetchStopData } = useArrivalData();
+
+  // Use controlled state if provided, otherwise use local state
+  const expandedStop = controlledExpandedStop !== undefined ? controlledExpandedStop : localExpandedStop;
+  const setExpandedStop = (value: string | null) => {
+    if (onExpandedStopChange) {
+      onExpandedStopChange(value);
+    } else {
+      setLocalExpandedStop(value);
+    }
+  };
 
   // Auto-refresh arrival data when stop is expanded
   useEffect(() => {
@@ -31,7 +45,7 @@ export const StopList: React.FC<StopListProps> = ({
   }, [expandedStop, fetchStopData]);
 
   const handleToggleStop = (stopCode: string) => {
-    setExpandedStop(prev => prev === stopCode ? null : stopCode);
+    setExpandedStop(expandedStop === stopCode ? null : stopCode);
   };
 
   if (locationLoading) {
