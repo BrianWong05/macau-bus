@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ALL_ROUTES } from '@/data/routes';
 
 interface RouteDashboardProps {
@@ -7,6 +8,7 @@ interface RouteDashboardProps {
 }
 
 const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredRoutes = ALL_ROUTES.filter(route => 
@@ -17,10 +19,10 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
     <div className="flex flex-col h-full bg-gray-50 p-4">
       {/* Search Header */}
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">All Routes</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('all_routes')}</h2>
         <input
           type="text"
-          placeholder="Search Route (e.g. 33, 26A)..."
+          placeholder={t('search_route_placeholder')}
           className="w-full p-3 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -44,7 +46,7 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
           
           {filteredRoutes.length === 0 && (
             <div className="col-span-full text-center py-10 text-gray-500">
-              No routes found matching "{searchTerm}"
+              {t('no_data')}
             </div>
           )}
         </div>
@@ -54,3 +56,4 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
 };
 
 export default RouteDashboard;
+

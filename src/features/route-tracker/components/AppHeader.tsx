@@ -3,6 +3,8 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 interface AppHeaderProps {
   activeRoute: string;
@@ -31,6 +33,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   onShowNearby,
   onResetToHome,
 }) => {
+  const { t } = useTranslation();
+  
   return (
     <div className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white p-4 shadow-md sticky top-0 z-10">
       <div className="flex justify-between items-center mb-4">
@@ -49,20 +53,23 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
               </svg>
             </button>
           )}
-          {!busData && "🚍"} Macau Bus
+          {!busData && "🚍"} {t('app_title')}
         </h1>
-        <button 
-          onClick={onShowNearby}
-          className="bg-white/20 p-2 rounded-full hover:bg-white/30 transition backdrop-blur-sm"
-          title="Nearby Stops"
-        >
-          📍
-        </button>
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <button 
+            onClick={onShowNearby}
+            className="bg-white/20 p-2 rounded-full hover:bg-white/30 transition backdrop-blur-sm"
+            title="Nearby Stops"
+          >
+            📍
+          </button>
+        </div>
       </div>
 
       {!busData && !showNearby && (
         <div className="text-teal-100 text-sm mb-4">
-          Real-time bus tracking &amp; traffic
+          {t('subtitle', 'Real-time bus tracking & traffic')}
         </div>
       )}
       
@@ -73,7 +80,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             type="text" 
             value={routeNo} 
             onChange={(e) => onSetRouteNo(e.target.value)} 
-            placeholder="Route No. (e.g. 33, N2)"
+            placeholder={t('search_placeholder')}
             className="flex-1 text-gray-800 border-0 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/50 shadow-inner"
           />
           <button 
@@ -92,7 +99,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
             {activeRoute}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-xs text-teal-100 uppercase font-semibold tracking-wider">To Destination</div>
+            <div className="text-xs text-teal-100 uppercase font-semibold tracking-wider">{t('to_destination')}</div>
             <div className="font-medium truncate">{busData.stops[busData.stops.length-1]?.staName}</div>
           </div>
         </div>

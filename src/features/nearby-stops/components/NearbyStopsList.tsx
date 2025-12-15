@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { formatDistance } from '@/utils/distance';
 import { getEtaTextColor } from '@/utils/etaColors';
 import { NearbyStop, ArrivalData } from '@/features/nearby-stops/types';
@@ -26,12 +27,14 @@ export const NearbyStopsList: React.FC<NearbyStopsListProps> = ({
   onSelectRoute,
   onClose,
 }) => {
+  const { t } = useTranslation();
+  
   if (permissionDenied) {
     return (
       <div className="flex flex-col items-center justify-center p-6 text-gray-500">
         <div className="text-4xl mb-2">🚫</div>
-        <p>Location access denied.</p>
-        <p className="text-xs mt-1">Enable location to see nearby stops.</p>
+        <p>{t('location_denied')}</p>
+        <p className="text-xs mt-1">{t('enable_location')}</p>
       </div>
     );
   }
@@ -40,7 +43,7 @@ export const NearbyStopsList: React.FC<NearbyStopsListProps> = ({
     return (
       <div className="flex flex-col items-center justify-center p-10 text-gray-400">
         <div className="text-3xl mb-2">🚏</div>
-        <div>No stops found nearby.</div>
+        <div>{t('no_stops_nearby')}</div>
       </div>
     );
   }
@@ -58,7 +61,7 @@ export const NearbyStopsList: React.FC<NearbyStopsListProps> = ({
               <h3 className="font-bold text-gray-800 text-lg flex items-center gap-2">
                 {stop.name}
                 {expandedStop === stop.code 
-                  ? <span className="text-xs text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full">Open</span> 
+                  ? <span className="text-xs text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full">{t('open')}</span> 
                   : <span className="text-xs text-gray-400">▼</span>
                 }
               </h3>
@@ -83,12 +86,12 @@ export const NearbyStopsList: React.FC<NearbyStopsListProps> = ({
             <div className="bg-gray-50 border-t p-3 text-sm">
               {lastUpdated && (
                 <div className="text-[10px] text-gray-400 text-right mb-2">
-                  Updated: {lastUpdated.toLocaleTimeString()}
+                  {t('updated')}: {lastUpdated.toLocaleTimeString()}
                 </div>
               )}
               
               {loadingArrivals[stop.code] ? (
-                <div className="text-gray-500 flex items-center justify-center py-2">Loading live data...</div>
+                <div className="text-gray-500 flex items-center justify-center py-2">{t('loading')}</div>
               ) : (
                 <div className="space-y-2">
                   {stop.routes.map(route => {
@@ -128,19 +131,19 @@ export const NearbyStopsList: React.FC<NearbyStopsListProps> = ({
                           </div>
                           {status === 'arriving' && (
                             <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold animate-pulse">
-                              Arriving
+                              {t('arriving')}
                             </span>
                           )}
                         </div>
 
                         {/* Bus List */}
                         <div className="p-3">
-                          {status === 'no-service' && <div className="text-gray-400 text-xs">No active service</div>}
-                          {status === 'no-approaching' && <div className="text-gray-400 text-xs">No approaching buses</div>}
+                          {status === 'no-service' && <div className="text-gray-400 text-xs">{t('no_active_service')}</div>}
+                          {status === 'no-approaching' && <div className="text-gray-400 text-xs">{t('no_approaching')}</div>}
                           {status === 'arriving' && (
                             <div className="flex items-center gap-2 text-green-600">
                               <span className="text-lg">🚌</span>
-                              <span className="font-semibold">At station / Arriving now</span>
+                              <span className="font-semibold">{t('at_station')}</span>
                             </div>
                           )}
                           {status === 'active' && buses && buses.length > 0 && (
@@ -156,13 +159,13 @@ export const NearbyStopsList: React.FC<NearbyStopsListProps> = ({
                                         <span>@ {bus.currentStop}</span>
                                       </div>
                                       <div className="text-xs text-gray-600">
-                                        {bus.stopsAway} {bus.stopsAway === 1 ? 'stop' : 'stops'} • {bus.distanceM > 0 ? `${(bus.distanceM / 1000).toFixed(1)}km` : '< 0.1km'}
+                                        {bus.stopsAway} {t('stops')} • {bus.distanceM > 0 ? `${(bus.distanceM / 1000).toFixed(1)}km` : '< 0.1km'}
                                       </div>
                                     </div>
                                   </div>
                                   <div className={`text-lg font-bold ${getEtaTextColor(bus.eta)}`}>
                                     {bus.eta === 0 ? '<1' : bus.eta}
-                                    <span className="text-xs font-normal ml-0.5">min</span>
+                                    <span className="text-xs font-normal ml-0.5">{t('min')}</span>
                                   </div>
                                 </div>
                               ))}
