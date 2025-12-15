@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { formatDistance } from '@/utils/distance';
 import { getEtaTextColor } from '@/utils/etaColors';
 import { getLocalizedStopName } from '@/utils/localizedStopName';
+import { BusProgressBar } from '@/features/nearby-stops/components/BusProgressBar';
 import { NearbyStop, ArrivalData } from '@/features/nearby-stops/types';
 
 interface NearbyStopsListProps {
@@ -162,6 +163,9 @@ export const NearbyStopsList: React.FC<NearbyStopsListProps> = ({
                                       <div className="text-xs text-gray-600">
                                         {bus.stopsAway} {t('stops')} • {bus.distanceM > 0 ? `${(bus.distanceM / 1000).toFixed(1)}km` : '< 0.1km'}
                                       </div>
+                                      {bus.trafficSegments && bus.trafficSegments.length > 0 && (
+                                        <BusProgressBar trafficSegments={bus.trafficSegments} />
+                                      )}
                                     </div>
                                   </div>
                                   <div className={`text-lg font-bold ${getEtaTextColor(bus.eta)}`}>

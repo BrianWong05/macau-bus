@@ -23,6 +23,9 @@ export interface BusInfo {
   eta: number;
   distanceM: number;
   currentStop: string;
+  trafficSegments?: number[]; // Array of traffic levels for each segment
+  busStopIdx?: number;        // Bus position index
+  targetStopIdx?: number;     // Selected stop index
 }
 
 export interface MapBus {

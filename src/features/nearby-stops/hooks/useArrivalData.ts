@@ -149,12 +149,20 @@ export const useArrivalData = (): UseArrivalDataReturn => {
                     if (eta === 0 && stopsAway > 0 && pathDistKm > 0.1) eta = 1;
 
                     stops[i].busInfo.forEach((b: any) => {
+                      // Extract traffic levels for segments between bus and target stop
+                      const segmentTraffic = routeTrafficData
+                        .slice(i, stopIdx)
+                        .map((t: any) => t?.traffic || 1);
+
                       incomingBuses.push({
                         plate: b.busPlate,
                         stopsAway,
                         currentStop: getStopName(stops[i].staCode),
                         eta,
                         distanceM: Math.round(pathDistKm * 1000),
+                        trafficSegments: segmentTraffic,
+                        busStopIdx: i,
+                        targetStopIdx: stopIdx,
                       });
                     });
 
