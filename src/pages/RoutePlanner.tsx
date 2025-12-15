@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouteFinder, RouteResult, BusStop, TripResult } from '@/services/RouteFinder';
 import { RouteResultCard } from '@/components/RouteResultCard';
@@ -215,9 +215,12 @@ export const RoutePlanner: React.FC = () => {
 
   const [suggestions, setSuggestions] = useState<BusStop[]>([]);
   const [activeField, setActiveField] = useState<'start' | 'end' | null>(null);
+  
+  // Debounce timer for place search
+  const placeSearchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Search Logic - combines bus stops and places
-  const updateSuggestions = useCallback(async (query: string) => {
+  const updateSuggestions = useCallback((query: string) => {
     if (!routeFinder || !query || query.length < 2) {
       setSuggestions([]);
       setPlaceResults([]);
@@ -228,14 +231,26 @@ export const RoutePlanner: React.FC = () => {
     const stops = routeFinder.searchStops(query);
     setSuggestions(stops);
     
-    // Place search (async) - only if query is 3+ chars
-    if (query.length >= 3) {
-      try {
-        const places = await searchPlace(query);
-        setPlaceResults(places);
-      } catch (e) {
-        console.error('Place search error:', e);
-      }
+    // Debounced place search (async) - only if query is 2+ chars
+    // Cancel previous timer to avoid rate limiting
+    if (placeSearchTimerRef.current) {
+      clearTimeout(placeSearchTimerRef.current);
+    }
+    
+    if (query.length >= 2) {
+      // Wait 500ms after user stops typing before searching
+      placeSearchTimerRef.current = setTimeout(async () => {
+        try {
+          const places = await searchPlace(query);
+          setPlaceResults(places);
+        } catch (e) {
+          console.error('Place search error:', e);
+          // Don't clear on error, keep previous results
+        }
+      }, 500);
+    } else {
+      // Clear place results if query is too short
+      setPlaceResults([]);
     }
   }, [routeFinder]);
 
