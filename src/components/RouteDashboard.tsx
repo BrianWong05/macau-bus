@@ -1,8 +1,9 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ALL_ROUTES } from '@/data/routes';
 import govData from '@/data/gov_data.json';
+import { getDistanceFromLatLonInKm } from '@/utils/distance';
 
 interface RouteDashboardProps {
   onSelectRoute: (route: string) => void;
@@ -12,6 +13,8 @@ type SearchMode = 'route' | 'stop';
 
 interface StopData {
   name: string;
+  lat: number;
+  lon: number;
   raw?: {
     ROUTE_NOS?: string;
     P_NAME?: string;
@@ -21,12 +24,38 @@ interface StopData {
   };
 }
 
+interface StopWithDistance extends StopData {
+  distance: number;
+  code: string;
+}
+
 const stopsData = govData.stops as StopData[];
 
 const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
   const { t, i18n } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchMode, setSearchMode] = useState<SearchMode>('route');
+  const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+
+  // Get user location when stop mode is selected
+  useEffect(() => {
+    if (searchMode === 'stop' && !userLocation && !locationLoading) {
+      setLocationLoading(true);
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setUserLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude });
+          setLocationLoading(false);
+        },
+        (err) => {
+          setLocationError(err.message);
+          setLocationLoading(false);
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+  }, [searchMode, userLocation, locationLoading]);
 
   // Filter routes by search term
   const filteredRoutes = useMemo(() => {
@@ -36,24 +65,46 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
     );
   }, [searchTerm, searchMode]);
 
-  // Search stops by name (supports all languages)
-  const filteredStops = useMemo(() => {
-    if (searchMode !== 'stop' || searchTerm.length < 1) return [];
-    const term = searchTerm.toLowerCase();
+  // Process all stops with distance calculation
+  const allStopsWithDistance = useMemo((): StopWithDistance[] => {
+    if (searchMode !== 'stop') return [];
     
-    return stopsData
-      .filter(stop => {
+    return stopsData.map(stop => {
+      const distance = userLocation 
+        ? getDistanceFromLatLonInKm(userLocation.lat, userLocation.lon, stop.lat, stop.lon)
+        : 999;
+      const code = (stop.raw?.P_ALIAS || 'UNKNOWN').replace(/[_-]/g, '/');
+      return { ...stop, distance, code };
+    });
+  }, [searchMode, userLocation]);
+
+  // Get stops to display: 15 nearest by default, or filtered results
+  const displayStops = useMemo((): StopWithDistance[] => {
+    if (searchMode !== 'stop') return [];
+
+    let results = [...allStopsWithDistance];
+
+    // If searching, filter by name
+    if (searchTerm.length > 0) {
+      const term = searchTerm.toLowerCase();
+      results = results.filter(stop => {
         const names = [
           stop.name,
           stop.raw?.P_NAME,
           stop.raw?.P_NAME_EN,
           stop.raw?.P_NAME_POR,
+          stop.raw?.P_ALIAS,
         ].filter(Boolean).map(n => n!.toLowerCase());
-        
         return names.some(name => name.includes(term));
-      })
-      .slice(0, 20); // Limit results
-  }, [searchTerm, searchMode]);
+      });
+    }
+
+    // Sort by distance
+    results.sort((a, b) => a.distance - b.distance);
+
+    // Limit: 15 for default nearby view, 30 for search results
+    return results.slice(0, searchTerm.length > 0 ? 30 : 15);
+  }, [allStopsWithDistance, searchTerm, searchMode]);
 
   // Get localized stop name based on current language
   const getDisplayName = (stop: StopData) => {
@@ -61,6 +112,12 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
     if (lang === 'en') return stop.raw?.P_NAME_EN || stop.name;
     if (lang === 'pt') return stop.raw?.P_NAME_POR || stop.name;
     return stop.raw?.P_NAME || stop.name;
+  };
+
+  // Format distance
+  const formatDist = (km: number) => {
+    if (km < 1) return `${Math.round(km * 1000)}m`;
+    return `${km.toFixed(1)}km`;
   };
 
   return (
@@ -90,9 +147,9 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
       </div>
 
       {/* Search Header */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          {searchMode === 'route' ? t('all_routes') : t('search_stop')}
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold text-gray-800 mb-3">
+          {searchMode === 'route' ? t('all_routes') : (searchTerm ? t('search_stop') : t('nearby_stops'))}
         </h2>
         <input
           type="text"
@@ -131,25 +188,38 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute }) => {
         {/* Stop Mode: List of stops with routes */}
         {searchMode === 'stop' && (
           <div className="space-y-3">
-            {searchTerm.length < 1 ? (
+            {locationLoading ? (
               <div className="text-center py-10 text-gray-400">
-                {t('search_stop_placeholder')}
+                📍 {t('loading')}
               </div>
-            ) : filteredStops.length === 0 ? (
+            ) : locationError && !userLocation ? (
+              <div className="text-center py-10 text-gray-500">
+                <div className="text-2xl mb-2">🚫</div>
+                <p>{t('location_denied')}</p>
+                <p className="text-xs text-gray-400 mt-1">{t('search_stop_placeholder')}</p>
+              </div>
+            ) : displayStops.length === 0 ? (
               <div className="text-center py-10 text-gray-500">
                 {t('no_data')}
               </div>
             ) : (
-              filteredStops.map((stop, idx) => {
+              displayStops.map((stop, idx) => {
                 const routes = stop.raw?.ROUTE_NOS?.split(',').map(r => r.trim()).filter(Boolean) || [];
                 return (
-                  <div key={`${stop.raw?.P_ALIAS || idx}`} className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-                    <div className="flex items-start gap-2 mb-2">
-                      <span className="text-lg">📍</span>
-                      <div>
-                        <h3 className="font-bold text-gray-800">{getDisplayName(stop)}</h3>
-                        <p className="text-xs text-gray-400 font-mono">{stop.raw?.P_ALIAS}</p>
+                  <div key={`${stop.code || idx}`} className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg">📍</span>
+                        <div>
+                          <h3 className="font-bold text-gray-800">{getDisplayName(stop)}</h3>
+                          <p className="text-xs text-gray-400 font-mono">{stop.raw?.P_ALIAS}</p>
+                        </div>
                       </div>
+                      {userLocation && (
+                        <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded-full font-medium">
+                          {formatDist(stop.distance)}
+                        </span>
+                      )}
                     </div>
                     {routes.length > 0 && (
                       <div>
