@@ -27,5 +27,9 @@
   "open": "Open",
   "location_denied": "Location access denied",
   "enable_location": "Enable location to see nearby stops",
-  "no_stops_nearby": "No stops found nearby"
+  "no_stops_nearby": "No stops found nearby",
+  "search_route": "Search Route",
+  "search_stop": "Search Stop",
+  "search_stop_placeholder": "Enter stop name...",
+  "routes_at_stop": "Routes"
 }

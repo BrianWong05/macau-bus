@@ -27,5 +27,9 @@
   "open": "Abrir",
   "location_denied": "Acesso à localização negado",
   "enable_location": "Active a localização para ver paragens próximas",
-  "no_stops_nearby": "Não há paragens nas proximidades"
+  "no_stops_nearby": "Não há paragens nas proximidades",
+  "search_route": "Pesquisar Rota",
+  "search_stop": "Pesquisar Paragem",
+  "search_stop_placeholder": "Digite o nome da paragem...",
+  "routes_at_stop": "Rotas"
 }

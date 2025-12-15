@@ -27,5 +27,9 @@
   "open": "展開",
   "location_denied": "位置存取被拒絕",
   "enable_location": "請開啟位置權限以查看附近車站",
-  "no_stops_nearby": "附近沒有車站"
+  "no_stops_nearby": "附近沒有車站",
+  "search_route": "搜尋路線",
+  "search_stop": "搜尋車站",
+  "search_stop_placeholder": "輸入車站名稱...",
+  "routes_at_stop": "途經路線"
 }

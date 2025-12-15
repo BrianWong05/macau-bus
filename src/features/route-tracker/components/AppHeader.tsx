@@ -69,27 +69,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
       </div>
 
       {!busData && !showNearby && (
-        <div className="text-teal-100 text-sm mb-4">
+        <div className="text-teal-100 text-sm mb-2">
           {t('subtitle', 'Real-time bus tracking & traffic')}
-        </div>
-      )}
-      
-      {/* Search Bar - Only show on Home Screen */}
-      {!busData && !showNearby && (
-        <div className="flex gap-2">
-          <input 
-            type="text" 
-            value={routeNo} 
-            onChange={(e) => onSetRouteNo(e.target.value)} 
-            placeholder={t('search_placeholder')}
-            className="flex-1 text-gray-800 border-0 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-white/50 shadow-inner"
-          />
-          <button 
-            onClick={onSearch}
-            className="bg-white text-teal-600 px-6 py-3 rounded font-bold hover:bg-teal-50 shadow-lg transition"
-          >
-            GO
-          </button>
         </div>
       )}
       
