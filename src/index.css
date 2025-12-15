@@ -31,5 +31,5 @@ body {
 }
 
 .animate-bus-flash {
-  animation: bus-flash 0.6s ease-in-out infinite;
+  animation: bus-flash 1.2s ease-in-out infinite;
 }
