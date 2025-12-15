@@ -14,6 +14,20 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    chunkSizeWarningLimit: 600, // Slightly increase limit (default 500)
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Split vendor libraries
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-leaflet': ['leaflet', 'react-leaflet'],
+          'vendor-i18n': ['i18next', 'react-i18next'],
+          'vendor-axios': ['axios'],
+        },
+      },
+    },
+  },
   server: {
     proxy: {
       '/macauweb': {
