@@ -103,8 +103,10 @@ const LegCard: React.FC<LegCardProps> = ({ leg, isFirst, isLast, legIndex }) => 
               <BusIcon className="w-3 h-3" />
               {leg.routeName}
             </span>
-            <span className="text-xs text-gray-400">
-              {leg.stopCount} {t('route_result.stops', 'stops')}
+            <span className="text-xs text-gray-400 flex items-center gap-1">
+              <span>{leg.stopCount} {t('route_result.stops', 'stops')}</span>
+              <span>•</span>
+              <span className="font-medium text-teal-600">{Math.round(leg.duration || 0)} {t('min', 'min')}</span>
             </span>
           </div>
 
@@ -222,6 +224,13 @@ export const RouteResultCard: React.FC<RouteResultCardProps> = ({ result, classN
                 <span>{transferCount} {t('route_result.transfers', 'transfer(s)')}</span>
               </>
             )}
+            <span>•</span>
+            <span className="font-bold text-teal-100 flex items-center gap-1">
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {Math.round(result.totalDuration || 0)} {t('min', 'min')}
+            </span>
           </div>
         </div>
       </div>

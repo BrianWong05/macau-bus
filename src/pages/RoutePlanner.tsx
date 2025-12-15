@@ -146,6 +146,18 @@ export const RoutePlanner: React.FC = () => {
       
       if (foundRoutes.length > 0) {
         setResults(foundRoutes);
+        
+        // Enrich with traffic asynchronously
+        routeFinder.enrichWithTraffic(foundRoutes).then(enriched => {
+            // Only update if the user hasn't started a new search (simple check: if results are still non-null)
+            // Ideally we'd valid against a search ID, but this is a simple app.
+            // Using functional state update to ensure we don't overwrite if cleared
+            setResults(prev => {
+                if (!prev) return null; // Cancelled
+                return [...enriched]; // Create new array to force re-render
+            });
+        }).catch(err => console.error("Traffic enrichment failed:", err));
+        
       } else {
         setError(t('route_planner.no_route', 'No route found between these stops'));
       }

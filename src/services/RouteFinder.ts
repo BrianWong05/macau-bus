@@ -4,6 +4,13 @@
  * Provides pathfinding capabilities using BFS (Breadth-First Search)
  * optimized for fewest transfers rather than fewest stops.
  */
+import { fetchTrafficApi } from '@/services/api';
+import { calcTravelTime } from '@/utils/etaCalculator';
+import type { Stop as EtaStop, TrafficSegment } from '@/utils/etaCalculator';
+
+/**
+ * RouteFinder - Client-side Pathfinding for the Macau Bus Network
+ */
 
 // ============== Types ==============
 
@@ -37,12 +44,14 @@ export interface RouteLeg {
   toStopName: string;   // Human-readable
   stopCount: number;    // Number of stops on this leg
   stops: string[];      // All stop IDs in order for this leg
+  duration: number;     // Estimated duration in minutes
 }
 
 export interface RouteResult {
   legs: RouteLeg[];
   totalStops: number;
   transferCount: number;
+  totalDuration: number; // Estimated total duration in minutes
 }
 
 // ============== RouteFinder Class ==============
@@ -205,22 +214,36 @@ export class RouteFinder {
     if (startStopId === endStopId) {
       return [];
     }
+    
+    // Use set to deduplicate by total duration and stops
+    const allResults: RouteResult[] = [];
 
-    // ===== Step 1: Check for Direct Routes (Return ALL options) =====
+    // ===== Step 1: Check for Direct Routes =====
     const directRoutes = this.findDirectRoutes(startStopId, endStopId);
-    if (directRoutes.length > 0) {
-      return directRoutes;
-    }
+    allResults.push(...directRoutes);
 
-    // ===== Step 2: BFS for 1-Transfer Routes (Return Top 5) =====
+    // ===== Step 2: BFS for 1-Transfer Routes =====
+    // Only search if we don't have too many direct routes, or if user wants options
     const oneTransferRoutes = this.findOneTransferRoutes(startStopId, endStopId);
-    if (oneTransferRoutes.length > 0) {
-      return oneTransferRoutes;
-    }
+    allResults.push(...oneTransferRoutes);
 
-    // ===== Step 3: General BFS (Multi-Transfer) =====
-    const multi = this.findMultiTransferRoute(startStopId, endStopId);
-    return multi ? [multi] : [];
+    // ===== Step 3: Multi-Transfer (only if few results) =====
+    if (allResults.length < 3) {
+        const multi = this.findMultiTransferRoute(startStopId, endStopId);
+        if (multi) allResults.push(multi);
+    }
+    
+    // Sort by Total Duration first, then transfers
+    return allResults.sort((a, b) => {
+        // Prefer significantly faster routes
+        const diff = a.totalDuration - b.totalDuration;
+        if (Math.abs(diff) > 5) return diff; // If difference > 5 mins, sort by time
+        
+        // Otherwise prefer fewer transfers
+        if (a.transferCount !== b.transferCount) return a.transferCount - b.transferCount;
+        
+        return diff;
+    });
   }
 
   /**
@@ -246,10 +269,14 @@ export class RouteFinder {
         const legStops = route.stops.slice(startIdx, endIdx + 1);
         const leg = this.createLeg(routeId, legStops);
 
+        // Calculate total duration: Leg time + Initial Wait (5m)
+        const totalDuration = Math.ceil(leg.duration + 5);
+
         results.push({
           legs: [leg],
           totalStops: legStops.length,
-          transferCount: 0
+          transferCount: 0,
+          totalDuration
         });
       }
     }
@@ -296,13 +323,17 @@ export class RouteFinder {
             const leg2Stops = endRoute.stops.slice(transferIdx, endIdx + 1);
             const totalStops = leg1Stops.length + leg2Stops.length - 1;
 
+            const leg1 = this.createLeg(startRouteId, leg1Stops);
+            const leg2 = this.createLeg(endRouteId, leg2Stops);
+            
+            // Duration: Leg1 + Leg2 + Initial Wait (5m) + Transfer (10m)
+            const totalDuration = Math.ceil(leg1.duration + leg2.duration + 5 + 10);
+
             results.push({
-              legs: [
-                this.createLeg(startRouteId, leg1Stops),
-                this.createLeg(endRouteId, leg2Stops)
-              ],
+              legs: [leg1, leg2],
               totalStops,
-              transferCount: 1
+              transferCount: 1,
+              totalDuration
             });
             
             // Optimization: If we have enough results, we could stop, 
@@ -351,10 +382,13 @@ export class RouteFinder {
         // Check if we reached the destination
         if (currentStopId === endStopId) {
           const legStops = route.stops.slice(startIdx, i + 1);
+          const leg = this.createLeg(routeId, legStops);
+          
           return {
-            legs: [this.createLeg(routeId, legStops)],
+            legs: [leg],
             totalStops: legStops.length,
-            transferCount: 0
+            transferCount: 0,
+            totalDuration: Math.ceil(leg.duration + 5)
           };
         }
 
@@ -408,11 +442,17 @@ export class RouteFinder {
             const newPath = [...state.path, { routeId, stops: legStops }];
             const legs = newPath.map(p => this.createLeg(p.routeId, p.stops));
             const totalStops = newPath.reduce((sum, p) => sum + p.stops.length, 0) - (newPath.length - 1);
+            const transferCount = newPath.length - 1;
+
+            // Duration: Sum of legs + Initial Wait (5m) + Transfers (10m each)
+            const legsDuration = legs.reduce((sum, leg) => sum + leg.duration, 0);
+            const totalDuration = Math.ceil(legsDuration + 5 + (transferCount * 10));
 
             return {
               legs,
               totalStops,
-              transferCount: newPath.length - 1
+              transferCount,
+              totalDuration
             };
           }
 
@@ -445,6 +485,19 @@ export class RouteFinder {
     const fromStop = this.graph!.stops[stops[0]];
     const toStop = this.graph!.stops[stops[stops.length - 1]];
 
+    // Calculate details
+    const distanceMeters = this.calculateRouteDistance(stops);
+    const distanceKm = distanceMeters / 1000;
+    const stopCount = stops.length;
+    
+    // Match etaCalculator.ts parameters:
+    // BASE_MIN_PER_KM = 1.5 (~40 km/h)
+    // DWELL_TIME_PER_STOP = 0.5 min
+    const BASE_MIN_PER_KM = 1.5;
+    const DWELL_TIME_PER_STOP = 0.5;
+    
+    const travelTimeMinutes = (distanceKm * BASE_MIN_PER_KM) + (stopCount * DWELL_TIME_PER_STOP);
+
     return {
       routeId,
       routeName: route?.baseRoute || routeName,
@@ -453,9 +506,118 @@ export class RouteFinder {
       toStop: stops[stops.length - 1],
       fromStopName: fromStop?.name || stops[0],
       toStopName: toStop?.name || stops[stops.length - 1],
-      stopCount: stops.length,
-      stops
+      stopCount,
+      stops,
+      duration: travelTimeMinutes
     };
+  }
+
+  /**
+   * Enrich route results with real-time traffic data
+   */
+  async enrichWithTraffic(results: RouteResult[]): Promise<RouteResult[]> {
+    if (results.length === 0) return [];
+    
+    // 1. Identify unique routes/directions to fetch
+    const routeKeys = new Set<string>();
+    results.forEach(res => {
+      res.legs.forEach(leg => {
+        // key: "routeId:direction" (simplification, depends on ID format)
+        // routeId is like "26A_0" or "25_1"
+        routeKeys.add(leg.routeId);
+      });
+    });
+
+    const trafficMap = new Map<string, TrafficSegment[]>();
+    
+    // 2. Fetch traffic for all needed routes in parallel
+    const fetches = Array.from(routeKeys).map(async (key) => {
+        const [rName, dir] = key.split('_');
+        if (!rName || !dir) return;
+        
+        // rName might be "H2", "26A"
+        // dir is "0" or "1"
+        const traffic = await fetchTrafficApi(rName, dir);
+        trafficMap.set(key, traffic || []);
+    });
+
+    await Promise.all(fetches);
+
+    // 3. Recalculate duration for each leg
+    const enrichedResults = results.map(result => {
+        const enrichedLegs = result.legs.map(leg => {
+           const trafficData = trafficMap.get(leg.routeId);
+           if (!trafficData || trafficData.length === 0) return leg; // No change if no data
+           
+           // Convert leg stops to format expected by etaCalculator
+           // We need the full route stops to use indices, or we can just pass the segment
+           // calcTravelTime expects list of all stops and indices.
+           
+           const route = this.graph?.routes[leg.routeId];
+           if (!route) return leg;
+           
+           const allRouteStops = route.stops;
+           const startIdx = allRouteStops.indexOf(leg.fromStop);
+           const endIdx = allRouteStops.indexOf(leg.toStop);
+           
+           if (startIdx === -1 || endIdx === -1) return leg;
+           
+           // Map stops to EtaStop format { staCode: string }
+           const etaStops: EtaStop[] = allRouteStops.map(s => ({ staCode: s }));
+           
+           // Calculate traffic time
+           const rideTime = calcTravelTime(etaStops, startIdx, endIdx, trafficData);
+           
+           // Add dwell time (0.5m per stop)
+           const dwellTime = (endIdx - startIdx) * 0.5;
+           
+           const newDuration = rideTime + dwellTime;
+           
+           return {
+               ...leg,
+               duration: newDuration
+           };
+        });
+        
+        // Recalculate total duration
+        // Sum of legs + 5m initial + 10m * transfers
+        const legsDuration = enrichedLegs.reduce((sum, leg) => sum + leg.duration, 0);
+        const totalDuration = Math.ceil(legsDuration + 5 + (enrichedLegs.length - 1) * 10);
+        
+        return {
+            ...result,
+            legs: enrichedLegs,
+            totalDuration
+        };
+    });
+
+    // 4. Re-sort by fresh total duration
+    return enrichedResults.sort((a, b) => {
+        const diff = a.totalDuration - b.totalDuration;
+        if (Math.abs(diff) > 2) return diff; 
+        return a.transferCount - b.transferCount;
+    });
+  }
+  
+  /**
+   * Calculate total distance for a sequence of stops
+   */
+  private calculateRouteDistance(stops: string[]): number {
+      if (!this.graph || stops.length < 2) return 0;
+      
+      let totalDist = 0;
+      for (let i = 0; i < stops.length - 1; i++) {
+          const s1 = this.graph.stops[stops[i]];
+          const s2 = this.graph.stops[stops[i+1]];
+          
+          if (s1?.lat && s1?.lng && s2?.lat && s2?.lng) {
+              totalDist += this.haversineDistance(s1.lat, s1.lng, s2.lat, s2.lng);
+          } else {
+              // Fallback if missing coords: assume 400m per stop
+              totalDist += 400;
+          }
+      }
+      return totalDist;
   }
 
   // ============== Utility Methods ==============

@@ -5,12 +5,12 @@
 import { getDistanceFromLatLonInKm } from '@/utils/distance';
 import { getStopCoords } from '@/utils/stopCodeMatcher';
 
-interface TrafficSegment {
+export interface TrafficSegment {
   traffic: number;
   path?: [number, number][];
 }
 
-interface Stop {
+export interface Stop {
   staCode: string;
   busInfo?: unknown[];
 }
