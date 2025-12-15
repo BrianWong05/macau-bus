@@ -39,7 +39,7 @@ export interface MapBus {
 export interface RouteEtaInfo {
   buses: BusInfo[];
   destination: string;
-  status: 'active' | 'arriving' | 'no-service' | 'no-approaching';
+  status: 'active' | 'arrived' | 'no-service' | 'no-approaching';
   minStops: number;
   minEta: number;
   totalStops: number;

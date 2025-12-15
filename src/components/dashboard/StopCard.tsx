@@ -125,7 +125,7 @@ export const StopCard: React.FC<StopCardProps> = ({
                         <span className="font-bold text-xl text-teal-600">{route}</span>
                         {destination && <span className="text-xs text-gray-500">→ {destination}</span>}
                       </div>
-                      {status === 'arriving' && (
+                      {status === 'arrived' && (
                         <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold animate-pulse">
                           {t('arriving')}
                         </span>
@@ -136,13 +136,7 @@ export const StopCard: React.FC<StopCardProps> = ({
                     <div className="p-3">
                       {status === 'no-service' && <div className="text-gray-400 text-xs">{t('no_active_service')}</div>}
                       {status === 'no-approaching' && <div className="text-gray-400 text-xs">{t('no_approaching')}</div>}
-                      {status === 'arriving' && (
-                        <div className="flex items-center gap-2 text-green-600">
-                          <span className="text-lg">🚌</span>
-                          <span className="font-semibold">{t('at_station')}</span>
-                        </div>
-                      )}
-                      {status === 'active' && buses && buses.length > 0 && (
+                      {(status === 'active' || status === 'arrived') && buses && buses.length > 0 && (
                         <div className="space-y-2">
                           {buses.map((bus: any, bidx: number) => (
                             <div key={bidx} className="flex items-center justify-between bg-gray-50 rounded-lg p-2">
@@ -152,20 +146,28 @@ export const StopCard: React.FC<StopCardProps> = ({
                                   <div className="text-[10px] text-gray-400 font-mono">
                                     <span className="font-bold text-gray-600">{bus.plate}</span>
                                     <span className="mx-1">•</span>
-                                    <span>@ {bus.currentStop}</span>
+                                    <span>{bus.isEnRoute ? t('en_route') : `@ ${bus.currentStop}`}</span>
                                   </div>
-                                  <div className="text-xs text-gray-600">
-                                    {bus.stopsAway} {t('stops')} • {bus.distanceM > 0 ? `${(bus.distanceM / 1000).toFixed(1)}km` : '< 0.1km'}
-                                  </div>
+                                  {bus.stopsAway > 0 && (
+                                    <div className="text-xs text-gray-600">
+                                      {bus.stopsAway} {t('stops')} • {bus.distanceM > 0 ? `${(bus.distanceM / 1000).toFixed(1)}km` : '< 0.1km'}
+                                    </div>
+                                  )}
                                   {bus.trafficSegments && bus.trafficSegments.length > 0 && (
                                     <BusProgressBar trafficSegments={bus.trafficSegments} />
                                   )}
                                 </div>
                               </div>
-                              <div className={`text-lg font-bold ${getEtaTextColor(bus.eta)}`}>
-                                {bus.eta === 0 ? '<1' : bus.eta}
-                                <span className="text-xs font-normal ml-0.5">{t('min')}</span>
-                              </div>
+                              {bus.stopsAway === 0 ? (
+                                <div className="text-sm font-bold text-green-600 animate-pulse">
+                                  {bus.isEnRoute ? t('arriving') : t('at_station')}
+                                </div>
+                              ) : (
+                                <div className={`text-lg font-bold ${getEtaTextColor(bus.eta)}`}>
+                                  {bus.eta === 0 ? '<1' : bus.eta}
+                                  <span className="text-xs font-normal ml-0.5">{t('min')}</span>
+                                </div>
+                              )}
                             </div>
                           ))}
                         </div>
