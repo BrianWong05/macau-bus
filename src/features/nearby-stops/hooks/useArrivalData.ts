@@ -149,6 +149,10 @@ export const useArrivalData = (): UseArrivalDataReturn => {
                     if (eta === 0 && stopsAway > 0 && pathDistKm > 0.1) eta = 1;
 
                     stops[i].busInfo.forEach((b: any) => {
+                      // Skip buses with status 0 (already passed/departed)
+                      // status 0 = gone, status 1 = at/arrived
+                      if (b.status === 0 || b.status === '0') return;
+                      
                       // Extract traffic levels for segments between bus and target stop
                       const segmentTraffic = routeTrafficData
                         .slice(i, stopIdx)
@@ -163,6 +167,7 @@ export const useArrivalData = (): UseArrivalDataReturn => {
                         trafficSegments: segmentTraffic,
                         busStopIdx: i,
                         targetStopIdx: stopIdx,
+                        busStatus: b.status, // Track the status for debugging
                       });
                     });
 
@@ -179,8 +184,10 @@ export const useArrivalData = (): UseArrivalDataReturn => {
                 const actualTotal = stops.flatMap((s: any) => s.busInfo || []).length;
 
                 let status: 'active' | 'arriving' | 'no-service' | 'no-approaching' = 'no-service';
-                if (minStops === 0) status = 'arriving';
-                else if (minStops < 999) status = 'active';
+                // Only show "arriving" if there's a bus actually at the target stop (stopsAway === 0)
+                const busAtStop = incomingBuses.some(b => b.stopsAway === 0);
+                if (busAtStop) status = 'arriving';
+                else if (incomingBuses.length > 0) status = 'active';
                 else if (actualTotal > 0) status = 'no-approaching';
 
                 // Fetch GPS for map
