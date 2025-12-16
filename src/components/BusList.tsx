@@ -123,11 +123,27 @@ const RouteTimelineItem: React.FC<RouteTimelineItemProps> = ({ stop, index, isLa
                   {stop.laneName && <span className="ml-2 text-teal-600 bg-teal-50 px-1 rounded border border-teal-100">{stop.laneName}</span>}
                 </div>
                 {/* ETA Display */}
-                {eta && (
-                  <span className="text-xs font-bold text-teal-600 bg-teal-50 px-1.5 py-0.5 rounded border border-teal-100 animate-pulse">
-                    {eta} min
-                  </span>
-                )}
+                {eta && (() => {
+                    const [main, next] = eta.split('|');
+                    const isArrived = main === 'Arrived' || main === 'Now';
+                    
+                    return (
+                      <div className="flex items-center gap-1">
+                          <span className={`text-xs font-bold px-1.5 py-0.5 rounded border animate-pulse
+                            ${isArrived 
+                                ? 'text-emerald-600 bg-emerald-50 border-emerald-100' 
+                                : 'text-teal-600 bg-teal-50 border-teal-100'}
+                          `}>
+                            {main} {!isArrived && 'min'}
+                          </span>
+                          {next && (
+                              <span className="text-xs font-bold text-teal-600 bg-teal-50 px-1.5 py-0.5 rounded border border-teal-100">
+                                  {next} min
+                              </span>
+                          )}
+                      </div>
+                    );
+                })()}
              </div>
            </div>
         </div>
@@ -282,17 +298,56 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
 
                 if (nearestBus) {
                      if (nearestBus.index === index) {
-                         predictedEta = "Arrived"; 
+                         // Check status: 1 = At Station, 0 = In Transit (Departing/Left)
+                         const isAtStation = nearestBus.bus.status === '1';
+
+                         if (isAtStation) {
+                             // Bus is physically at the stop
+                             predictedEta = "Arrived"; 
+                             
+                             // Optional: Combine with next bus if available
+                             if (approachingBuses.length > 1) {
+                                 const nextBus = approachingBuses[approachingBuses.length - 2];
+                                 if (nextBus) {
+                                     const travelTime = calcTravelTime(stops, nextBus.index, index, trafficData);
+                                     const interveningStops = index - nextBus.index;
+                                     const dwellTime = interveningStops * 0.75;
+                                     const nextTotalEta = Math.round(travelTime + dwellTime);
+                                     const nextEtaStr = (nextTotalEta < 1 ? 1 : nextTotalEta).toString();
+                                     predictedEta = `Arrived|${nextEtaStr}`;
+                                 }
+                             }
+                         } else {
+                             // Bus is In Transit at this index -> Means it has Left/Is Leaving
+                             // Show ETA of the NEXT bus behind it
+                             if (approachingBuses.length > 1) {
+                                 const nextBus = approachingBuses[approachingBuses.length - 2];
+                                 if (nextBus) {
+                                     const travelTime = calcTravelTime(stops, nextBus.index, index, trafficData);
+                                     const interveningStops = index - nextBus.index;
+                                     const dwellTime = interveningStops * 0.75;
+                                     const totalEta = Math.round(travelTime + dwellTime);
+                                     predictedEta = (totalEta < 1 ? 1 : totalEta).toString();
+                                 }
+                             }
+                             // If no bus behind, predictedEta stays null (correct for "Left")
+                         }
                      } else {
+                         // Bus is at a previous stop. Calculate travel time from [busIndex] to [index]
                          const travelTime = calcTravelTime(stops, nearestBus.index, index, trafficData);
+                         
+                         // Add Dwell Time: 0.75 min (45s) per intervening stop
                          const interveningStops = index - nearestBus.index;
                          const dwellTime = interveningStops * 0.75;
+                         
                          const totalEta = Math.round(travelTime + dwellTime);
+                         
+                         // If < 1 min but logic says it's away, show 1 min
                          predictedEta = (totalEta < 1 ? 1 : totalEta).toString();
                      }
                 }
                 
-                if (predictedEta === "Arrived") predictedEta = null;
+                // if (predictedEta === "Arrived") predictedEta = null; // Don't hide it!
 
                 return (
                     <RouteTimelineItem
