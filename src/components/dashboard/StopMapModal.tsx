@@ -119,18 +119,10 @@ export const StopMapModal: React.FC<StopMapModalProps> = ({
                   iconSize: [24, 24],
                   iconAnchor: [12, 12]
                 })}
-                eventHandlers={{
-                  click: () => {
-                    if (onSelectStop) {
-                      onSelectStop(stop.code);
-                      onClose();
-                    }
-                  }
-                }}
               >
                 <Popup>
-                  <div className="text-sm">
-                    <div className="font-bold text-teal-600">{getDisplayName(stop)}</div>
+                  <div className="text-sm min-w-[140px]">
+                    <div className="font-bold text-teal-600 text-base">{getDisplayName(stop)}</div>
                     <div className="text-gray-500 text-xs">{stop.code}</div>
                     {stop.distance && stop.distance < 999 && (
                       <div className="text-gray-500 text-xs mt-1">
@@ -142,13 +134,24 @@ export const StopMapModal: React.FC<StopMapModalProps> = ({
                     )}
                     {stop.raw?.ROUTE_NOS && (
                       <div className="text-xs text-gray-600 mt-1 max-w-[150px] flex flex-wrap gap-1">
-                        {stop.raw.ROUTE_NOS.split(',').slice(0, 8).map(r => (
+                        {stop.raw.ROUTE_NOS.split(',').slice(0, 6).map(r => (
                           <span key={r} className="bg-gray-100 px-1 rounded">{r.trim()}</span>
                         ))}
-                        {stop.raw.ROUTE_NOS.split(',').length > 8 && (
+                        {stop.raw.ROUTE_NOS.split(',').length > 6 && (
                           <span className="text-gray-400">...</span>
                         )}
                       </div>
+                    )}
+                    {onSelectStop && (
+                      <button
+                        onClick={() => {
+                          onSelectStop(stop.code);
+                          onClose();
+                        }}
+                        className="mt-2 w-full py-1.5 bg-teal-500 text-white text-xs font-medium rounded hover:bg-teal-600 transition-colors"
+                      >
+                        {t('view_details', 'View Details')}
+                      </button>
                     )}
                   </div>
                 </Popup>
