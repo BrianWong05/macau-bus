@@ -20,28 +20,27 @@ L.Marker.prototype.options.icon = DefaultIcon;
 const createBusIcon = (bus: any) => {
     // Determine color based on busType
     // 1=Large (Blue), 2=Medium (Green), 3=Small (Purple)
-    // Fallback: Blue
-    let bgColor = 'bg-blue-600';
-    let borderColor = 'border-blue-700';
+    let bgColor = 'bg-blue-500';
     
-    if (bus.busType === '2') { bgColor = 'bg-teal-600'; borderColor = 'border-teal-700'; }
-    if (bus.busType === '3') { bgColor = 'bg-purple-600'; borderColor = 'border-purple-700'; }
+    if (bus.busType === '2') { bgColor = 'bg-emerald-500'; }
+    if (bus.busType === '3') { bgColor = 'bg-purple-500'; }
 
+    // Replicating ActiveBusMarker style from BusList.tsx
     return L.divIcon({
         html: `
-        <div class="relative flex flex-col items-center select-none" style="transform: translateY(-15px);">
-            <!-- Bus Body -->
-            <div class="${bgColor} ${borderColor} border rounded-lg shadow-sm px-1 min-w-[30px] text-center flex flex-col items-center z-10">
-                <div class="text-[9px] font-bold text-white leading-tight whitespace-nowrap">
-                    ${bus.busPlate}
-                </div>
+        <div class="relative flex flex-col items-center select-none" style="transform: translateY(-10px);">
+            <!-- Bus Icon Badge -->
+            <div class="w-8 h-8 rounded-full flex items-center justify-center shadow-lg border-2 border-white ${bgColor} z-10 transition-transform hover:scale-110">
+                <span class="text-sm">🚌</span>
             </div>
-            <!-- Triangle Pointer -->
-            <div class="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-t-[6px] ${borderColor} transform -translate-y-[1px]"></div>
+            <!-- Plate Badge -->
+            <span class="mt-1 px-1.5 py-0.5 bg-gray-800 text-white text-[9px] rounded-full shadow-sm font-mono opacity-90 whitespace-nowrap">
+                ${bus.busPlate}
+            </span>
         </div>
         `,
-        className: 'bus-marker-label-icon', // Use new class avoid default styling
-        iconSize: [40, 25],
+        className: 'bus-marker-label-icon', 
+        iconSize: [40, 50], // Increased height to accommodate label
         iconAnchor: [20, 25]
     });
 };
