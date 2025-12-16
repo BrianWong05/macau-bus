@@ -176,9 +176,13 @@ interface BusListProps {
   trafficData: any[]; 
 }
 
+// ... imports ...
+import { getDistanceFromLatLonInKm } from '@/utils/distance';
+
+// ... (Existing Interfaces) ...
+
 const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
-    // 1. Memoize valid bus positions (buses active on the route)
-    // We store { index, busInfo } for every bus found
+    // 1. Memoize valid bus positions
     const activeBuses: { index: number; bus: any }[] = [];
     stops.forEach((stop, idx) => {
         if (stop.buses && stop.buses.length > 0) {
@@ -187,6 +191,76 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
             });
         }
     });
+
+    const [isLocating, setIsLocating] = useState(false);
+
+    const handleScrollToNearest = () => {
+        if (!navigator.geolocation) {
+            console.warn("Geolocation not supported");
+            alert("Geolocation is not supported by your browser");
+            return;
+        }
+
+        console.log("Starting geolocation request...");
+        setIsLocating(true);
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                console.log(`User Location: ${latitude}, ${longitude}`);
+                
+                let minDistance = Infinity;
+                let nearestStopIndex = -1;
+
+                stops.forEach((stop, index) => {
+                    const stopLat = parseFloat(stop.latitude);
+                    const stopLon = parseFloat(stop.longitude);
+                    
+                    if (!isNaN(stopLat) && !isNaN(stopLon)) {
+                        const dist = getDistanceFromLatLonInKm(latitude, longitude, stopLat, stopLon);
+                        if (dist < minDistance) {
+                            minDistance = dist;
+                            nearestStopIndex = index;
+                        }
+                    } else {
+                        // console.warn(`Invalid coords for stop ${stop.staCode} (API missing data)`);
+                    }
+                });
+
+                console.log(`Nearest Stop Index: ${nearestStopIndex}, Distance: ${minDistance}km`);
+
+                if (nearestStopIndex !== -1) {
+                    const nearestStop = stops[nearestStopIndex];
+                    const rawCode = nearestStop.staCode;
+                    const sanitizedId = `stop-${rawCode.replace(/[\/\s]/g, '-')}`;
+                    
+                    console.log(`Targeting Stop: ${rawCode} -> ID: ${sanitizedId}`);
+
+                    const el = document.getElementById(sanitizedId);
+                    if (el) {
+                        console.log("Element found, scrolling...");
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('ring-2', 'ring-teal-400');
+                        setTimeout(() => el.classList.remove('ring-2', 'ring-teal-400'), 2000);
+                    } else {
+                        console.error(`Element not found with ID: ${sanitizedId}`);
+                        // Fallback: Try finding by partial match?
+                        const allStops = document.querySelectorAll(`[id^='stop-']`);
+                        console.log(`Available IDs:`, Array.from(allStops).map(e => e.id));
+                    }
+                } else {
+                    console.warn("No valid stops found to calculate distance.");
+                    alert("Could not find any nearby stops with valid coordinates.");
+                }
+                setIsLocating(false);
+            },
+            (error) => {
+                console.error("Error getting location", error);
+                setIsLocating(false);
+                alert(`Unable to retrieve your location: ${error.message}`);
+            },
+            { enableHighAccuracy: true, timeout: 5000 }
+        );
+    };
 
     return (
         <div className="py-6 relative w-fit mx-auto min-w-[340px] max-w-full px-4">
@@ -203,26 +277,17 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
                 let predictedEta: string | null = null;
                 
                 // Find the nearest bus BEHIND this stop
-                // Filter buses where busIndex <= index
-                // Note: If bus is AT this stop (busIndex === index), eta is "Arrived"/Null
                 const approachingBuses = activeBuses.filter(b => b.index <= index);
                 const nearestBus = approachingBuses.length > 0 ? approachingBuses[approachingBuses.length - 1] : null;
 
                 if (nearestBus) {
                      if (nearestBus.index === index) {
-                         // Bus is at this stop
                          predictedEta = "Arrived"; 
                      } else {
-                         // Bus is at a previous stop. Calculate travel time from [busIndex] to [index]
                          const travelTime = calcTravelTime(stops, nearestBus.index, index, trafficData);
-                         
-                         // Add Dwell Time: 0.75 min (45s) per intervening stop
                          const interveningStops = index - nearestBus.index;
                          const dwellTime = interveningStops * 0.75;
-                         
                          const totalEta = Math.round(travelTime + dwellTime);
-                         
-                         // If < 1 min but logic says it's away, show 1 min
                          predictedEta = (totalEta < 1 ? 1 : totalEta).toString();
                      }
                 }
@@ -243,6 +308,20 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
             })}
              {/* End Decoration */}
              <div className="absolute bottom-0 left-8 w-2 h-6 bg-gradient-to-t from-transparent to-gray-200 z-0 opacity-50 rounded-full"></div>
+             
+             {/* Nearest Stop Floating Button */}
+             <button
+                onClick={handleScrollToNearest}
+                disabled={isLocating}
+                className="fixed bottom-24 right-4 z-50 bg-white text-teal-600 p-3 rounded-full shadow-lg border border-teal-100 hover:bg-teal-50 active:scale-95 transition-all disabled:opacity-70 disabled:cursor-wait"
+                aria-label="Find nearest stop"
+             >
+                {isLocating ? (
+                    <div className="w-6 h-6 border-2 border-teal-600 border-t-transparent rounded-full animate-spin" />
+                ) : (
+                    <span className="text-xl">📍</span>
+                )}
+             </button>
         </div>
     );
 };

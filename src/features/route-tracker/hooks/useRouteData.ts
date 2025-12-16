@@ -182,17 +182,39 @@ export const useRouteData = (): UseRouteDataReturn => {
         const dataPromise = fetchRouteDataApi(routeToFetch, dirToFetch);
         // Fetch Operation Time (Parallel)
         const opTimePromise = fetchRouteOperationTimeApi(routeToFetch, dirToFetch);
+        // Fetch Coordinates (Parallel - New)
+        const locationPromise = fetchMapLocationApi(routeToFetch, dirToFetch);
 
-        const [data, opTimeData] = await Promise.all([dataPromise, opTimePromise]);
+        const [data, opTimeData, locationData] = await Promise.all([dataPromise, opTimePromise, locationPromise]);
 
         if (activeRouteRef.current !== routeToFetch) return;
 
         if (data?.data?.routeInfo?.length > 0) {
-          const stops: BusStop[] = data.data.routeInfo.map((stop: any) => ({
-            ...stop,
-            buses: [],
-            trafficLevel: 0,
-          }));
+          // Extract coordinates from locationData
+          const coordsMap = new Map<string, { lat: string, lon: string }>();
+          
+          const locRoutes = locationData?.data?.stationInfoList || [];
+          
+          if (Array.isArray(locRoutes)) {
+               locRoutes.forEach((s: any) => {
+                  // API returns stationCode, we map it to staCode
+                  const code = s.stationCode || s.staCode;
+                  if (code && s.latitude && s.longitude) {
+                      coordsMap.set(code, { lat: s.latitude, lon: s.longitude });
+                  }
+              });
+          }
+
+          const stops: BusStop[] = data.data.routeInfo.map((stop: any) => {
+            const coords = coordsMap.get(stop.staCode);
+            return {
+                ...stop,
+                latitude: coords?.lat || stop.latitude || '', // Prefer API coords
+                longitude: coords?.lon || stop.longitude || '',
+                buses: [],
+                trafficLevel: 0,
+            };
+          });
 
           // Parse OpTime
           // Structure from logs: [{"data":[{"dir":"0","display":"0","firstBusTime":"06:15","lastBusTime":"00:00","msg":"","routeName":"2"}],"header":{"status":"000"}}]
