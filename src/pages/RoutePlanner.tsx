@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { RouteFinder, RouteResult, BusStop, TripResult } from '@/services/RouteFinder';
@@ -97,6 +97,23 @@ const FitBoundsComponent: React.FC<FitBoundsProps> = ({ startCoords, endCoords, 
   return null;
 };
 
+// Map click handler for pin drop
+interface MapClickHandlerProps {
+  pinDropMode: 'start' | 'end' | null;
+  onMapClick: (lat: number, lng: number, mode: 'start' | 'end') => void;
+}
+
+const MapClickHandler: React.FC<MapClickHandlerProps> = ({ pinDropMode, onMapClick }) => {
+  useMapEvents({
+    click: (e) => {
+      if (pinDropMode) {
+        onMapClick(e.latlng.lat, e.latlng.lng, pinDropMode);
+      }
+    },
+  });
+  return null;
+};
+
 // ============== Main Component ==============
 
 export const RoutePlanner: React.FC = () => {
@@ -123,12 +140,14 @@ export const RoutePlanner: React.FC = () => {
   const [startCoords, setStartCoords] = useState<{lat: number; lng: number} | null>(null);
   const [endCoords, setEndCoords] = useState<{lat: number; lng: number} | null>(null);
   const [lastSelectedField, setLastSelectedField] = useState<'start' | 'end' | null>(null);
+  const [pinDropMode, setPinDropMode] = useState<'start' | 'end' | null>(null);
   
   // Place search results
   const [placeResults, setPlaceResults] = useState<PlaceResult[]>([]);
   
   // Map modal state
   const [selectedRouteIndex, setSelectedRouteIndex] = useState<number | null>(null);
+  const [showMapWithResults, setShowMapWithResults] = useState(false);
 
   // Initialize RouteFinder
   useEffect(() => {
@@ -339,6 +358,24 @@ export const RoutePlanner: React.FC = () => {
     setPlaceResults([]);
     setActiveField(null);
   };
+
+  // Handle map click for pin drop
+  const handleMapClick = useCallback((lat: number, lng: number, mode: 'start' | 'end') => {
+    const coords = { lat, lng };
+    const label = t('route_planner.dropped_pin', 'Dropped Pin');
+    
+    if (mode === 'start') {
+      setStartInput(label);
+      setSelectedStart(null);
+      setStartCoords(coords);
+    } else {
+      setEndInput(label);
+      setSelectedEnd(null);
+      setEndCoords(coords);
+    }
+    setLastSelectedField(mode);
+    setPinDropMode(null);
+  }, [t]);
 
   // Handle input change with search
   const handleStartChange = (value: string) => {
@@ -569,13 +606,38 @@ export const RoutePlanner: React.FC = () => {
           </div>
         )}
 
-        {/* Map Preview - show while searching or when locations selected, hide when results shown */}
-        {(startInput || endInput) && !results && (
+        {/* Map Preview - always show when no results, or when user toggles it on */}
+        {(!results || showMapWithResults) && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative z-0">
-            <div className="px-4 py-2 bg-gray-50 border-b border-gray-100">
+            <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-600">
-                {t('route_planner.map_preview', 'Location Preview')}
+                {pinDropMode 
+                  ? t('route_planner.tap_to_set', `Tap map to set ${pinDropMode === 'start' ? 'start' : 'end'}`)
+                  : t('route_planner.map_preview', 'Location Preview')
+                }
               </span>
+              <div className="flex gap-1">
+                <button
+                  onClick={() => setPinDropMode(pinDropMode === 'start' ? null : 'start')}
+                  className={`px-2 py-1 text-xs rounded-md transition-colors ${
+                    pinDropMode === 'start' 
+                      ? 'bg-green-500 text-white' 
+                      : 'bg-gray-200 text-gray-600 hover:bg-green-100'
+                  }`}
+                >
+                  📍 {t('route_planner.set_start', 'Set Start')}
+                </button>
+                <button
+                  onClick={() => setPinDropMode(pinDropMode === 'end' ? null : 'end')}
+                  className={`px-2 py-1 text-xs rounded-md transition-colors ${
+                    pinDropMode === 'end' 
+                      ? 'bg-red-500 text-white' 
+                      : 'bg-gray-200 text-gray-600 hover:bg-red-100'
+                  }`}
+                >
+                  📍 {t('route_planner.set_end', 'Set End')}
+                </button>
+              </div>
             </div>
             <div style={{ height: '300px' }}>
               <MapContainer
@@ -589,6 +651,7 @@ export const RoutePlanner: React.FC = () => {
                   url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                 />
                 <FitBoundsComponent startCoords={startCoords} endCoords={endCoords} lastSelectedField={lastSelectedField} />
+                <MapClickHandler pinDropMode={pinDropMode} onMapClick={handleMapClick} />
                 
                 {/* Start Marker (Green) */}
                 {startCoords && (
@@ -659,12 +722,24 @@ export const RoutePlanner: React.FC = () => {
 
         {results && !loading && (
           <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-gray-700">
-              {t('route_planner.results', 'Route Found')}
-              <span className="ml-2 text-sm font-normal text-gray-500">
-                {results.length > 1 ? `(${results.length} ${t('route_planner.options', 'options')})` : ''}
-              </span>
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-gray-700">
+                {t('route_planner.results', 'Route Found')}
+                <span className="ml-2 text-sm font-normal text-gray-500">
+                  {results.length > 1 ? `(${results.length} ${t('route_planner.options', 'options')})` : ''}
+                </span>
+              </h2>
+              <button
+                onClick={() => setShowMapWithResults(!showMapWithResults)}
+                className={`px-3 py-1.5 text-sm rounded-lg transition-colors flex items-center gap-1 ${
+                  showMapWithResults 
+                    ? 'bg-teal-500 text-white' 
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                🗺️ {showMapWithResults ? t('route_planner.hide_map', 'Hide Map') : t('route_planner.show_map', 'Show Map')}
+              </button>
+            </div>
             {results.map((result, index) => {
               // Get walking segments if available
               const trip = tripResults?.[index];
