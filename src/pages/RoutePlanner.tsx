@@ -606,8 +606,8 @@ export const RoutePlanner: React.FC = () => {
           </div>
         )}
 
-        {/* Map Preview - always show when no results, or when user toggles it on */}
-        {(!results || showMapWithResults) && (
+        {/* Map Preview - show when no results, when toggled on, or when search bar is focused */}
+        {(!results || showMapWithResults || activeField) && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative z-0">
             <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
               <span className="text-sm font-medium text-gray-600">
