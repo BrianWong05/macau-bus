@@ -29,7 +29,7 @@ export const RouteControls: React.FC<RouteControlsProps> = ({
   const { t } = useTranslation();
   
   return (
-    <div className="bg-white border-b px-4 py-2 flex items-center justify-between sticky top-0 z-10 shadow-sm flex-wrap gap-2">
+    <div className="bg-white border-b px-4 py-2 flex items-center justify-between sticky top-0 z-40 shadow-sm flex-wrap gap-2">
       
       {/* View Toggle */}
       <div className="bg-gray-100 p-1 rounded-lg flex shrink-0">

@@ -33,7 +33,7 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
   const { t } = useTranslation();
   
   return (
-    <div className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white p-4 shadow-md sticky top-0 z-10">
+    <div className="bg-gradient-to-r from-teal-500 to-emerald-500 text-white p-4 shadow-md sticky top-0 z-50">
       <div className="flex justify-between items-center mb-4">
         <h1 
           className="text-2xl font-bold tracking-tight cursor-pointer flex items-center gap-2"
