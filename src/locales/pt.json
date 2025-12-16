@@ -48,6 +48,8 @@
     "geo_not_supported": "Geolocalização não suportada",
     "no_nearby_stop": "Nenhuma paragem próxima",
     "geo_error": "Falha ao obter localização",
+    "sort_fastest": "Mais Rápido",
+    "sort_transfers": "Menos Transferências",
     "missing_points": "Insira início e fim",
     "no_route": "Nenhuma rota encontrada",
     "search_error": "Erro na pesquisa",

@@ -48,6 +48,8 @@
     "geo_not_supported": "Geolocation is not supported",
     "no_nearby_stop": "No nearby stop found",
     "geo_error": "Failed to get location",
+    "sort_fastest": "Fastest",
+    "sort_transfers": "Fewest Transfers",
     "missing_points": "Please enter both start and end points",
     "no_route": "No route found between these stops",
     "search_error": "An error occurred while searching",
