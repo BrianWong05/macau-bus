@@ -133,6 +133,38 @@ const RouteTimelineItem: React.FC<RouteTimelineItemProps> = ({ stop, index, isLa
   );
 };
 
+// Helper: Calculate travel time between two stop indices
+const calcTravelTime = (
+  stops: any[],
+  fromIdx: number,
+  toIdx: number,
+  trafficData: any[]
+): number => {
+  let totalTime = 0;
+  for (let j = fromIdx; j < toIdx; j++) {
+    const s1 = stops[j];
+    const s2 = stops[j + 1];
+    
+    // Safety check for coordinates
+    if (!s1?.latitude || !s1?.longitude || !s2?.latitude || !s2?.longitude) continue;
+
+    const segmentDistKm = getDistanceFromLatLonInKm(
+        parseFloat(s1.latitude), parseFloat(s1.longitude), 
+        parseFloat(s2.latitude), parseFloat(s2.longitude)
+    );
+
+    let trafficMultiplier = 1.0;
+    if (trafficData && trafficData[j]) {
+       const traffic = trafficData[j].traffic || 1;
+       if (traffic >= 3) trafficMultiplier = 2.0; // Congested/Severe
+       else if (traffic >= 2) trafficMultiplier = 1.5; // Moderate
+    }
+    
+    // Base speed ~40km/h => 1.5 min/km
+    totalTime += segmentDistKm * 1.5 * trafficMultiplier;
+  }
+  return totalTime;
+};
 
 // --- Main Component ---
 
@@ -142,12 +174,14 @@ interface BusListProps {
 }
 
 const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
-    // Helper to find the nearest bus index before or at current stop
-    // We'll traverse and memoize bus positions
-    const busPositions: number[] = [];
+    // 1. Memoize valid bus positions (buses active on the route)
+    // We store { index, busInfo } for every bus found
+    const activeBuses: { index: number; bus: any }[] = [];
     stops.forEach((stop, idx) => {
         if (stop.buses && stop.buses.length > 0) {
-            busPositions.push(idx);
+            stop.buses.forEach((bus: any) => {
+                 activeBuses.push({ index: idx, bus });
+            });
         }
     });
 
@@ -157,30 +191,39 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
             <div className="absolute top-0 left-12 w-2 h-6 bg-gradient-to-b from-transparent to-gray-200 z-0 opacity-50 rounded-full"></div>
             
             {stops.map((stop, index) => {
-                // Fallback to index-based matching if trafficData is array-aligned (likely the case)
                 let segmentTraffic = 0;
                 if (trafficData && trafficData[index]) {
                     segmentTraffic = trafficData[index].traffic;
                 }
 
-                // Calculate ETA
+                // Calculate ETA using Physics-Based Logic
                 let predictedEta: string | null = null;
-                // Find closest bus BEHIND this stop (so index of bus < index of stop)
-                // Filter positions less than current index, take the largest one (closest)
-                const precedingBuses = busPositions.filter(p => p <= index);
-                const closestBusIndex = precedingBuses.length > 0 ? precedingBuses[precedingBuses.length - 1] : -1;
+                
+                // Find the nearest bus BEHIND this stop
+                // Filter buses where busIndex <= index
+                // Note: If bus is AT this stop (busIndex === index), eta is "Arrived"/Null
+                const approachingBuses = activeBuses.filter(b => b.index <= index);
+                const nearestBus = approachingBuses.length > 0 ? approachingBuses[approachingBuses.length - 1] : null;
 
-                if (closestBusIndex !== -1 && closestBusIndex < index) {
-                    const stopsAway = index - closestBusIndex;
-                    // Heuristic: 2.5 mins per stop
-                    const minutes = Math.ceil(stopsAway * 2.5);
-                    predictedEta = minutes.toString();
-                } else if (closestBusIndex === index) {
-                    predictedEta = "Arrived";
+                if (nearestBus) {
+                     if (nearestBus.index === index) {
+                         // Bus is at this stop
+                         predictedEta = "Arrived"; 
+                     } else {
+                         // Bus is at a previous stop. Calculate travel time from [busIndex] to [index]
+                         const travelTime = calcTravelTime(stops, nearestBus.index, index, trafficData);
+                         
+                         // Add Dwell Time: 0.75 min (45s) per intervening stop
+                         const interveningStops = index - nearestBus.index;
+                         const dwellTime = interveningStops * 0.75;
+                         
+                         const totalEta = Math.round(travelTime + dwellTime);
+                         
+                         // If < 1 min but logic says it's away, show 1 min
+                         predictedEta = (totalEta < 1 ? 1 : totalEta).toString();
+                     }
                 }
-
-                // Don't show "Arrived" for the bus that is AT the stop (redundant with the icon), 
-                // only show future ETAs for downstream stops
+                
                 if (predictedEta === "Arrived") predictedEta = null;
 
                 return (
