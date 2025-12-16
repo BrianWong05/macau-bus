@@ -44,11 +44,15 @@ export const RouteMarkerLayer: React.FC<RouteMarkerLayerProps> = ({ legs, traffi
               if (!seg.path || seg.path.length === 0) return null;
               const startPoint = seg.path[0];
               
+              const stopId = leg.stops[segIdx];
+              const stopInfo = getStopInfo(stopId);
+              const stopName = stopInfo?.name || stopId;
+
               const color = seg.traffic === 1 ? '#22c55e'
                           : seg.traffic === 2 ? '#f97316'
                           : seg.traffic >= 3 ? '#ef4444'
                           : '#14b8a6';
-              
+
               return (
                 <CircleMarker
                   key={`marker-${legIdx}-${segIdx}`}
@@ -58,7 +62,12 @@ export const RouteMarkerLayer: React.FC<RouteMarkerLayerProps> = ({ legs, traffi
                   color={color}
                   weight={2}
                   fillOpacity={1}
-                />
+                >
+                  <Popup>
+                    <div className="font-bold text-sm">{stopName}</div>
+                    <div className="text-xs text-gray-500">{stopId}</div>
+                  </Popup>
+                </CircleMarker>
               );
             })}
             
