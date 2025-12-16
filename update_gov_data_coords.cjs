@@ -1,7 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
 const crypto = require('crypto');
-const routesData = require('./src/data/routes.js'); // Assuming this exports the list
 
 // --- Crypto Helper (Same as usual) ---
 function md5(str) { return crypto.createHash('md5').update(str).digest('hex'); }
@@ -61,7 +60,7 @@ async function fetchMapLocation(route, dir) {
     let routeList = ['33', '22', '25', '26A', '25B', 'MT4', '102X', 'AP1', '1', '3', '10', '21A']; 
     // Expand this list? 
     // List is just export const ALL_ROUTES = [ "1", "1A", ... ];
-    const routesFile = fs.readFileSync('src/data/routes.js', 'utf8');
+    const routesFile = fs.readFileSync('src/data/routes.ts', 'utf8');
     const matches = routesFile.match(/"([0-9A-Z]+)"/g);
     if (matches) {
         routeList = [...new Set(matches.map(m => m.replace(/"/g, '')))];
@@ -99,10 +98,19 @@ async function fetchMapLocation(route, dir) {
             
             stopsOriginal.forEach(localStop => {
                 const localCode = localStop.code || localStop.raw?.P_ALIAS; 
+                const localAlias = localStop.raw?.ALIAS; // Base station code like "T304"
                 if (!localCode) return;
                 
-                // Exact Match or Normalized Match
-                if (localCode === apiCode || localCode === normalizedApi) {
+                // Match conditions:
+                // 1. Exact match: T304 === T304
+                // 2. Normalized match: T304/1 -> T304_1 === T304_1
+                // 3. Base code match: API "T304" matches local "T304_1" (P_ALIAS starts with API code)
+                // 4. ALIAS match: Local ALIAS "T304" === API "T304"
+                const exactMatch = localCode === apiCode || localCode === normalizedApi;
+                const baseMatch = localCode.startsWith(apiCode + '_') || localCode.startsWith(apiCode + '/');
+                const aliasMatch = localAlias === apiCode;
+                
+                if (exactMatch || baseMatch || aliasMatch) {
                     // Check if different (tolerance 0.000001)
                     if (Math.abs(localStop.lat - apiLat) > 0.000001 || Math.abs(localStop.lon - apiLon) > 0.000001) {
                          // Update!
