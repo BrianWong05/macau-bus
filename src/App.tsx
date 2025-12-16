@@ -282,6 +282,7 @@ function App() {
               setActiveTab('live');
               handleSelectRoute(route, stopCode);
             }}
+            isActive={activeTab === 'planner'}
           />
         </div>
 

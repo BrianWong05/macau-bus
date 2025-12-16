@@ -43,9 +43,10 @@ const LoaderIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" })
 
 interface RoutePlannerProps {
   onViewRouteStatus?: (route: string, stopCode?: string) => void;
+  isActive?: boolean;
 }
 
-export const RoutePlanner: React.FC<RoutePlannerProps> = ({ onViewRouteStatus }) => {
+export const RoutePlanner: React.FC<RoutePlannerProps> = ({ onViewRouteStatus, isActive = false }) => {
   const { t } = useTranslation();
   
   // State
@@ -447,6 +448,7 @@ export const RoutePlanner: React.FC<RoutePlannerProps> = ({ onViewRouteStatus })
             pinDropMode={pinDropMode}
             onSetPinDropMode={setPinDropMode}
             onMapClick={handleMapClick}
+            isActive={isActive}
           />
         )}
 

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 // ============== Internal Helper Components ==============
 
@@ -10,6 +11,18 @@ interface FitBoundsProps {
   endCoords: { lat: number; lng: number } | null;
   lastSelectedField: 'start' | 'end' | null;
 }
+
+const InvalidateSizeComponent: React.FC<{ isActive: boolean }> = ({ isActive }) => {
+  const map = useMap();
+  useEffect(() => {
+    if (isActive) {
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100); // Small delay to ensure container is visible
+    }
+  }, [isActive, map]);
+  return null;
+};
 
 const FitBoundsComponent: React.FC<FitBoundsProps> = ({ startCoords, endCoords, lastSelectedField }) => {
   const map = useMap();
@@ -60,6 +73,7 @@ interface PlannerMapProps {
   pinDropMode: 'start' | 'end' | null;
   onSetPinDropMode: (mode: 'start' | 'end' | null) => void;
   onMapClick: (lat: number, lng: number, mode: 'start' | 'end') => void;
+  isActive?: boolean;
 }
 
 export const PlannerMap: React.FC<PlannerMapProps> = ({
@@ -68,7 +82,8 @@ export const PlannerMap: React.FC<PlannerMapProps> = ({
   lastSelectedField,
   pinDropMode,
   onSetPinDropMode,
-  onMapClick
+  onMapClick,
+  isActive = false
 }) => {
   const { t } = useTranslation();
 
@@ -115,6 +130,7 @@ export const PlannerMap: React.FC<PlannerMapProps> = ({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
+          <InvalidateSizeComponent isActive={isActive} />
           <FitBoundsComponent startCoords={startCoords} endCoords={endCoords} lastSelectedField={lastSelectedField} />
           <MapClickHandler pinDropMode={pinDropMode} onMapClick={onMapClick} />
           
