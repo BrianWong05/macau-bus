@@ -24,6 +24,17 @@ const DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
+const createPinIcon = (color: string) => L.divIcon({
+  className: '',
+  html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${color}" stroke="white" stroke-width="1.5" class="w-10 h-10 drop-shadow-lg" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="white"/></svg>`,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40]
+});
+
+const GreenPin = createPinIcon('#22c55e'); // Green-500
+const RedPin = createPinIcon('#ef4444');   // Red-500
+
 // ============== Types ==============
 interface RouteMapModalProps {
   isOpen: boolean;
@@ -190,15 +201,32 @@ export const RouteMapModal: React.FC<RouteMapModalProps> = ({
             url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           />
 
-          {/* Walking path to first stop */}
-          {startCoords && startWalk && startWalk.durationMinutes > 0 && legs.length > 0 && (
-            <>
-              {/* Start marker (user location) */}
-              <Marker position={[startCoords.lat, startCoords.lng]}>
-                <Popup>{t('route_planner.my_location', 'My Location')}</Popup>
-              </Marker>
-            </>
-          )}
+// ... (moved to top)
+
+// ... (existing code)
+
+          {/* Walking path to first stop (Start Pin) */}
+          {(startCoords || (legs.length > 0)) && (() => {
+             // Determine Start Position: startCoords OR First Stop
+             let pos: [number, number] | null = null;
+             let label = t('route_planner.start_point', 'Start Point');
+
+             if (startCoords) {
+                 pos = [startCoords.lat, startCoords.lng];
+                 label = t('route_planner.my_location', 'My Location');
+             } else if (legs.length > 0) {
+                 const firstStop = getStopInfo(legs[0].stops[0]);
+                 if (firstStop) pos = [firstStop.lat, firstStop.lon];
+             }
+
+             if (!pos) return null;
+
+             return (
+               <Marker position={pos} icon={GreenPin} zIndexOffset={1000}>
+                 <Popup>{label}</Popup>
+               </Marker>
+             );
+          })()}
 
           {/* Traffic-colored route polylines - filtered to user's journey */}
           <RoutePathLayer 

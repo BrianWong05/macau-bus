@@ -6,6 +6,17 @@ import type { RouteLeg } from '@/services/RouteFinder';
 import type { TrafficSegment } from '@/types/mapTypes';
 import { getStopInfo } from '@/utils/stopUtils';
 
+// Custom Pin Helper
+const createPinIcon = (color: string) => L.divIcon({
+  className: '',
+  html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${color}" stroke="white" stroke-width="1.5" class="w-10 h-10 drop-shadow-lg" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="white"/></svg>`,
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
+  popupAnchor: [0, -40]
+});
+
+const RedPin = createPinIcon('#ef4444');
+
 interface RouteMarkerLayerProps {
   legs: RouteLeg[];
   trafficData: Record<string, TrafficSegment[]>;
@@ -143,12 +154,27 @@ export const RouteMarkerLayer: React.FC<RouteMarkerLayerProps> = ({ legs, traffi
         );
       })}
 
-      {/* Destination markers - always show if we have coords */}
-      {endCoords && (
-        <Marker position={[endCoords.lat, endCoords.lng]}>
-          <Popup>{t('route_result.destination', 'Destination')}</Popup>
-        </Marker>
-      )}
+      {/* Destination marker (Red Pin) */}
+      {(() => {
+         let pos: [number, number] | null = null;
+         
+         if (endCoords) {
+             pos = [endCoords.lat, endCoords.lng];
+         } else if (legs.length > 0) {
+             // Use last stop of last leg
+             const lastLeg = legs[legs.length - 1];
+             const lastStop = getStopInfo(lastLeg.stops[lastLeg.stops.length - 1]);
+             if (lastStop) pos = [lastStop.lat, lastStop.lon];
+         }
+
+         if (!pos) return null;
+
+         return (
+            <Marker position={pos} icon={RedPin} zIndexOffset={1000}>
+              <Popup>{t('route_result.destination', 'Destination')}</Popup>
+            </Marker>
+         );
+      })()}
     </>
   );
 };
