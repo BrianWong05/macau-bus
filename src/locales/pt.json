@@ -61,7 +61,17 @@
     "walk_to_destination": "Caminhar até ao destino",
     "results": "Rota Encontrada",
     "tap_search": "Toque em \"Encontrar Rota\"",
-    "loading_data": "A carregar dados..."
+    "loading_data": "A carregar dados...",
+    "places_header": "Locais",
+    "place_type": "Local",
+    "map_preview": "Pré-visualização do Mapa",
+    "set_start": "Definir Início",
+    "set_end": "Definir Fim",
+    "tap_to_set": "Toque no mapa para definir {{type}}",
+    "start_location": "Início",
+    "end_location": "Destino",
+    "show_map": "Mostrar Mapa",
+    "hide_map": "Ocultar Mapa"
   },
   "route_result": {
     "start": "Início",

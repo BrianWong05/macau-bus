@@ -77,7 +77,7 @@ export const PlannerMap: React.FC<PlannerMapProps> = ({
       <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
         <span className="text-sm font-medium text-gray-600">
           {pinDropMode 
-            ? t('route_planner.tap_to_set', `Tap map to set ${pinDropMode === 'start' ? 'start' : 'end'}`)
+            ? t('route_planner.tap_to_set', { type: pinDropMode === 'start' ? t('route_planner.from', 'start') : t('route_planner.to', 'end') })
             : t('route_planner.map_preview', 'Location Preview')
           }
         </span>

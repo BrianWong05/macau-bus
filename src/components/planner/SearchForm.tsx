@@ -210,7 +210,7 @@ export const SearchForm: React.FC<SearchFormProps> = ({
                 {/* Place Results */}
                 {placeResults.length > 0 && (
                   <>
-                    <div className="px-4 py-1 text-xs text-gray-400 bg-gray-50 font-semibold">Places</div>
+                    <div className="px-4 py-1 text-xs text-gray-400 bg-gray-50 font-semibold">{t('route_planner.places_header', 'Places')}</div>
                     {placeResults.map((place, idx) => (
                       <button
                         key={`place-end-${idx}`}

@@ -61,7 +61,17 @@
     "walk_to_destination": "步行至目的地",
     "results": "找到路線",
     "tap_search": "點擊「搜尋路線」開始",
-    "loading_data": "載入巴士資料中..."
+    "loading_data": "巴士資料下載中...",
+    "places_header": "地點",
+    "place_type": "地點",
+    "map_preview": "地圖預覽",
+    "set_start": "設為起點",
+    "set_end": "設為終點",
+    "tap_to_set": "點擊地圖以設定{{type}}",
+    "start_location": "起點",
+    "end_location": "終點",
+    "show_map": "顯示地圖",
+    "hide_map": "隱藏地圖"
   },
   "route_result": {
     "start": "起點",

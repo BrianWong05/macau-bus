@@ -61,7 +61,17 @@
     "walk_to_destination": "Walk to destination",
     "results": "Route Found",
     "tap_search": "Tap \"Find Route\" to search",
-    "loading_data": "Loading bus data..."
+    "loading_data": "Loading bus data...",
+    "places_header": "Places",
+    "place_type": "Place",
+    "map_preview": "Location Preview",
+    "set_start": "Set Start",
+    "set_end": "Set End",
+    "tap_to_set": "Tap map to set {{type}}",
+    "start_location": "Start",
+    "end_location": "Destination",
+    "show_map": "Show Map",
+    "hide_map": "Hide Map"
   },
   "route_result": {
     "start": "Start",
