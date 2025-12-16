@@ -152,9 +152,9 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
     });
 
     return (
-        <div className="py-6 px-2 relative">
+        <div className="py-6 relative w-fit mx-auto min-w-[340px] max-w-full px-4">
             {/* Start Decoration */}
-            <div className="absolute top-0 left-8 w-2 h-6 bg-gradient-to-b from-transparent to-gray-200 z-0 opacity-50 rounded-full"></div>
+            <div className="absolute top-0 left-12 w-2 h-6 bg-gradient-to-b from-transparent to-gray-200 z-0 opacity-50 rounded-full"></div>
             
             {stops.map((stop, index) => {
                 // Fallback to index-based matching if trafficData is array-aligned (likely the case)
