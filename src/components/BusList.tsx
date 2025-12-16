@@ -194,6 +194,7 @@ interface BusListProps {
 
 // ... imports ...
 import { getDistanceFromLatLonInKm } from '@/utils/distance';
+import govData from '@/data/gov_data.json';
 
 // ... (Existing Interfaces) ...
 
@@ -227,10 +228,34 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
                 let minDistance = Infinity;
                 let nearestStopIndex = -1;
 
+                // Create lookup ref
+                const staticStops = govData.stops as any[];
+
                 stops.forEach((stop, index) => {
-                    const stopLat = parseFloat(stop.latitude);
-                    const stopLon = parseFloat(stop.longitude);
+                    let stopLat = parseFloat(stop.latitude);
+                    let stopLon = parseFloat(stop.longitude);
                     
+                    if (isNaN(stopLat) || isNaN(stopLon)) {
+                         // Fallback to govData (User requested due to API fail on GH Pages)
+                         const rawCode = stop.staCode || '';
+                         
+                         // 1. Try normalizing to govData format (Slash -> Underscore)
+                         const normalizedCode = rawCode.replace(/\//g, '_');
+                         
+                         let match = staticStops.find(s => s.raw?.P_ALIAS === normalizedCode);
+                         
+                         // 2. Try match on ALIAS (Base code)
+                         if (!match) {
+                             const baseCode = rawCode.split('/')[0];
+                             match = staticStops.find(s => s.raw?.ALIAS === baseCode);
+                         }
+
+                         if (match) {
+                             stopLat = parseFloat(match.lat);
+                             stopLon = parseFloat(match.lon);
+                         }
+                    }
+
                     if (!isNaN(stopLat) && !isNaN(stopLon)) {
                         const dist = getDistanceFromLatLonInKm(latitude, longitude, stopLat, stopLon);
                         if (dist < minDistance) {
@@ -238,7 +263,7 @@ const BusList: React.FC<BusListProps> = ({ stops, trafficData }) => {
                             nearestStopIndex = index;
                         }
                     } else {
-                        // console.warn(`Invalid coords for stop ${stop.staCode} (API missing data)`);
+                        // console.warn(`Invalid coords for stop ${stop.staCode}`);
                     }
                 });
 
