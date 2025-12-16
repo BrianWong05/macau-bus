@@ -34,6 +34,7 @@
   "search_stop": "Search Stop",
   "search_stop_placeholder": "Enter stop name...",
   "routes_at_stop": "Routes",
+  "current_location": "Currently At",
   "nav": {
     "live_status": "Live Status",
     "route_planner": "Route Planner"

@@ -53,7 +53,7 @@ export const StopCard: React.FC<StopCardProps> = ({
         onClick={onToggle}
       >
         <div>
-          <h3 className="font-bold text-gray-800 text-lg flex items-center gap-2">
+          <h3 className="font-bold text-gray-800 text-xl flex items-center gap-2">
             {getDisplayName(stop)}
             {isExpanded 
               ? <span className="text-xs text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full">{t('open')}</span>
@@ -103,7 +103,7 @@ export const StopCard: React.FC<StopCardProps> = ({
                       onClick={(e) => { e.stopPropagation(); onSelectRoute(route, stop.code, null); }}
                     >
                       <div className="flex justify-between items-center">
-                        <span className="font-bold text-lg text-teal-600">{route}</span>
+                        <span className="font-bold text-2xl text-teal-600">{route}</span>
                         <span className="text-xs text-gray-400">{info || '---'}</span>
                       </div>
                     </div>
@@ -123,7 +123,7 @@ export const StopCard: React.FC<StopCardProps> = ({
                     <div className="flex items-center justify-between p-3 border-b bg-gradient-to-r from-gray-50 to-white">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-xl text-teal-600">{route}</span>
-                        {destination && <span className="text-xs text-gray-500">→ {destination}</span>}
+                        {destination && <span className="text-sm text-gray-500">• {t('to_destination', '往')} {destination}</span>}
                       </div>
                       {status === 'arrived' && (
                         <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold animate-pulse">
@@ -139,40 +139,68 @@ export const StopCard: React.FC<StopCardProps> = ({
                       {(status === 'active' || status === 'arrived') && buses && buses.length > 0 && (
                         <div className="space-y-2">
                           {buses.map((bus: any, bidx: number) => (
-                            <div key={bidx} className="flex items-center justify-between bg-gray-50 rounded-lg p-2">
-                              <div className="flex items-center gap-2">
-                                <span className="text-base">🚌</span>
-                                <div>
-                                  <div className="text-[10px] text-gray-400 font-mono">
-                                    <span className="font-bold text-gray-600">{bus.plate}</span>
-                                    <span className="mx-1">•</span>
-                                    <span>
-                                      {bus.isEnRoute 
-                                        ? t('en_route')
-                                        : bus.isDeparted && bus.nextStop 
-                                          ? `${t('going_to')} ${bus.nextStop}`
-                                          : `@ ${bus.currentStop}`
-                                      }
-                                    </span>
-                                  </div>
-                                  {bus.stopsAway > 0 && (
-                                    <div className="text-xs text-gray-600">
-                                      {bus.stopsAway} {t('stops')} • {bus.distanceM > 0 ? `${(bus.distanceM / 1000).toFixed(1)}km` : '< 0.1km'}
+                            <div key={bidx} className="bg-white rounded-lg p-3 border border-gray-100 shadow-sm">
+                              {/* Combined Header & Hero Row */}
+                              <div className="flex items-center gap-2 mb-3">
+                                {/* Bus Plate */}
+                                <div className="flex items-center gap-1.5 mr-1">
+                                  <span className="text-xl">🚌</span>
+                                  <span className="bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium whitespace-nowrap">
+                                    {bus.plate}
+                                  </span>
+                                </div>
+
+                                {/* Stops & Distance */}
+                                {bus.stopsAway === 0 ? (
+                                  <span className="text-xl font-extrabold text-green-600 animate-pulse ml-1">
+                                    {bus.isEnRoute ? t('arriving') : t('at_station')}
+                                  </span>
+                                ) : (
+                                  <>
+                                    <div className="flex items-baseline gap-1 ml-1">
+                                      <span className="text-2xl font-extrabold text-emerald-600 font-mono tracking-tight">
+                                        {bus.stopsAway}
+                                      </span>
+                                      <span className="text-[10px] font-bold text-gray-500 uppercase">{t('stops')}</span>
                                     </div>
-                                  )}
-                                  {bus.trafficSegments && bus.trafficSegments.length > 0 && (
-                                    <BusProgressBar trafficSegments={bus.trafficSegments} isDeparted={bus.isDeparted} />
-                                  )}
+
+                                    <span className="text-[10px] font-bold bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded-full whitespace-nowrap">
+                                      {bus.distanceM > 0 ? `${(bus.distanceM / 1000).toFixed(1)}km` : '< 0.1km'}
+                                    </span>
+                                  </>
+                                )}
+
+                                {/* Time on far right */}
+                                {bus.stopsAway > 0 && bus.eta !== undefined && (
+                                  <div className="ml-auto flex items-baseline gap-1">
+                                    <span className={`text-2xl font-extrabold font-mono tracking-tight ${getEtaTextColor(bus.eta)}`}>
+                                      {bus.eta === 0 ? '<1' : bus.eta}
+                                    </span>
+                                    <span className="text-[10px] font-bold text-gray-500 uppercase">{t('min')}</span>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* 3. Current Status Row - Explicit Location */}
+                              <div className="flex items-center gap-3 text-sm text-gray-600 mb-2 bg-gray-50 p-2.5 rounded-md border border-gray-100">
+                                <span className="text-xl">📍</span>
+                                <div className="flex flex-col overflow-hidden">
+                                  <span className="text-[10px] text-gray-400 uppercase tracking-wider font-bold">
+                                    {t('current_location', 'Currently At')}
+                                  </span>
+                                  <span className="text-lg font-bold text-gray-800 leading-tight truncate">
+                                    {bus.isEnRoute 
+                                       ? t('en_route')
+                                       : bus.currentStop // Use explicit current stop name
+                                    }
+                                  </span>
                                 </div>
                               </div>
-                              {bus.stopsAway === 0 ? (
-                                <div className="text-sm font-bold text-green-600 animate-pulse">
-                                  {bus.isEnRoute ? t('arriving') : t('at_station')}
-                                </div>
-                              ) : (
-                                <div className={`text-lg font-bold ${getEtaTextColor(bus.eta)}`}>
-                                  {bus.eta === 0 ? '<1' : bus.eta}
-                                  <span className="text-xs font-normal ml-0.5">{t('min')}</span>
+
+                              {/* 4. Visual Progress Bar */}
+                              {bus.trafficSegments && bus.trafficSegments.length > 0 && (
+                                <div className="mt-1">
+                                  <BusProgressBar trafficSegments={bus.trafficSegments} isDeparted={bus.isDeparted} />
                                 </div>
                               )}
                             </div>
