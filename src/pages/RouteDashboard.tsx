@@ -6,6 +6,7 @@ import { getDistanceFromLatLonInKm } from '@/utils/distance';
 import { SearchModeToggle } from '@/components/dashboard/SearchModeToggle';
 import { RouteGrid } from '@/components/dashboard/RouteGrid';
 import { StopList } from '@/components/dashboard/StopList';
+import { StopMapModal } from '@/components/dashboard/StopMapModal';
 
 interface RouteDashboardProps {
   onSelectRoute: (route: string, stopCode?: string, direction?: string | null) => void;
@@ -44,6 +45,7 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute, initialS
   const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
   const [locationLoading, setLocationLoading] = useState(false);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [showMapModal, setShowMapModal] = useState(false);
 
   // Notify parent when search mode changes
   const handleModeChange = (mode: SearchMode) => {
@@ -128,9 +130,19 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute, initialS
 
         {/* Search Header */}
         <div className="mb-4">
-          <h2 className="text-2xl font-bold text-gray-800 mb-3">
-            {searchMode === 'route' ? t('all_routes') : (searchTerm ? t('search_stop') : t('nearby_stops'))}
-          </h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-2xl font-bold text-gray-800">
+              {searchMode === 'route' ? t('all_routes') : (searchTerm ? t('search_stop') : t('nearby_stops'))}
+            </h2>
+            {searchMode === 'stop' && displayStops.length > 0 && (
+              <button
+                onClick={() => setShowMapModal(true)}
+                className="flex items-center gap-1 px-3 py-1.5 bg-teal-50 text-teal-600 rounded-lg text-sm font-medium hover:bg-teal-100 transition-colors"
+              >
+                🗺️ {t('map_view', 'Map')}
+              </button>
+            )}
+          </div>
           <input
             type="text"
             placeholder={searchMode === 'route' ? t('search_route_placeholder') : t('search_stop_placeholder')}
@@ -162,6 +174,18 @@ const RouteDashboard: React.FC<RouteDashboardProps> = ({ onSelectRoute, initialS
           )}
         </div>
       </div>
+
+      {/* Stop Map Modal */}
+      <StopMapModal
+        isOpen={showMapModal}
+        onClose={() => setShowMapModal(false)}
+        stops={displayStops}
+        userLocation={userLocation}
+        onSelectStop={(stopCode) => {
+          onExpandedStopChange?.(stopCode);
+          setShowMapModal(false);
+        }}
+      />
     </div>
   );
 };
