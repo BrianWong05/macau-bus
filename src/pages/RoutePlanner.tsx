@@ -1,10 +1,25 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { RouteFinder, RouteResult, BusStop, TripResult } from '@/services/RouteFinder';
 import { RouteResultCard } from '@/components/RouteResultCard';
 import { RouteMapModal } from '@/components/RouteMapModal';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { searchPlace, PlaceResult } from '@/services/Geocoding';
+
+// Fix for default marker icon
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+const DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41]
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
 // ============== Icons (Inline SVG) ==============
 
@@ -48,6 +63,40 @@ const LoaderIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" })
   </svg>
 );
 
+// ============== Map Helper ==============
+
+interface FitBoundsProps {
+  startCoords: { lat: number; lng: number } | null;
+  endCoords: { lat: number; lng: number } | null;
+  lastSelectedField: 'start' | 'end' | null;
+}
+
+const FitBoundsComponent: React.FC<FitBoundsProps> = ({ startCoords, endCoords, lastSelectedField }) => {
+  const map = useMap();
+  
+  useEffect(() => {
+    // Zoom to the most recently selected location
+    if (lastSelectedField === 'end' && endCoords) {
+      map.setView([endCoords.lat, endCoords.lng], 17);
+    } else if (lastSelectedField === 'start' && startCoords) {
+      map.setView([startCoords.lat, startCoords.lng], 17);
+    } else if (startCoords && endCoords) {
+      // If no specific field selected, fit both
+      const bounds = L.latLngBounds([
+        [startCoords.lat, startCoords.lng],
+        [endCoords.lat, endCoords.lng]
+      ]);
+      map.fitBounds(bounds, { padding: [50, 50] });
+    } else if (startCoords) {
+      map.setView([startCoords.lat, startCoords.lng], 17);
+    } else if (endCoords) {
+      map.setView([endCoords.lat, endCoords.lng], 17);
+    }
+  }, [map, startCoords, endCoords, lastSelectedField]);
+  
+  return null;
+};
+
 // ============== Main Component ==============
 
 export const RoutePlanner: React.FC = () => {
@@ -73,6 +122,7 @@ export const RoutePlanner: React.FC = () => {
   // Coordinates for place-based routing
   const [startCoords, setStartCoords] = useState<{lat: number; lng: number} | null>(null);
   const [endCoords, setEndCoords] = useState<{lat: number; lng: number} | null>(null);
+  const [lastSelectedField, setLastSelectedField] = useState<'start' | 'end' | null>(null);
   
   // Place search results
   const [placeResults, setPlaceResults] = useState<PlaceResult[]>([]);
@@ -268,6 +318,7 @@ export const RoutePlanner: React.FC = () => {
       setSelectedEnd(stop);
       setEndCoords(stop.lat && stop.lng ? { lat: stop.lat, lng: stop.lng } : null);
     }
+    setLastSelectedField(field);
     setSuggestions([]);
     setPlaceResults([]);
     setActiveField(null);
@@ -283,6 +334,7 @@ export const RoutePlanner: React.FC = () => {
       setSelectedEnd(null);
       setEndCoords({ lat: place.lat, lng: place.lng });
     }
+    setLastSelectedField(field);
     setSuggestions([]);
     setPlaceResults([]);
     setActiveField(null);
@@ -514,6 +566,75 @@ export const RoutePlanner: React.FC = () => {
                 </>
               )}
             </button>
+          </div>
+        )}
+
+        {/* Map Preview - show while searching or when locations selected, hide when results shown */}
+        {(startInput || endInput) && !results && (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative z-0">
+            <div className="px-4 py-2 bg-gray-50 border-b border-gray-100">
+              <span className="text-sm font-medium text-gray-600">
+                {t('route_planner.map_preview', 'Location Preview')}
+              </span>
+            </div>
+            <div style={{ height: '300px' }}>
+              <MapContainer
+                center={[22.1987, 113.5439]}
+                zoom={13}
+                style={{ height: '100%', width: '100%' }}
+                zoomControl={false}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                />
+                <FitBoundsComponent startCoords={startCoords} endCoords={endCoords} lastSelectedField={lastSelectedField} />
+                
+                {/* Start Marker (Green) */}
+                {startCoords && (
+                  <Marker 
+                    position={[startCoords.lat, startCoords.lng]}
+                    icon={L.divIcon({
+                      className: '',
+                      html: `<div style="
+                        width: 14px;
+                        height: 14px;
+                        background-color: #22c55e;
+                        border: 3px solid white;
+                        border-radius: 50%;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                      "></div>`,
+                      iconSize: [20, 20],
+                      iconAnchor: [10, 10]
+                    })}
+                  >
+                    <Popup>{t('route_planner.start_location', 'Start')}</Popup>
+                  </Marker>
+                )}
+                
+                {/* End Marker (Red) */}
+                {endCoords && (
+                  <Marker 
+                    position={[endCoords.lat, endCoords.lng]}
+                    icon={L.divIcon({
+                      className: '',
+                      html: `<div style="
+                        width: 14px;
+                        height: 14px;
+                        background-color: #ef4444;
+                        border: 3px solid white;
+                        border-radius: 50%;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                      "></div>`,
+                      iconSize: [20, 20],
+                      iconAnchor: [10, 10]
+                    })}
+                  >
+                    <Popup>{t('route_planner.end_location', 'Destination')}</Popup>
+                  </Marker>
+                )}
+              </MapContainer>
+            </div>
           </div>
         )}
 
