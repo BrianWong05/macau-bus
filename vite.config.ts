@@ -16,7 +16,7 @@ export default defineConfig({
     },
   },
   build: {
-    chunkSizeWarningLimit: 600, // Slightly increase limit (default 500)
+    chunkSizeWarningLimit: 2000, // Increase limit for gov_data.json split chunk
     rollupOptions: {
       output: {
         manualChunks: {
@@ -25,6 +25,7 @@ export default defineConfig({
           'vendor-leaflet': ['leaflet', 'react-leaflet'],
           'vendor-i18n': ['i18next', 'react-i18next'],
           'vendor-axios': ['axios'],
+          'gov-data': ['src/data/gov_data.json'],
         },
       },
     },
