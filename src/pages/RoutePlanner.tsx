@@ -127,18 +127,51 @@ export const RoutePlanner: React.FC<RoutePlannerProps> = ({ onViewRouteStatus })
 
   // Swap Start/End
   const handleSwap = () => {
-    setStartInput(endInput);
-    setEndInput(startInput);
-    setSelectedStart(selectedEnd);
-    setSelectedEnd(selectedStart);
-    setStartCoords(endCoords);
-    setEndCoords(startCoords);
-    setResults(null);
+    // Calculate new values
+    const newStartInput = endInput;
+    const newEndInput = startInput;
+    const newSelectedStart = selectedEnd;
+    const newSelectedEnd = selectedStart;
+    const newStartCoords = endCoords;
+    const newEndCoords = startCoords;
+
+    // Update state
+    setStartInput(newStartInput);
+    setEndInput(newEndInput);
+    setSelectedStart(newSelectedStart);
+    setSelectedEnd(newSelectedEnd);
+    setStartCoords(newStartCoords);
+    setEndCoords(newEndCoords);
+    
+    // Trigger search immediately with new values
+    performSearch({
+      start: newStartInput,
+      end: newEndInput,
+      sSel: newSelectedStart,
+      eSel: newSelectedEnd,
+      sCoords: newStartCoords,
+      eCoords: newEndCoords
+    });
   };
 
-  // Find Route
-  const handleFindRoute = useCallback(async () => {
-    if (!routeFinder || !startInput || !endInput) {
+  // Perform Search Logic (extracted for reuse)
+  const performSearch = useCallback(async (overrides: {
+    start?: string,
+    end?: string,
+    sSel?: BusStop | null,
+    eSel?: BusStop | null,
+    sCoords?: {lat: number; lng: number} | null,
+    eCoords?: {lat: number; lng: number} | null
+  } = {}) => {
+    // Use overrides or fallback to state
+    const sInput = overrides.start !== undefined ? overrides.start : startInput;
+    const eInput = overrides.end !== undefined ? overrides.end : endInput;
+    const sSel = overrides.sSel !== undefined ? overrides.sSel : selectedStart;
+    const eSel = overrides.eSel !== undefined ? overrides.eSel : selectedEnd;
+    const sCoords = overrides.sCoords !== undefined ? overrides.sCoords : startCoords;
+    const eCoords = overrides.eCoords !== undefined ? overrides.eCoords : endCoords;
+
+    if (!routeFinder || !sInput || !eInput) {
       setError(t('route_planner.missing_points', 'Please enter both start and end points'));
       return;
     }
@@ -153,25 +186,25 @@ export const RoutePlanner: React.FC<RoutePlannerProps> = ({ onViewRouteStatus })
       await new Promise(resolve => setTimeout(resolve, 300));
       
       // Determine if we're doing coordinate-based or stop-based search
-      let useCoordSearch = !!(startCoords && endCoords);
-      let finalStartCoords: {lat: number; lng: number} | null = startCoords;
-      let finalEndCoords: {lat: number; lng: number} | null = endCoords;
+      let useCoordSearch = !!(sCoords && eCoords);
+      let finalStartCoords: {lat: number; lng: number} | null = sCoords;
+      let finalEndCoords: {lat: number; lng: number} | null = eCoords;
       
       // Auto-geocode if input looks like a place name (not a stop ID)
       // Stop IDs typically start with M, T, C followed by numbers
       const isStopId = (input: string) => /^[MTC]\d+/i.test(input.trim());
       
       // If no coords but input doesn't look like a stop ID, try to geocode
-      if (!startCoords && !selectedStart && !isStopId(startInput)) {
-        const places = await searchPlace(startInput);
+      if (!sCoords && !sSel && !isStopId(sInput)) {
+        const places = await searchPlace(sInput);
         if (places.length > 0) {
           finalStartCoords = { lat: places[0].lat, lng: places[0].lng };
           useCoordSearch = true;
         }
       }
       
-      if (!endCoords && !selectedEnd && !isStopId(endInput)) {
-        const places = await searchPlace(endInput);
+      if (!eCoords && !eSel && !isStopId(eInput)) {
+        const places = await searchPlace(eInput);
         if (places.length > 0) {
           finalEndCoords = { lat: places[0].lat, lng: places[0].lng };
           useCoordSearch = true;
@@ -189,8 +222,8 @@ export const RoutePlanner: React.FC<RoutePlannerProps> = ({ onViewRouteStatus })
         }
       } else {
         // Use stop ID-based routing (existing logic)
-        const sId = selectedStart?.id || startInput;
-        const eId = selectedEnd?.id || endInput;
+        const sId = sSel?.id || sInput;
+        const eId = eSel?.id || eInput;
         
         const foundRoutes = routeFinder.findRoute(sId, eId);
         
@@ -216,6 +249,8 @@ export const RoutePlanner: React.FC<RoutePlannerProps> = ({ onViewRouteStatus })
       setLoading(false);
     }
   }, [routeFinder, startInput, endInput, selectedStart, selectedEnd, startCoords, endCoords, t]);
+
+  const handleFindRoute = () => performSearch();
 
   const [suggestions, setSuggestions] = useState<BusStop[]>([]);
   const [activeField, setActiveField] = useState<'start' | 'end' | null>(null);
