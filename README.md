@@ -50,7 +50,7 @@ Follow these steps to set up the project locally.
     ```bash
     npm run dev
     ```
-    Open [http://localhost:5173/macau_bus/](http://localhost:5173/macau_bus/) in your browser.
+    Open [http://localhost:5173/macau-bus/](http://localhost:5173/macau-bus/) in your browser.
 
 ## 📱 Usage
 

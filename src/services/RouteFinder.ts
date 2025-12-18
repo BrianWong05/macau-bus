@@ -87,7 +87,7 @@ export class RouteFinder {
   /**
    * Initialize/load the bus graph data
    */
-  async load(dataUrl: string = '/macau_bus/bus_data.json'): Promise<void> {
+  async load(dataUrl: string = '/macau-bus/bus_data.json'): Promise<void> {
     if (this.isLoaded) return;
     if (this.loadPromise) return this.loadPromise;
 
